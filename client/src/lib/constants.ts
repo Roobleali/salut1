@@ -2,22 +2,47 @@ import { type NavigationItem } from "@/types";
 
 export const NAVIGATION_ITEMS = [
   {
-    title: "Product",
+    title: "Industries",
     items: [
       {
-        title: "Features",
-        href: "/features",
-        description: "Explore our comprehensive suite of features",
+        title: "Manufacturing",
+        href: "/industries/manufacturing",
+        description: "End-to-end manufacturing management with MRP, production planning and quality control",
       },
       {
-        title: "Solutions",
-        href: "/solutions",
-        description: "Industry-specific solutions tailored for you",
+        title: "Real Estate",
+        href: "/industries/real-estate",
+        description: "Complete property management with leasing, maintenance and tenant portals",
       },
       {
-        title: "Pricing",
-        href: "/pricing",
-        description: "Transparent pricing plans for every scale",
+        title: "Retail & E-commerce",
+        href: "/industries/retail",
+        description: "Integrated POS, inventory and e-commerce solutions for modern retail",
+      },
+      {
+        title: "Professional Services",
+        href: "/industries/services",
+        description: "Project management and service tracking for consulting firms",
+      },
+      {
+        title: "Construction",
+        href: "/industries/construction",
+        description: "Project cost estimation, material tracking and regulatory compliance",
+      },
+      {
+        title: "Hospitality",
+        href: "/industries/hospitality",
+        description: "Reservation systems and guest experience management solutions",
+      },
+      {
+        title: "Healthcare",
+        href: "/industries/healthcare",
+        description: "Patient management and medical inventory tracking systems",
+      },
+      {
+        title: "Education",
+        href: "/industries/education",
+        description: "Student information and educational resource management",
       }
     ]
   },
