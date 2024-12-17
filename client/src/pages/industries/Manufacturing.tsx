@@ -16,8 +16,8 @@ export function Manufacturing() {
 
   const FEATURES = [
     {
-      title: t('industries.manufacturing.features.planning'),
-      description: t('industries.manufacturing.features.planning_desc'),
+      title: t('manufacturing.features.planning'),
+      description: t('manufacturing.features.planning_desc'),
     },
     {
       title: t('industries.manufacturing.features.quality'),
