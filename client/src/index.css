@@ -16,3 +16,38 @@
     @apply antialiased bg-background text-foreground;
   }
 }
+
+@layer components {
+  .curved-underline {
+    @apply relative inline-block;
+  }
+  
+  .curved-underline::after {
+    content: "";
+    @apply absolute -bottom-1 left-0 w-full h-[0.5em] bg-primary/10 rounded-full -z-10;
+    transform: scale(1.1) translateY(0.1em);
+  }
+
+  .gradient-heading {
+    @apply bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent font-bold;
+  }
+}
+
+.wavy-underline {
+  @apply relative inline-block;
+  text-decoration: none;
+}
+
+.wavy-underline::after {
+  content: "";
+  @apply absolute -bottom-1 left-0 w-full;
+  height: 0.2em;
+  background: linear-gradient(45deg, transparent, transparent 45%, currentColor 45%, currentColor 55%, transparent 55%, transparent);
+  background-size: 0.5em 0.5em;
+  animation: wave 1s infinite linear;
+}
+
+@keyframes wave {
+  0% { background-position: 0 0; }
+  100% { background-position: 0.5em 0; }
+}
