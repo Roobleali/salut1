@@ -24,7 +24,7 @@ export function Home() {
         </div>
       </section>
       
-      <section className="bg-gradient-to-b from-background via-primary/5 to-background py-24">
+      <section className="bg-gradient-to-b from-background via-primary/10 to-background py-24 backdrop-blur-sm">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
