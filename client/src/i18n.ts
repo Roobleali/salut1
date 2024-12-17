@@ -173,6 +173,26 @@ i18n
             english: 'English',
             romanian: 'Romanian'
           },
+          gradients: {
+            customizer: {
+              title: 'Gradient Customizer',
+              page_title: 'Gradient Customization Toolkit',
+              page_description: 'Create beautiful, customized gradients for your enterprise application',
+              preset: 'Preset',
+              select_preset: 'Select a preset',
+              start_color: 'Start Color',
+              end_color: 'End Color',
+              direction: 'Direction',
+              preview: 'Gradient Preview',
+              copy_classes: 'Copy Gradient Classes'
+            },
+            directions: {
+              right: 'Right',
+              bottom_right: 'Bottom Right',
+              top_right: 'Top Right',
+              bottom: 'Bottom'
+            }
+          },
           glossary: {
             title: 'Industry Terminology Glossary',
             description: 'Comprehensive guide to industry-specific terms and definitions',
@@ -341,6 +361,26 @@ i18n
             select: 'Selectează Limba',
             english: 'Engleză',
             romanian: 'Română'
+          },
+          gradients: {
+            customizer: {
+              title: 'Personalizare Gradient',
+              page_title: 'Instrument de Personalizare Gradient',
+              page_description: 'Creează gradiente frumoase și personalizate pentru aplicația ta enterprise',
+              preset: 'Presetare',
+              select_preset: 'Selectează o presetare',
+              start_color: 'Culoare de Start',
+              end_color: 'Culoare de Final',
+              direction: 'Direcție',
+              preview: 'Previzualizare Gradient',
+              copy_classes: 'Copiază Clasele Gradient'
+            },
+            directions: {
+              right: 'Dreapta',
+              bottom_right: 'Dreapta Jos',
+              top_right: 'Dreapta Sus',
+              bottom: 'Jos'
+            }
           },
           glossary: {
             title: 'Glosar de Terminologie Industrială',

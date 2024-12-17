@@ -16,10 +16,10 @@ export function GradientCustomizerPage() {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-            {t('gradients.page.title', 'Gradient Customization Toolkit')}
+            {t('gradients.customizer.page_title')}
           </h1>
           <p className="text-xl text-gray-600 mb-12">
-            {t('gradients.page.description', 'Create beautiful, customized gradients for your enterprise application')}
+            {t('gradients.customizer.page_description')}
           </p>
 
           <GradientCustomizer />
