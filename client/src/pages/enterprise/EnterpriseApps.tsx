@@ -85,7 +85,7 @@ export function EnterpriseApps() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gradient-to-b from-background to-background/50 pt-32 pb-24"
+      className="min-h-screen bg-gradient-to-b from-background via-primary/5 to-background pt-32 pb-24"
     >
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
