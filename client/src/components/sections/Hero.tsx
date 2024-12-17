@@ -6,11 +6,11 @@ export function Hero() {
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h1 className="text-5xl font-bold tracking-tight">
-              Enterprise Solutions for Modern Business
+            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+              Enterprise Software Solutions for Digital Transformation
             </h1>
             <p className="mt-6 text-xl text-gray-600">
-              Transform your business with our comprehensive suite of enterprise software solutions. From HORECA to manufacturing, we've got you covered.
+              Transform your business with our comprehensive suite of integrated enterprise solutions. From implementation to customization and support, we deliver tailored software that drives growth and efficiency across industries.
             </p>
             <div className="mt-8 flex gap-4">
               <Link href="/contact">
