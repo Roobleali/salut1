@@ -57,7 +57,13 @@ const CASE_STUDY = {
 
 export function Sales() {
   return (
-    <div className="pt-32 pb-24">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-gradient-to-bl from-background via-background/95 to-primary/5 pt-32 pb-24"
+    >
       <div className="container mx-auto px-4">
         {/* Hero Section */}
         <div className="max-w-3xl mx-auto text-center mb-16">
@@ -155,6 +161,6 @@ export function Sales() {
           </Card>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

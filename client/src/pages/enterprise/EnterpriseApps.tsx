@@ -80,7 +80,13 @@ const ENTERPRISE_APPS = [
 
 export function EnterpriseApps() {
   return (
-    <div className="pt-32 pb-24">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-gradient-to-b from-background to-background/50 pt-32 pb-24"
+    >
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h1 className="text-4xl font-bold mb-6">Enterprise Applications</h1>
@@ -117,6 +123,6 @@ export function EnterpriseApps() {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
