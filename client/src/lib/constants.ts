@@ -204,3 +204,48 @@ export const TEAM_MEMBERS = [
     }
   }
 ];
+
+export const COMPANY_MILESTONES = [
+  {
+    id: "founding",
+    year: "2018",
+    title: "Company Founded",
+    description: "SalutTech was founded with a vision to transform enterprise software solutions.",
+    category: "launch" as const,
+  },
+  {
+    id: "first-client",
+    year: "2019",
+    title: "First Enterprise Client",
+    description: "Successfully implemented our solution for a major HORECA chain.",
+    category: "achievement" as const,
+  },
+  {
+    id: "team-expansion",
+    year: "2020",
+    title: "Team Growth",
+    description: "Expanded our team to 50+ professionals across development and consulting.",
+    category: "team" as const,
+  },
+  {
+    id: "international",
+    year: "2021",
+    title: "International Expansion",
+    description: "Opened offices in three new countries to serve our growing client base.",
+    category: "office" as const,
+  },
+  {
+    id: "award",
+    year: "2022",
+    title: "Industry Recognition",
+    description: "Received 'Best Enterprise Solution Provider' award.",
+    category: "achievement" as const,
+  },
+  {
+    id: "growth-milestone",
+    year: "2023",
+    title: "Major Growth Milestone",
+    description: "Reached 1000+ enterprise clients across multiple industries.",
+    category: "growth" as const,
+  },
+];

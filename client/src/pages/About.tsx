@@ -1,5 +1,6 @@
 import { TeamSpotlight } from "@/components/sections/TeamSpotlight";
-import { TEAM_MEMBERS } from "@/lib/constants";
+import { Timeline } from "@/components/sections/Timeline";
+import { TEAM_MEMBERS, COMPANY_MILESTONES } from "@/lib/constants";
 
 export function About() {
   return (
@@ -42,6 +43,13 @@ export function About() {
               <li><strong>Customer Success:</strong> Dedicated to helping our clients achieve their goals</li>
               <li><strong>Integrity:</strong> Operating with transparency and ethical business practices</li>
             </ul>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto mt-24">
+          <h2 className="text-3xl font-bold text-center mb-12">Our Journey</h2>
+          <div className="mt-12">
+            <Timeline milestones={COMPANY_MILESTONES} />
           </div>
         </div>
 
