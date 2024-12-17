@@ -12,7 +12,7 @@ export function CaseStudies() {
           </p>
         </div>
 
-        <div className="space-y-16">
+        <div className="space-y-16 case-studies-section">
           {CASE_STUDIES.map((study) => (
             <CaseStudyCard key={study.id} {...study} />
           ))}
