@@ -8,6 +8,8 @@ import { Contact } from "@/pages/Contact";
 import { CaseStudies } from "@/pages/CaseStudies";
 import { EnterpriseApps } from "@/pages/enterprise/EnterpriseApps";
 import { CRM } from "@/pages/enterprise/CRM";
+import { Sales } from "@/pages/enterprise/Sales";
+import { Purchase } from "@/pages/enterprise/Purchase";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
           <Route path="/contact" component={Contact} />
           <Route path="/enterprise" component={EnterpriseApps} />
           <Route path="/enterprise/crm" component={CRM} />
+          <Route path="/enterprise/sales" component={Sales} />
+          <Route path="/enterprise/purchase" component={Purchase} />
         </Switch>
       </main>
       <Footer />
