@@ -79,30 +79,33 @@ export function Navbar() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "lg:hidden fixed inset-0 top-16 bg-white z-40 transition-transform duration-300 transform",
+          "lg:hidden fixed inset-0 top-16 bg-white z-40 flex flex-col transition-transform duration-300 transform",
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <div className="h-full overflow-y-auto">
-          <nav className="py-4">
+        <div className="flex-1 overflow-y-auto">
+          <nav className="py-2">
+            {/* Main navigation items */}
             {NAVIGATION_ITEMS.map((section) => (
-              <div key={section.title} className="border-b border-gray-100">
+              <div key={section.title}>
                 <button
                   onClick={() => toggleSection(section.title)}
-                  className="flex items-center justify-between w-full px-4 py-3 text-left text-gray-700"
+                  className="flex items-center justify-between w-full px-6 py-4 text-left text-gray-900 hover:bg-gray-50"
                 >
-                  <span>{t(`nav.${section.title.toLowerCase()}`)}</span>
+                  <span className="text-base font-medium">{t(`nav.${section.title.toLowerCase()}`)}</span>
                   <ChevronRight 
                     className={cn(
-                      "h-5 w-5 transition-transform",
+                      "h-5 w-5 transition-transform duration-200",
                       expandedSection === section.title ? "rotate-90" : ""
                     )}
                   />
                 </button>
+                
+                {/* Submenu */}
                 <div
                   className={cn(
-                    "overflow-hidden transition-all duration-300",
-                    expandedSection === section.title ? "max-h-96" : "max-h-0"
+                    "overflow-hidden transition-all duration-200 bg-gray-50",
+                    expandedSection === section.title ? "max-h-[400px]" : "max-h-0"
                   )}
                 >
                   {section.items.map((item) => (
@@ -111,9 +114,9 @@ export function Navbar() {
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      <a className="block px-8 py-3 text-sm text-gray-600 hover:bg-gray-50">
-                        {item.title}
-                        <p className="mt-1 text-xs text-gray-400">{item.description}</p>
+                      <a className="block px-6 py-3 hover:bg-gray-100">
+                        <div className="text-base font-medium text-gray-900">{item.title}</div>
+                        <p className="mt-1 text-sm text-gray-500">{item.description}</p>
                       </a>
                     </Link>
                   ))}
@@ -124,16 +127,18 @@ export function Navbar() {
         </div>
 
         {/* Mobile Language Switcher */}
-        <div className="absolute bottom-0 left-0 right-0 border-t border-gray-100 bg-white">
+        <div className="border-t border-gray-200 bg-white">
           <button
-            className="flex items-center gap-3 w-full px-4 py-4 text-gray-700 hover:bg-gray-50"
+            className="flex items-center gap-3 w-full px-6 py-4 text-gray-900 hover:bg-gray-50"
             onClick={() => {
               switchLanguage(currentLang === 'en' ? 'ro' : 'en');
               setIsMobileMenuOpen(false);
             }}
           >
             <Languages className="h-5 w-5" />
-            {currentLang === 'en' ? 'Switch to Romanian' : 'Comută la Engleză'}
+            <span className="text-base font-medium">
+              {currentLang === 'en' ? 'Switch to Romanian' : 'Comută la Engleză'}
+            </span>
           </button>
         </div>
       </div>
