@@ -13,6 +13,7 @@ import { useTranslation } from "@/hooks/use-translation";
 import { Users, ShoppingCart, Package, Boxes, Factory, Calculator, ClipboardList, UserPlus, Globe, ShoppingBag, Truck, Megaphone, Building2, Briefcase, Hammer, UtensilsCrossed, Stethoscope, GraduationCap, Menu, X, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
+import { FaFlag, FaFlagUsa } from "react-icons/fa"; // Added import for flag icons
 
 type IconMapping = {
   [key: string]: JSX.Element;
@@ -166,9 +167,19 @@ export function Navbar() {
                       switchLanguage(currentLang === 'en' ? 'ro' : 'en');
                       setIsMobileMenuOpen(false);
                     }}
+                    className="transition-all duration-300"
                   >
-                    <Languages className="h-5 w-5" />
-                    {currentLang === 'en' ? 'Switch to Romanian' : 'Comută la Engleză'}
+                    {currentLang === 'en' ? (
+                      <div className="flex items-center gap-2">
+                        <FaFlag className="h-5 w-5 text-blue-600" />
+                        {t('language.switch_to_ro')}
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <FaFlagUsa className="h-5 w-5" />
+                        {t('language.switch_to_en')}
+                      </div>
+                    )}
                   </Button>
                   
                   <Link href="/contact">
@@ -189,9 +200,13 @@ export function Navbar() {
               variant="ghost"
               size="icon"
               onClick={() => switchLanguage(currentLang === 'en' ? 'ro' : 'en')}
-              className="w-10 h-10"
+              className="w-10 h-10 transition-all duration-300 hover:bg-accent"
             >
-              <Languages className="h-5 w-5" />
+              {currentLang === 'en' ? (
+                <FaFlag className="h-5 w-5 text-blue-600" />
+              ) : (
+                <FaFlagUsa className="h-5 w-5" />
+              )}
               <span className="sr-only">Switch Language</span>
             </Button>
             <Link href="/contact">
