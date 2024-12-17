@@ -7,6 +7,7 @@ import { Link } from "wouter";
 import { CaseStudyFeedback } from "./CaseStudyFeedback";
 
 interface CaseStudyProps {
+  id: string;
   title: string;
   industry: string;
   challenge: string;
@@ -22,6 +23,7 @@ interface CaseStudyProps {
 }
 
 export function CaseStudyCard({
+  id,
   title,
   industry,
   challenge,
