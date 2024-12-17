@@ -47,7 +47,7 @@ export const NAVIGATION_ITEMS = [
     ]
   },
   {
-    title: "Enterprise",
+    title: "Modules",
     items: [
       {
         title: "CRM",

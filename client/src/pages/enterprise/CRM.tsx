@@ -56,6 +56,10 @@ const CASE_STUDY = {
 };
 
 export function CRM() {
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
