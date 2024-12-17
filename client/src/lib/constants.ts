@@ -22,30 +22,58 @@ export const SERVICES = [
   {
     id: "horeca",
     title: "HORECA Solutions",
-    description: "Complete management solutions for hotels, restaurants, and catering businesses",
+    description: "Complete management solutions for hotels, restaurants, and catering businesses with integrated modules for seamless operations",
     image: "https://images.unsplash.com/photo-1556742504-16b083241fab",
-    features: ["Inventory Management", "Table Reservations", "Kitchen Display System", "Staff Management"]
+    features: [
+      "Integrated Reservation System",
+      "Real-time Kitchen Display System",
+      "Smart Inventory Management",
+      "Staff Scheduling & Management",
+      "Customer Relationship Management",
+      "Financial Analytics & Reporting"
+    ]
   },
   {
     id: "manufacturing",
     title: "Manufacturing Software",
-    description: "Streamline your production processes with our comprehensive manufacturing solution",
+    description: "Enterprise-grade manufacturing solution with advanced production planning and real-time monitoring capabilities",
     image: "https://images.unsplash.com/photo-1580983230712-f7d0f878bcc4",
-    features: ["Production Planning", "Quality Control", "Supply Chain Management", "Cost Tracking"]
+    features: [
+      "Advanced Production Planning",
+      "Quality Control & Assurance",
+      "Supply Chain Optimization",
+      "Cost & Resource Tracking",
+      "Maintenance Management",
+      "Compliance & Documentation"
+    ]
   },
   {
     id: "pos",
     title: "Point of Sale",
-    description: "Modern POS system for retail and hospitality businesses",
+    description: "Comprehensive POS system with advanced features for retail and hospitality businesses, seamlessly integrated with back-office operations",
     image: "https://images.unsplash.com/photo-1556742504-16b083241fab",
-    features: ["Sales Analytics", "Inventory Control", "Customer Management", "Payment Integration"]
+    features: [
+      "Real-time Sales Analytics",
+      "Multi-store Inventory Control",
+      "Customer Loyalty Program",
+      "Advanced Payment Integration",
+      "Mobile POS Capabilities",
+      "Offline Mode Support"
+    ]
   },
   {
     id: "real-estate",
     title: "Real Estate Management",
-    description: "End-to-end solution for property management and real estate operations",
+    description: "Complete property management solution with powerful tools for real estate professionals and property managers",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-    features: ["Property Listings", "Tenant Management", "Maintenance Tracking", "Financial Reports"]
+    features: [
+      "Advanced Property Listings",
+      "Tenant & Lease Management",
+      "Maintenance Request System",
+      "Financial & Portfolio Analysis",
+      "Document Management",
+      "Property Inspection Tools"
+    ]
   }
 ];
 
