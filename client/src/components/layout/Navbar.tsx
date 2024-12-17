@@ -51,8 +51,8 @@ const icons: IconSections = {
   }
 };
 
-const getIcon = (title: string, section: keyof IconSections): JSX.Element | null => {
-  return icons[section]?.[title] || null;
+const getIcon = (title: string, section: string): JSX.Element | null => {
+  return icons[section as keyof IconSections]?.[title] || null;
 };
 
 export function Navbar() {
@@ -126,34 +126,59 @@ export function Navbar() {
 
           {/* Mobile Navigation */}
           <div className={cn(
-            "lg:hidden fixed inset-x-0 top-16 bg-white/95 backdrop-blur border-b shadow-lg transition-transform duration-200 ease-in-out transform",
-            isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"
+            "lg:hidden fixed inset-0 top-16 bg-background/95 backdrop-blur-sm z-50 transform transition-all duration-300 ease-in-out",
+            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           )}>
-            <div className="container mx-auto px-4 py-4">
-              {NAVIGATION_ITEMS.map((section) => (
-                <div key={section.title} className="mb-6">
-                  <h3 className="text-sm font-semibold text-gray-500 mb-2">{section.title}</h3>
-                  <ul className="grid grid-cols-2 gap-2">
-                    {section.items.map((item) => (
-                      <li key={item.title}>
-                        <Link href={item.href}>
-                          <a className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100" onClick={() => setIsMobileMenuOpen(false)}>
-                            {getIcon(item.title, section.title)}
-                            <span>{item.title}</span>
-                          </a>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+            <div className="container h-full mx-auto px-4 py-6 overflow-y-auto">
+              <div className="space-y-6">
+                {NAVIGATION_ITEMS.map((section) => (
+                  <div key={section.title} className="pb-6 border-b border-border/50">
+                    <h3 className="text-sm font-semibold text-muted-foreground mb-4">{t(`nav.${section.title.toLowerCase()}`)}</h3>
+                    <ul className="grid gap-3">
+                      {section.items.map((item) => (
+                        <li key={item.title}>
+                          <Link href={item.href}>
+                            <a 
+                              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors" 
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              {getIcon(item.title, section.title)}
+                              <div>
+                                <span className="font-medium">{item.title}</span>
+                                <p className="text-sm text-muted-foreground mt-0.5">{item.description}</p>
+                              </div>
+                            </a>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="sticky bottom-0 pt-6 mt-6 border-t border-border/50">
+                <div className="flex flex-col gap-3">
+                  <Button
+                    variant="ghost"
+                    size="lg"
+                    className="justify-start gap-2"
+                    onClick={() => {
+                      switchLanguage(currentLang === 'en' ? 'ro' : 'en');
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    <Languages className="h-5 w-5" />
+                    {currentLang === 'en' ? 'Switch to Romanian' : 'Comută la Engleză'}
+                  </Button>
+                  
+                  <Link href="/contact">
+                    <a onClick={() => setIsMobileMenuOpen(false)}>
+                      <Button size="lg" className="w-full">
+                        {t('contact.sales')}
+                      </Button>
+                    </a>
+                  </Link>
                 </div>
-              ))}
-              <div className="mt-4">
-                <Link href="/contact">
-                  <a className="w-full inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10"
-                     onClick={() => setIsMobileMenuOpen(false)}>
-                    Contact Sales
-                  </a>
-                </Link>
               </div>
             </div>
           </div>
