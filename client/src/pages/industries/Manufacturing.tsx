@@ -5,47 +5,50 @@ import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-
-const FEATURES = [
-  {
-    title: "Production Planning",
-    description: "Advanced MRP system for optimal production scheduling and resource allocation.",
-  },
-  {
-    title: "Quality Control",
-    description: "Comprehensive quality management system with real-time monitoring.",
-  },
-  {
-    title: "Supply Chain",
-    description: "End-to-end supply chain visibility and management.",
-  },
-  {
-    title: "Cost Management",
-    description: "Detailed cost tracking and optimization tools.",
-  },
-  {
-    title: "Compliance",
-    description: "Built-in compliance with Romanian and EU manufacturing regulations.",
-  },
-  {
-    title: "E-Document Integration",
-    description: "Full integration with Romanian e-Factura and other digital documentation requirements.",
-  },
-];
-
-const ROMANIA_SPECIFIC = [
-  "E-Factura compliance and integration",
-  "Romanian fiscal code management",
-  "Local supply chain optimization",
-  "EU export documentation",
-  "Romanian labor law compliance",
-  "Regional inventory management"
-];
+import { useTranslation } from "react-i18next";
 
 export function Manufacturing() {
+  const { t } = useTranslation();
+  
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const FEATURES = [
+    {
+      title: t('industries.manufacturing.features.planning'),
+      description: t('industries.manufacturing.features.planning_desc'),
+    },
+    {
+      title: t('industries.manufacturing.features.quality'),
+      description: t('industries.manufacturing.features.quality_desc'),
+    },
+    {
+      title: t('industries.manufacturing.features.supply'),
+      description: t('industries.manufacturing.features.supply_desc'),
+    },
+    {
+      title: t('industries.manufacturing.features.cost'),
+      description: t('industries.manufacturing.features.cost_desc'),
+    },
+    {
+      title: t('industries.manufacturing.features.compliance'),
+      description: t('industries.manufacturing.features.compliance_desc'),
+    },
+    {
+      title: t('industries.manufacturing.features.documents'),
+      description: t('industries.manufacturing.features.documents_desc'),
+    },
+  ];
+
+  const romaniaSpecificFeatures = [
+    t('industries.manufacturing.romania_specific.features.efactura'),
+    t('industries.manufacturing.romania_specific.features.fiscal'),
+    t('industries.manufacturing.romania_specific.features.supply_chain'),
+    t('industries.manufacturing.romania_specific.features.eu_export'),
+    t('industries.manufacturing.romania_specific.features.labor'),
+    t('industries.manufacturing.romania_specific.features.inventory'),
+  ];
 
   return (
     <motion.div
@@ -57,22 +60,22 @@ export function Manufacturing() {
     >
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <Badge className="mb-4">Manufacturing Solutions</Badge>
+          <Badge className="mb-4">{t('industries.manufacturing.badge')}</Badge>
           <h1 className="text-4xl font-bold mb-6">
-            Advanced Manufacturing Management
+            {t('industries.manufacturing.title')}
           </h1>
           <p className="text-xl text-gray-600 mb-8">
-            Comprehensive manufacturing solutions tailored for Romanian industries, with full compliance and local market integration.
+            {t('industries.manufacturing.subtitle')}
           </p>
           <div className="flex gap-4 justify-center">
             <Link href="/contact">
               <Button size="lg">
-                Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
+                {t('button.demo')} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
             <Link href="/contact">
               <Button variant="outline" size="lg">
-                Contact Sales
+                {t('button.contact_sales')}
               </Button>
             </Link>
           </div>
@@ -90,9 +93,11 @@ export function Manufacturing() {
         </div>
 
         <div className="max-w-3xl mx-auto mb-24">
-          <h2 className="text-3xl font-bold text-center mb-12">Romanian Market Features</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">
+            {t('industries.manufacturing.romania_specific.title')}
+          </h2>
           <div className="grid sm:grid-cols-2 gap-4">
-            {ROMANIA_SPECIFIC.map((feature) => (
+            {romaniaSpecificFeatures.map((feature) => (
               <div key={feature} className="flex items-center gap-2">
                 <Check className="h-5 w-5 text-primary flex-shrink-0" />
                 <span>{feature}</span>
