@@ -25,16 +25,22 @@ export function Navbar() {
                 <NavigationMenuItem key={item.title} className={`nav-${item.title.toLowerCase()}`}>
                   <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[200px] gap-2 p-4">
+                    <ul className={cn(
+                      "grid gap-3 p-6 w-[400px]",
+                      item.title === "Enterprise" && "w-[500px] grid-cols-2"
+                    )}>
                       {item.items.map((subItem) => (
-                        <li key={subItem.title}>
+                        <li key={subItem.title} className="row-span-3">
                           <NavigationMenuLink asChild>
                             <Link href={subItem.href}>
                               <a className={cn(
                                 "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
                                 "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                               )}>
-                                {subItem.title}
+                                <div className="text-sm font-medium leading-none mb-1">{subItem.title}</div>
+                                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                  {subItem.description}
+                                </p>
                               </a>
                             </Link>
                           </NavigationMenuLink>

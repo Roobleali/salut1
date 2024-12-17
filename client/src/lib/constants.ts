@@ -1,20 +1,155 @@
+import { type NavigationItem } from "@/types";
+
 export const NAVIGATION_ITEMS = [
   {
-    title: "Services",
+    title: "Product",
     items: [
-      { title: "HORECA Solutions", href: "/services#horeca" },
-      { title: "Manufacturing", href: "/services#manufacturing" },
-      { title: "Point of Sale", href: "/services#pos" },
-      { title: "Real Estate", href: "/services#real-estate" }
+      {
+        title: "Features",
+        href: "/features",
+        description: "Explore our comprehensive suite of features",
+      },
+      {
+        title: "Solutions",
+        href: "/solutions",
+        description: "Industry-specific solutions tailored for you",
+      },
+      {
+        title: "Pricing",
+        href: "/pricing",
+        description: "Transparent pricing plans for every scale",
+      }
     ]
   },
   {
-    title: "Company",
+    title: "Enterprise",
     items: [
-      { title: "Case Studies", href: "/case-studies" },
-      { title: "About Us", href: "/about" },
-      { title: "Contact", href: "/contact" }
+      {
+        title: "CRM",
+        href: "/enterprise/crm",
+        description: "Complete customer relationship management system",
+      },
+      {
+        title: "Sales",
+        href: "/enterprise/sales",
+        description: "Sales pipeline and forecasting tools",
+      },
+      {
+        title: "Purchase",
+        href: "/enterprise/purchase",
+        description: "Procurement and vendor management",
+      },
+      {
+        title: "Inventory",
+        href: "/enterprise/inventory",
+        description: "Real-time inventory tracking system",
+      },
+      {
+        title: "Manufacturing",
+        href: "/enterprise/manufacturing",
+        description: "End-to-end manufacturing management",
+      },
+      {
+        title: "Accounting",
+        href: "/enterprise/accounting",
+        description: "Financial management and reporting",
+      },
+      {
+        title: "Project Management",
+        href: "/enterprise/project-management",
+        description: "Project planning and resource allocation",
+      },
+      {
+        title: "HR & Recruitment",
+        href: "/enterprise/hr",
+        description: "Complete HR management system",
+      },
+      {
+        title: "Website & E-commerce",
+        href: "/enterprise/ecommerce",
+        description: "Online store and website builder",
+      },
+      {
+        title: "Point of Sale",
+        href: "/enterprise/pos",
+        description: "Modern POS system for retail",
+      },
+      {
+        title: "Field Service",
+        href: "/enterprise/field-service",
+        description: "Mobile workforce management",
+      },
+      {
+        title: "Marketing Automation",
+        href: "/enterprise/marketing",
+        description: "Automated marketing campaigns",
+      }
     ]
+  },
+  {
+    title: "Resources",
+    items: [
+      {
+        title: "Documentation",
+        href: "/docs",
+        description: "Learn how to integrate and use our platform",
+      },
+      {
+        title: "Blog",
+        href: "/blog",
+        description: "Latest updates and industry insights",
+      },
+      {
+        title: "Case Studies",
+        href: "/case-studies",
+        description: "Success stories from our clients",
+      }
+    ]
+  }
+];
+
+export const COMPANY_MILESTONES = [
+  {
+    id: "founding",
+    year: "2018",
+    title: "Company Founded",
+    description: "SalutTech was founded with a vision to transform enterprise software solutions.",
+    category: "launch" as const,
+  },
+  {
+    id: "first-client",
+    year: "2019",
+    title: "First Enterprise Client",
+    description: "Successfully implemented our solution for a major HORECA chain.",
+    category: "achievement" as const,
+  },
+  {
+    id: "team-expansion",
+    year: "2020",
+    title: "Team Growth",
+    description: "Expanded our team to 50+ professionals across development and consulting.",
+    category: "team" as const,
+  },
+  {
+    id: "international",
+    year: "2021",
+    title: "International Expansion",
+    description: "Opened offices in three new countries to serve our growing client base.",
+    category: "office" as const,
+  },
+  {
+    id: "award",
+    year: "2022",
+    title: "Industry Recognition",
+    description: "Received 'Best Enterprise Solution Provider' award.",
+    category: "achievement" as const,
+  },
+  {
+    id: "growth-milestone",
+    year: "2023",
+    title: "Major Growth Milestone",
+    description: "Reached 1000+ enterprise clients across multiple industries.",
+    category: "growth" as const,
   }
 ];
 
@@ -205,47 +340,4 @@ export const TEAM_MEMBERS = [
   }
 ];
 
-export const COMPANY_MILESTONES = [
-  {
-    id: "founding",
-    year: "2018",
-    title: "Company Founded",
-    description: "SalutTech was founded with a vision to transform enterprise software solutions.",
-    category: "launch" as const,
-  },
-  {
-    id: "first-client",
-    year: "2019",
-    title: "First Enterprise Client",
-    description: "Successfully implemented our solution for a major HORECA chain.",
-    category: "achievement" as const,
-  },
-  {
-    id: "team-expansion",
-    year: "2020",
-    title: "Team Growth",
-    description: "Expanded our team to 50+ professionals across development and consulting.",
-    category: "team" as const,
-  },
-  {
-    id: "international",
-    year: "2021",
-    title: "International Expansion",
-    description: "Opened offices in three new countries to serve our growing client base.",
-    category: "office" as const,
-  },
-  {
-    id: "award",
-    year: "2022",
-    title: "Industry Recognition",
-    description: "Received 'Best Enterprise Solution Provider' award.",
-    category: "achievement" as const,
-  },
-  {
-    id: "growth-milestone",
-    year: "2023",
-    title: "Major Growth Milestone",
-    description: "Reached 1000+ enterprise clients across multiple industries.",
-    category: "growth" as const,
-  },
-];
+// Removed duplicate COMPANY_MILESTONES declaration
