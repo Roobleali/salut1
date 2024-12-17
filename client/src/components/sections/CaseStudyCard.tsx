@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, Quote } from "lucide-react";
+import { ChevronRight, Quote, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 interface CaseStudyProps {
   title: string;
@@ -107,12 +109,19 @@ export function CaseStudyCard({
           <div className="border-t pt-6">
             <blockquote className="relative">
               <Quote className="h-8 w-8 text-primary/20 absolute -top-2 -left-2" />
-              <p className="text-gray-600 italic pl-8">{testimonial.quote}</p>
+              <p className="text-gray-600 italic pl-8 mb-4">{testimonial.quote}</p>
               <footer className="mt-4 pl-8">
                 <p className="font-semibold">{testimonial.author}</p>
                 <p className="text-sm text-gray-500">{testimonial.position}, {testimonial.company}</p>
               </footer>
             </blockquote>
+            
+            <div className="mt-6 flex justify-end">
+              <Button variant="outline" className="group">
+                Read Full Case Study
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
