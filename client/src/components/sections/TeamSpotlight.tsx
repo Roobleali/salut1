@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { SiLinkedin, SiTwitter } from "react-icons/si";
+import { FaLinkedin, FaTwitter } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -79,7 +79,7 @@ export function TeamSpotlight({ members }: TeamSpotlightProps) {
                       rel="noopener noreferrer"
                       className="text-gray-600 hover:text-primary transition-colors"
                     >
-                      <SiLinkedin className="w-5 h-5" />
+                      <FaLinkedin className="w-5 h-5" />
                     </a>
                   )}
                   {member.social.twitter && (
@@ -89,7 +89,7 @@ export function TeamSpotlight({ members }: TeamSpotlightProps) {
                       rel="noopener noreferrer"
                       className="text-gray-600 hover:text-primary transition-colors"
                     >
-                      <SiTwitter className="w-5 h-5" />
+                      <FaTwitter className="w-5 h-5" />
                     </a>
                   )}
                 </div>
