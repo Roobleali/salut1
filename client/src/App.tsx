@@ -5,6 +5,7 @@ import { Home } from "@/pages/Home";
 import { Services } from "@/pages/Services";
 import { About } from "@/pages/About";
 import { Contact } from "@/pages/Contact";
+import { CaseStudies } from "@/pages/CaseStudies";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/services" component={Services} />
+          <Route path="/case-studies" component={CaseStudies} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
         </Switch>
