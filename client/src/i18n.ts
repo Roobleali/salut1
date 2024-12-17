@@ -151,20 +151,25 @@ i18n
           home: {
             hero: {
               title: 'Enterprise Solutions for Modern Business',
-              subtitle: 'Comprehensive software solutions tailored for your industry'
+              subtitle: 'Comprehensive software solutions tailored for your industry',
+              transform: 'Transform Your Enterprise',
+              unlock_growth: 'Unlock unprecedented growth with our suite of cutting-edge enterprise solutions.',
+              why_choose: 'Why Leading Companies Choose',
+              company_exp: 'Experience the perfect fusion of enterprise-grade reliability and modern innovation.',
+              platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.'
             },
             features: {
               scalable: {
-                title: 'Scalable Solutions',
-                description: 'Enterprise architecture that seamlessly adapts to your growing business requirements'
+                title: 'Infinite Scalability',
+                description: 'Future-proof architecture that grows with your ambitions. Scale from startup to enterprise with zero growing pains.'
               },
               integration: {
-                title: 'Seamless Integration',
-                description: 'Perfect connectivity between all modules and third-party systems for unified operations'
+                title: 'Perfect Integration',
+                description: 'Seamlessly connect your entire digital ecosystem. Unified operations across all platforms and systems.'
               },
               support: {
-                title: '24/7 Expert Support',
-                description: 'Dedicated team of specialists providing round-the-clock assistance for your business'
+                title: '24/7 Elite Support',
+                description: 'Expert assistance at your fingertips. Our dedicated team ensures your success around the clock.'
               }
             }
           },
@@ -340,20 +345,25 @@ i18n
           home: {
             hero: {
               title: 'Soluții Enterprise pentru Afaceri Moderne',
-              subtitle: 'Soluții software complete adaptate pentru industria ta'
+              subtitle: 'Soluții software complete adaptate pentru industria ta',
+              transform: 'Transformă-ți Întreprinderea',
+              unlock_growth: 'Deblochează o creștere fără precedent cu suita noastră de soluții enterprise de ultimă generație.',
+              why_choose: 'De Ce Companiile Lider Aleg',
+              company_exp: 'Experimentează fuziunea perfectă dintre fiabilitatea la nivel enterprise și inovația modernă.',
+              platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.'
             },
             features: {
               scalable: {
-                title: 'Soluții Scalabile',
-                description: 'Arhitectură enterprise care se adaptează perfect la cerințele în creștere ale afacerii tale'
+                title: 'Scalabilitate Infinită',
+                description: 'Arhitectură pregătită pentru viitor care crește odată cu ambițiile tale. Scalează de la startup la enterprise fără probleme.'
               },
               integration: {
                 title: 'Integrare Perfectă',
-                description: 'Conectivitate perfectă între toate modulele și sistemele terțe pentru operațiuni unificate'
+                description: 'Conectează-ți perfect întregul ecosistem digital. Operațiuni unificate pe toate platformele și sistemele.'
               },
               support: {
-                title: 'Suport Expert 24/7',
-                description: 'Echipă dedicată de specialiști care oferă asistență non-stop pentru afacerea ta'
+                title: 'Suport Elite 24/7',
+                description: 'Asistență expertă la îndemâna ta. Echipa noastră dedicată îți asigură succesul non-stop.'
               }
             }
           },
