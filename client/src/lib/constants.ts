@@ -12,7 +12,9 @@ export const NAVIGATION_ITEMS = [
       {
         title: "Real Estate",
         href: "/industries/real-estate",
-        description: "Complete property management with leasing, maintenance and tenant portals",
+        description: "Complete property management solution with comprehensive features for leasing, maintenance, tenant portals, and full compliance with Romanian real estate regulations",
+        romanianTitle: "Imobiliare",
+        romanianDescription: "Soluție completă de administrare imobiliară cu funcționalități comprehensive pentru închiriere, întreținere și portaluri pentru chiriași",
       },
       {
         title: "Retail & E-commerce",
