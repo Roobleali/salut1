@@ -1,3 +1,6 @@
+import { TeamSpotlight } from "@/components/sections/TeamSpotlight";
+import { TEAM_MEMBERS } from "@/lib/constants";
+
 export function About() {
   return (
     <div className="pt-32 pb-24">
@@ -40,6 +43,11 @@ export function About() {
               <li><strong>Integrity:</strong> Operating with transparency and ethical business practices</li>
             </ul>
           </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto mt-24">
+          <h2 className="text-3xl font-bold text-center mb-12">Meet Our Leadership Team</h2>
+          <TeamSpotlight members={TEAM_MEMBERS} />
         </div>
       </div>
     </div>
