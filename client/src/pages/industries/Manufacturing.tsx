@@ -14,32 +14,32 @@ export function Manufacturing() {
     window.scrollTo(0, 0);
   }, []);
 
-  const FEATURES = [
-    {
+  const features = {
+    planning: {
       title: t('industries.manufacturing.features.planning.title'),
       description: t('industries.manufacturing.features.planning.description'),
     },
-    {
+    quality: {
       title: t('industries.manufacturing.features.quality.title'),
       description: t('industries.manufacturing.features.quality.description'),
     },
-    {
+    supply: {
       title: t('industries.manufacturing.features.supply.title'),
       description: t('industries.manufacturing.features.supply.description'),
     },
-    {
+    cost: {
       title: t('industries.manufacturing.features.cost.title'),
       description: t('industries.manufacturing.features.cost.description'),
     },
-    {
+    compliance: {
       title: t('industries.manufacturing.features.compliance.title'),
       description: t('industries.manufacturing.features.compliance.description'),
     },
-    {
+    documents: {
       title: t('industries.manufacturing.features.documents.title'),
       description: t('industries.manufacturing.features.documents.description'),
     },
-  ];
+  };
 
   const romaniaSpecificFeatures = [
     t('industries.manufacturing.romania_specific.features.efactura'),
@@ -82,8 +82,8 @@ export function Manufacturing() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
-          {FEATURES.map((feature) => (
-            <Card key={feature.title}>
+          {Object.entries(features).map(([key, feature]) => (
+            <Card key={key}>
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
