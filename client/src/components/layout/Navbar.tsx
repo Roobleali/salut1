@@ -10,50 +10,9 @@ import { Link } from "wouter";
 import { NAVIGATION_ITEMS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
-import { Users, ShoppingCart, Package, Boxes, Factory, Calculator, ClipboardList, UserPlus, Globe, ShoppingBag, Truck, Megaphone, Building2, Briefcase, Hammer, UtensilsCrossed, Stethoscope, GraduationCap, Menu, X, Languages } from "lucide-react";
+import { Menu, X, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
-
-type IconMapping = {
-  [key: string]: JSX.Element;
-};
-
-type IconSections = {
-  Industries: IconMapping;
-  Modules: IconMapping;
-  Resources?: IconMapping;
-};
-
-const icons: IconSections = {
-  Industries: {
-    "Manufacturing": <Factory className="w-4 h-4" aria-hidden="true" />,
-    "Real Estate": <Building2 className="w-4 h-4" aria-hidden="true" />,
-    "Retail & E-commerce": <ShoppingBag className="w-4 h-4" aria-hidden="true" />,
-    "Professional Services": <Briefcase className="w-4 h-4" aria-hidden="true" />,
-    "Construction": <Hammer className="w-4 h-4" aria-hidden="true" />,
-    "Hospitality": <UtensilsCrossed className="w-4 h-4" aria-hidden="true" />,
-    "Healthcare": <Stethoscope className="w-4 h-4" aria-hidden="true" />,
-    "Education": <GraduationCap className="w-4 h-4" aria-hidden="true" />
-  },
-  Modules: {
-    "CRM": <Users className="w-4 h-4" aria-hidden="true" />,
-    "Sales": <ShoppingCart className="w-4 h-4" aria-hidden="true" />,
-    "Purchase": <Package className="w-4 h-4" aria-hidden="true" />,
-    "Inventory": <Boxes className="w-4 h-4" aria-hidden="true" />,
-    "Manufacturing": <Factory className="w-4 h-4" aria-hidden="true" />,
-    "Accounting": <Calculator className="w-4 h-4" aria-hidden="true" />,
-    "Project Management": <ClipboardList className="w-4 h-4" aria-hidden="true" />,
-    "HR & Recruitment": <UserPlus className="w-4 h-4" aria-hidden="true" />,
-    "Website & E-commerce": <Globe className="w-4 h-4" aria-hidden="true" />,
-    "Point of Sale": <ShoppingBag className="w-4 h-4" aria-hidden="true" />,
-    "Field Service": <Truck className="w-4 h-4" aria-hidden="true" />,
-    "Marketing Automation": <Megaphone className="w-4 h-4" aria-hidden="true" />
-  }
-};
-
-const getIcon = (title: string, section: string): JSX.Element | null => {
-  return icons[section as keyof IconSections]?.[title] || null;
-};
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -85,105 +44,71 @@ export function Navbar() {
             <NavigationMenu>
               <NavigationMenuList>
                 {NAVIGATION_ITEMS.map((item) => (
-                  <NavigationMenuItem key={item.title} className={`nav-${item.title.toLowerCase()}`}>
-                    <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
+                  <NavigationMenuItem key={item.title}>
+                    <NavigationMenuTrigger>{t(`nav.${item.title.toLowerCase()}`)}</NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className={cn(
-                        "grid gap-3 p-6",
-                        item.title === "Industries" || item.title === "Modules" ? "w-[600px] grid-cols-2" : 
-                        "w-[400px]"
-                      )}>
-                      {item.items.map((subItem) => (
-                        <li key={subItem.title} className="row-span-3">
-                          <NavigationMenuLink asChild>
-                            <Link href={subItem.href}>
-                              <a className={cn(
-                                "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-200",
-                                "hover:bg-gradient-to-r hover:from-primary/10 hover:to-primary/5",
-                                "focus:bg-gradient-to-r focus:from-primary/20 focus:to-primary/10"
-                              )}>
-                                <div className="flex items-center gap-2 text-sm font-medium leading-none mb-2">
-                                  {getIcon(subItem.title, item.title)}
-                                  <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                                    {subItem.title}
-                                  </span>
-                                </div>
-                                <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                  {subItem.description}
-                                </p>
-                              </a>
-                            </Link>
-                          </NavigationMenuLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
+                      <ul className="grid gap-3 p-6 w-[400px]">
+                        {item.items.map((subItem) => (
+                          <li key={subItem.title}>
+                            <NavigationMenuLink asChild>
+                              <Link href={subItem.href}>
+                                <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
+                                  <div className="text-sm font-medium leading-none">{subItem.title}</div>
+                                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                    {subItem.description}
+                                  </p>
+                                </a>
+                              </Link>
+                            </NavigationMenuLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
-          {/* Mobile Navigation */}
-          <div className={cn(
-            "lg:hidden fixed inset-0 top-16 bg-background/95 backdrop-blur-sm z-50 transform transition-all duration-300 ease-in-out",
-            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          )}>
-            <div className="container h-full mx-auto px-4 py-6 overflow-y-auto">
-              <div className="space-y-6">
-                {NAVIGATION_ITEMS.map((section) => (
-                  <div key={section.title} className="pb-6 border-b border-border/50">
-                    <h3 className="text-sm font-semibold text-muted-foreground mb-4">{t(`nav.${section.title.toLowerCase()}`)}</h3>
-                    <ul className="grid gap-3">
-                      {section.items.map((item) => (
-                        <li key={item.title}>
-                          <Link href={item.href}>
-                            <a 
-                              className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors" 
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              {getIcon(item.title, section.title)}
-                              <div>
-                                <span className="font-medium">{item.title}</span>
-                                <p className="text-sm text-muted-foreground mt-0.5">{item.description}</p>
-                              </div>
-                            </a>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="sticky bottom-0 pt-6 mt-6 border-t border-border/50">
-                <div className="flex flex-col gap-3">
-                  <Button
-                    variant="ghost"
-                    size="lg"
-                    className="justify-start gap-2"
-                    onClick={() => {
-                      switchLanguage(currentLang === 'en' ? 'ro' : 'en');
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    <Languages className="h-5 w-5" />
-                    {currentLang === 'en' ? 'Switch to Romanian' : 'Comută la Engleză'}
-                  </Button>
-                  
-                  <Link href="/contact">
-                    <a onClick={() => setIsMobileMenuOpen(false)}>
-                      <Button size="lg" className="w-full">
-                        {t('contact.sales')}
-                      </Button>
+          {/* Mobile Navigation Dropdown */}
+          <div
+            className={cn(
+              "lg:hidden absolute top-16 right-0 w-64 bg-white shadow-lg rounded-lg mt-2 overflow-hidden transition-all duration-200 ease-in-out origin-top-right",
+              isMobileMenuOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+            )}
+          >
+            {NAVIGATION_ITEMS.map((section) => (
+              <div key={section.title} className="py-2">
+                <div className="px-4 py-2 text-sm font-semibold text-gray-500">
+                  {t(`nav.${section.title.toLowerCase()}`)}
+                </div>
+                {section.items.map((item) => (
+                  <Link key={item.title} href={item.href}>
+                    <a
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.title}
                     </a>
                   </Link>
-                </div>
+                ))}
               </div>
+            ))}
+            <div className="border-t border-gray-200 mt-2">
+              <button
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                onClick={() => {
+                  switchLanguage(currentLang === 'en' ? 'ro' : 'en');
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                <Languages className="h-4 w-4" />
+                {currentLang === 'en' ? 'Switch to Romanian' : 'Comută la Engleză'}
+              </button>
             </div>
           </div>
 
-          {/* Desktop Contact Button */}
+          {/* Desktop Language and Contact */}
           <div className="hidden lg:flex items-center gap-4">
             <Button
               variant="ghost"
@@ -195,9 +120,7 @@ export function Navbar() {
               <span className="sr-only">Switch Language</span>
             </Button>
             <Link href="/contact">
-              <a className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-                {t('contact.sales')}
-              </a>
+              <Button>{t('contact.sales')}</Button>
             </Link>
           </div>
         </div>
