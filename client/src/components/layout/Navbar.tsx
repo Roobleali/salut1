@@ -9,7 +9,8 @@ import {
 import { Link } from "wouter";
 import { NAVIGATION_ITEMS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "@/hooks/use-translation";
+import { useTranslation } from "react-i18next";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { Users, ShoppingCart, Package, Boxes, Factory, Calculator, ClipboardList, UserPlus, Globe, ShoppingBag, Truck, Megaphone, Building2, Briefcase, Hammer, UtensilsCrossed, Stethoscope, GraduationCap, Menu, X, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import React from "react";
@@ -58,7 +59,7 @@ const getIcon = (title: string, section: string): JSX.Element | null => {
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const { currentLang, switchLanguage, t } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur z-50 border-b">
@@ -159,28 +160,10 @@ export function Navbar() {
               
               <div className="sticky bottom-0 pt-6 mt-6 border-t border-border/50">
                 <div className="flex flex-col gap-3">
-                  <Button
-                    variant="ghost"
-                    size="lg"
-                    className="justify-start gap-2"
-                    onClick={() => {
-                      switchLanguage(currentLang === 'en' ? 'ro' : 'en');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="transition-all duration-300"
-                  >
-                    {currentLang === 'en' ? (
-                      <div className="flex items-center gap-2">
-                        <FaFlag className="h-5 w-5 text-blue-600" />
-                        {t('language.switch_to_ro')}
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        <FaFlagUsa className="h-5 w-5" />
-                        {t('language.switch_to_en')}
-                      </div>
-                    )}
-                  </Button>
+                  {/* Language Selector for Mobile */}
+                  <div className="mb-4">
+                    <LanguageSelector />
+                  </div>
                   
                   <Link href="/contact">
                     <a onClick={() => setIsMobileMenuOpen(false)}>
@@ -196,19 +179,7 @@ export function Navbar() {
 
           {/* Desktop Contact Button */}
           <div className="hidden lg:flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => switchLanguage(currentLang === 'en' ? 'ro' : 'en')}
-              className="w-10 h-10 transition-all duration-300 hover:bg-accent"
-            >
-              {currentLang === 'en' ? (
-                <FaFlag className="h-5 w-5 text-blue-600" />
-              ) : (
-                <FaFlagUsa className="h-5 w-5" />
-              )}
-              <span className="sr-only">Switch Language</span>
-            </Button>
+            <LanguageSelector />
             <Link href="/contact">
               <a className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
                 {t('contact.sales')}
