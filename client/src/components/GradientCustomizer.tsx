@@ -24,10 +24,10 @@ export function GradientCustomizer() {
     <Card className="w-full max-w-2xl mx-auto">
       <CardContent className="p-6 space-y-6">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">{t('gradients.customizer.title', 'Gradient Customizer')}</h3>
+          <h3 className="text-lg font-semibold">{t('gradients.customizer.title')}</h3>
           
           <div className="space-y-2">
-            <Label>{t('gradients.customizer.preset', 'Preset')}</Label>
+            <Label>{t('gradients.customizer.preset')}</Label>
             <Select
               value={selectedPreset.id}
               onValueChange={(value) => {
@@ -36,7 +36,7 @@ export function GradientCustomizer() {
               }}
             >
               <SelectTrigger>
-                <SelectValue placeholder={t('gradients.customizer.select_preset', 'Select a preset')} />
+                <SelectValue placeholder={t('gradients.customizer.select_preset')} />
               </SelectTrigger>
               <SelectContent>
                 {gradientPresets.map((preset) => (
@@ -50,7 +50,7 @@ export function GradientCustomizer() {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>{t('gradients.customizer.start_color', 'Start Color')}</Label>
+              <Label>{t('gradients.customizer.start_color')}</Label>
               <div className="flex gap-2">
                 <Input
                   type="color"
@@ -68,7 +68,7 @@ export function GradientCustomizer() {
             </div>
 
             <div className="space-y-2">
-              <Label>{t('gradients.customizer.end_color', 'End Color')}</Label>
+              <Label>{t('gradients.customizer.end_color')}</Label>
               <div className="flex gap-2">
                 <Input
                   type="color"
@@ -87,7 +87,7 @@ export function GradientCustomizer() {
           </div>
 
           <div className="space-y-2">
-            <Label>{t('gradients.customizer.direction', 'Direction')}</Label>
+            <Label>{t('gradients.customizer.direction')}</Label>
             <Select
               value={direction}
               onValueChange={(value) => setDirection(value as typeof direction)}
@@ -96,10 +96,10 @@ export function GradientCustomizer() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="to-r">{t('gradients.directions.right', 'Right')}</SelectItem>
-                <SelectItem value="to-br">{t('gradients.directions.bottom_right', 'Bottom Right')}</SelectItem>
-                <SelectItem value="to-tr">{t('gradients.directions.top_right', 'Top Right')}</SelectItem>
-                <SelectItem value="to-b">{t('gradients.directions.bottom', 'Bottom')}</SelectItem>
+                <SelectItem value="to-r">{t('gradients.directions.right')}</SelectItem>
+                <SelectItem value="to-br">{t('gradients.directions.bottom_right')}</SelectItem>
+                <SelectItem value="to-tr">{t('gradients.directions.top_right')}</SelectItem>
+                <SelectItem value="to-b">{t('gradients.directions.bottom')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -108,7 +108,7 @@ export function GradientCustomizer() {
             <div className={`w-full h-32 rounded-lg ${selectedPreset.backgroundClass}`}>
               <div className="w-full h-full flex items-center justify-center">
                 <span className={`text-lg font-semibold ${selectedPreset.textClass}`}>
-                  {t('gradients.customizer.preview', 'Gradient Preview')}
+                  {t('gradients.customizer.preview')}
                 </span>
               </div>
             </div>
@@ -122,7 +122,7 @@ export function GradientCustomizer() {
               navigator.clipboard.writeText(selectedPreset.backgroundClass);
             }}
           >
-            {t('gradients.customizer.copy_classes', 'Copy Gradient Classes')}
+            {t('gradients.customizer.copy_classes')}
           </Button>
         </div>
       </CardContent>
