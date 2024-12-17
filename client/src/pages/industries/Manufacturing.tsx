@@ -16,28 +16,28 @@ export function Manufacturing() {
 
   const FEATURES = [
     {
-      title: t('manufacturing.features.planning'),
-      description: t('manufacturing.features.planning_desc'),
+      title: t('industries.manufacturing.features.planning.title'),
+      description: t('industries.manufacturing.features.planning.description'),
     },
     {
-      title: t('industries.manufacturing.features.quality'),
-      description: t('industries.manufacturing.features.quality_desc'),
+      title: t('industries.manufacturing.features.quality.title'),
+      description: t('industries.manufacturing.features.quality.description'),
     },
     {
-      title: t('industries.manufacturing.features.supply'),
-      description: t('industries.manufacturing.features.supply_desc'),
+      title: t('industries.manufacturing.features.supply.title'),
+      description: t('industries.manufacturing.features.supply.description'),
     },
     {
-      title: t('industries.manufacturing.features.cost'),
-      description: t('industries.manufacturing.features.cost_desc'),
+      title: t('industries.manufacturing.features.cost.title'),
+      description: t('industries.manufacturing.features.cost.description'),
     },
     {
-      title: t('industries.manufacturing.features.compliance'),
-      description: t('industries.manufacturing.features.compliance_desc'),
+      title: t('industries.manufacturing.features.compliance.title'),
+      description: t('industries.manufacturing.features.compliance.description'),
     },
     {
-      title: t('industries.manufacturing.features.documents'),
-      description: t('industries.manufacturing.features.documents_desc'),
+      title: t('industries.manufacturing.features.documents.title'),
+      description: t('industries.manufacturing.features.documents.description'),
     },
   ];
 
