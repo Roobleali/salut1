@@ -9,24 +9,39 @@ import {
 import { Link } from "wouter";
 import { NAVIGATION_ITEMS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { Users, ShoppingCart, Package, Boxes, Factory, Calculator, ClipboardList, UserPlus, Globe, ShoppingBag, Truck, Megaphone } from "lucide-react";
+import { Users, ShoppingCart, Package, Boxes, Factory, Calculator, ClipboardList, UserPlus, Globe, ShoppingBag, Truck, Megaphone, Building2, Briefcase, Hammer, UtensilsCrossed, Stethoscope, GraduationCap } from "lucide-react";
 
-const getEnterpriseIcon = (title: string) => {
-  const icons = {
-    "CRM": <Users className="w-4 h-4" />,
-    "Sales": <ShoppingCart className="w-4 h-4" />,
-    "Purchase": <Package className="w-4 h-4" />,
-    "Inventory": <Boxes className="w-4 h-4" />,
-    "Manufacturing": <Factory className="w-4 h-4" />,
-    "Accounting": <Calculator className="w-4 h-4" />,
-    "Project Management": <ClipboardList className="w-4 h-4" />,
-    "HR & Recruitment": <UserPlus className="w-4 h-4" />,
-    "Website & E-commerce": <Globe className="w-4 h-4" />,
-    "Point of Sale": <ShoppingBag className="w-4 h-4" />,
-    "Field Service": <Truck className="w-4 h-4" />,
-    "Marketing Automation": <Megaphone className="w-4 h-4" />
-  };
-  return icons[title as keyof typeof icons] || null;
+const getIcon = (title: string, section: string) => {
+  if (section === "Industries") {
+    const industryIcons = {
+      "Manufacturing": <Factory className="w-4 h-4" />,
+      "Real Estate": <Building2 className="w-4 h-4" />,
+      "Retail & E-commerce": <ShoppingBag className="w-4 h-4" />,
+      "Professional Services": <Briefcase className="w-4 h-4" />,
+      "Construction": <Hammer className="w-4 h-4" />,
+      "Hospitality": <UtensilsCrossed className="w-4 h-4" />,
+      "Healthcare": <Stethoscope className="w-4 h-4" />,
+      "Education": <GraduationCap className="w-4 h-4" />
+    };
+    return industryIcons[title as keyof typeof industryIcons] || null;
+  } else if (section === "Enterprise") {
+    const enterpriseIcons = {
+      "CRM": <Users className="w-4 h-4" />,
+      "Sales": <ShoppingCart className="w-4 h-4" />,
+      "Purchase": <Package className="w-4 h-4" />,
+      "Inventory": <Boxes className="w-4 h-4" />,
+      "Manufacturing": <Factory className="w-4 h-4" />,
+      "Accounting": <Calculator className="w-4 h-4" />,
+      "Project Management": <ClipboardList className="w-4 h-4" />,
+      "HR & Recruitment": <UserPlus className="w-4 h-4" />,
+      "Website & E-commerce": <Globe className="w-4 h-4" />,
+      "Point of Sale": <ShoppingBag className="w-4 h-4" />,
+      "Field Service": <Truck className="w-4 h-4" />,
+      "Marketing Automation": <Megaphone className="w-4 h-4" />
+    };
+    return enterpriseIcons[title as keyof typeof enterpriseIcons] || null;
+  }
+  return null;
 };
 
 export function Navbar() {
@@ -58,7 +73,7 @@ export function Navbar() {
                                 "focus:bg-gradient-to-r focus:from-primary/20 focus:to-primary/10"
                               )}>
                                 <div className="flex items-center gap-2 text-sm font-medium leading-none mb-2">
-                                  {item.title === "Enterprise" && getEnterpriseIcon(subItem.title)}
+                                  {getIcon(subItem.title, item.title)}
                                   <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
                                     {subItem.title}
                                   </span>
