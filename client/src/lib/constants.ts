@@ -166,3 +166,41 @@ export const CASE_STUDIES = [
     image: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62"
   }
 ];
+
+export const TEAM_MEMBERS = [
+  {
+    id: "ceo",
+    name: "Sarah Johnson",
+    role: "CEO & Founder",
+    bio: "20+ years of experience in enterprise software solutions. Previously led digital transformation initiatives at Fortune 500 companies.",
+    expertise: ["Strategic Planning", "Digital Transformation", "Enterprise Architecture"],
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com"
+    }
+  },
+  {
+    id: "cto",
+    name: "Michael Chen",
+    role: "Chief Technology Officer",
+    bio: "Expert in cloud architecture and enterprise software development. Passionate about leveraging technology to solve complex business challenges.",
+    expertise: ["Cloud Architecture", "System Design", "Software Development"],
+    image: "https://images.unsplash.com/photo-1556157382-97eda2d62296",
+    social: {
+      linkedin: "https://linkedin.com"
+    }
+  },
+  {
+    id: "product-lead",
+    name: "Emma Rodriguez",
+    role: "Head of Product",
+    bio: "Specializes in product strategy and user experience. Dedicated to creating intuitive enterprise solutions that users love.",
+    expertise: ["Product Strategy", "UX Design", "Agile Management"],
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com"
+    }
+  }
+];
