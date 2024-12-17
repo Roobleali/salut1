@@ -12,35 +12,45 @@ import { cn } from "@/lib/utils";
 import { Users, ShoppingCart, Package, Boxes, Factory, Calculator, ClipboardList, UserPlus, Globe, ShoppingBag, Truck, Megaphone, Building2, Briefcase, Hammer, UtensilsCrossed, Stethoscope, GraduationCap, Menu, X } from "lucide-react";
 import React from "react";
 
-const getIcon = (title: string, section: string) => {
-  const icons = {
-    Industries: {
-      "Manufacturing": <Factory className="w-4 h-4" aria-hidden="true" />,
-      "Real Estate": <Building2 className="w-4 h-4" aria-hidden="true" />,
-      "Retail & E-commerce": <ShoppingBag className="w-4 h-4" aria-hidden="true" />,
-      "Professional Services": <Briefcase className="w-4 h-4" aria-hidden="true" />,
-      "Construction": <Hammer className="w-4 h-4" aria-hidden="true" />,
-      "Hospitality": <UtensilsCrossed className="w-4 h-4" aria-hidden="true" />,
-      "Healthcare": <Stethoscope className="w-4 h-4" aria-hidden="true" />,
-      "Education": <GraduationCap className="w-4 h-4" aria-hidden="true" />
-    },
-    Modules: {
-      "CRM": <Users className="w-4 h-4" aria-hidden="true" />,
-      "Sales": <ShoppingCart className="w-4 h-4" aria-hidden="true" />,
-      "Purchase": <Package className="w-4 h-4" aria-hidden="true" />,
-      "Inventory": <Boxes className="w-4 h-4" aria-hidden="true" />,
-      "Manufacturing": <Factory className="w-4 h-4" aria-hidden="true" />,
-      "Accounting": <Calculator className="w-4 h-4" aria-hidden="true" />,
-      "Project Management": <ClipboardList className="w-4 h-4" aria-hidden="true" />,
-      "HR & Recruitment": <UserPlus className="w-4 h-4" aria-hidden="true" />,
-      "Website & E-commerce": <Globe className="w-4 h-4" aria-hidden="true" />,
-      "Point of Sale": <ShoppingBag className="w-4 h-4" aria-hidden="true" />,
-      "Field Service": <Truck className="w-4 h-4" aria-hidden="true" />,
-      "Marketing Automation": <Megaphone className="w-4 h-4" aria-hidden="true" />
-    }
-  };
-  
-  return icons[section as keyof typeof icons]?.[title as string] || null;
+type IconMapping = {
+  [key: string]: JSX.Element;
+};
+
+type IconSections = {
+  Industries: IconMapping;
+  Modules: IconMapping;
+  Resources?: IconMapping;
+};
+
+const icons: IconSections = {
+  Industries: {
+    "Manufacturing": <Factory className="w-4 h-4" aria-hidden="true" />,
+    "Real Estate": <Building2 className="w-4 h-4" aria-hidden="true" />,
+    "Retail & E-commerce": <ShoppingBag className="w-4 h-4" aria-hidden="true" />,
+    "Professional Services": <Briefcase className="w-4 h-4" aria-hidden="true" />,
+    "Construction": <Hammer className="w-4 h-4" aria-hidden="true" />,
+    "Hospitality": <UtensilsCrossed className="w-4 h-4" aria-hidden="true" />,
+    "Healthcare": <Stethoscope className="w-4 h-4" aria-hidden="true" />,
+    "Education": <GraduationCap className="w-4 h-4" aria-hidden="true" />
+  },
+  Modules: {
+    "CRM": <Users className="w-4 h-4" aria-hidden="true" />,
+    "Sales": <ShoppingCart className="w-4 h-4" aria-hidden="true" />,
+    "Purchase": <Package className="w-4 h-4" aria-hidden="true" />,
+    "Inventory": <Boxes className="w-4 h-4" aria-hidden="true" />,
+    "Manufacturing": <Factory className="w-4 h-4" aria-hidden="true" />,
+    "Accounting": <Calculator className="w-4 h-4" aria-hidden="true" />,
+    "Project Management": <ClipboardList className="w-4 h-4" aria-hidden="true" />,
+    "HR & Recruitment": <UserPlus className="w-4 h-4" aria-hidden="true" />,
+    "Website & E-commerce": <Globe className="w-4 h-4" aria-hidden="true" />,
+    "Point of Sale": <ShoppingBag className="w-4 h-4" aria-hidden="true" />,
+    "Field Service": <Truck className="w-4 h-4" aria-hidden="true" />,
+    "Marketing Automation": <Megaphone className="w-4 h-4" aria-hidden="true" />
+  }
+};
+
+const getIcon = (title: string, section: keyof IconSections): JSX.Element | null => {
+  return icons[section]?.[title] || null;
 };
 
 export function Navbar() {
