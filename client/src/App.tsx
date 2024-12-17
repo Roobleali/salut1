@@ -10,6 +10,9 @@ import { EnterpriseApps } from "@/pages/enterprise/EnterpriseApps";
 import { CRM } from "@/pages/enterprise/CRM";
 import { Sales } from "@/pages/enterprise/Sales";
 import { Purchase } from "@/pages/enterprise/Purchase";
+import { Manufacturing } from "@/pages/industries/Manufacturing";
+import { RealEstate } from "@/pages/industries/RealEstate";
+import { Healthcare } from "@/pages/industries/Healthcare";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 
 function App() {
@@ -24,10 +27,17 @@ function App() {
           <Route path="/case-studies" component={CaseStudies} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
+          
+          {/* Enterprise Routes */}
           <Route path="/enterprise" component={EnterpriseApps} />
           <Route path="/enterprise/crm" component={CRM} />
           <Route path="/enterprise/sales" component={Sales} />
           <Route path="/enterprise/purchase" component={Purchase} />
+          
+          {/* Industry Routes */}
+          <Route path="/industries/manufacturing" component={Manufacturing} />
+          <Route path="/industries/real-estate" component={RealEstate} />
+          <Route path="/industries/healthcare" component={Healthcare} />
         </Switch>
       </main>
       <Footer />
