@@ -154,20 +154,32 @@ i18n
               badge: 'Manufacturing Solutions',
               title: 'Advanced Manufacturing Management',
               subtitle: 'Comprehensive manufacturing solutions tailored for Romanian industries',
-              description: 'Management complet al producției cu MRP, planificare și control al calității',
+              description: 'Complete manufacturing management with MRP, planning and quality control',
               features: {
-                planning: 'Production Planning',
-                planning_desc: 'Advanced MRP system with real-time production scheduling',
-                quality: 'Quality Control',
-                quality_desc: 'Comprehensive quality management and testing protocols',
-                supply: 'Supply Chain',
-                supply_desc: 'End-to-end supply chain visibility and optimization',
-                cost: 'Cost Management',
-                cost_desc: 'Detailed cost tracking and financial analytics',
-                compliance: 'Compliance',
-                compliance_desc: 'Automated compliance with industry standards',
-                documents: 'E-Document Integration',
-                documents_desc: 'Seamless integration with Romanian e-Factura system'
+                planning: {
+                  title: 'Production Planning',
+                  description: 'Advanced MRP system with real-time production scheduling'
+                },
+                quality: {
+                  title: 'Quality Control',
+                  description: 'Comprehensive quality management and testing protocols'
+                },
+                supply: {
+                  title: 'Supply Chain',
+                  description: 'End-to-end supply chain visibility and optimization'
+                },
+                cost: {
+                  title: 'Cost Management',
+                  description: 'Detailed cost tracking and financial analytics'
+                },
+                compliance: {
+                  title: 'Compliance',
+                  description: 'Automated compliance with industry standards'
+                },
+                documents: {
+                  title: 'E-Document Integration',
+                  description: 'Seamless integration with Romanian e-Factura system'
+                }
               },
               romania_specific: {
                 title: 'Romanian Market Features',
@@ -350,18 +362,30 @@ i18n
               subtitle: 'Soluții complete de producție adaptate industriilor din România',
               description: 'Management complet al producției cu MRP, planificare și control al calității',
               features: {
-                planning: 'Planificarea Producției',
-                planning_desc: 'Sistem MRP avansat cu programare în timp real',
-                quality: 'Controlul Calității',
-                quality_desc: 'Management comprehensiv al calității și protocoale de testare',
-                supply: 'Lanț de Aprovizionare',
-                supply_desc: 'Vizibilitate și optimizare end-to-end a lanțului de aprovizionare',
-                cost: 'Managementul Costurilor',
-                cost_desc: 'Urmărirea detaliată a costurilor și analiză financiară',
-                compliance: 'Conformitate',
-                compliance_desc: 'Conformitate automatizată cu standardele industriei',
-                documents: 'Integrare E-Documente',
-                documents_desc: 'Integrare perfectă cu sistemul e-Factura românesc'
+                planning: {
+                  title: 'Planificarea Producției',
+                  description: 'Sistem MRP avansat cu programare în timp real'
+                },
+                quality: {
+                  title: 'Controlul Calității',
+                  description: 'Management comprehensiv al calității și protocoale de testare'
+                },
+                supply: {
+                  title: 'Lanț de Aprovizionare',
+                  description: 'Vizibilitate și optimizare end-to-end a lanțului de aprovizionare'
+                },
+                cost: {
+                  title: 'Managementul Costurilor',
+                  description: 'Urmărirea detaliată a costurilor și analiză financiară'
+                },
+                compliance: {
+                  title: 'Conformitate',
+                  description: 'Conformitate automatizată cu standardele industriei'
+                },
+                documents: {
+                  title: 'Integrare E-Documente',
+                  description: 'Integrare perfectă cu sistemul e-Factura românesc'
+                }
               },
               romania_specific: {
                 title: 'Funcționalități pentru Piața Românească',
