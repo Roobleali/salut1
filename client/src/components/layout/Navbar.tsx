@@ -9,7 +9,9 @@ import {
 import { Link } from "wouter";
 import { NAVIGATION_ITEMS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { Users, ShoppingCart, Package, Boxes, Factory, Calculator, ClipboardList, UserPlus, Globe, ShoppingBag, Truck, Megaphone, Building2, Briefcase, Hammer, UtensilsCrossed, Stethoscope, GraduationCap, Menu, X } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
+import { Users, ShoppingCart, Package, Boxes, Factory, Calculator, ClipboardList, UserPlus, Globe, ShoppingBag, Truck, Megaphone, Building2, Briefcase, Hammer, UtensilsCrossed, Stethoscope, GraduationCap, Menu, X, Languages } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import React from "react";
 
 type IconMapping = {
@@ -55,6 +57,7 @@ const getIcon = (title: string, section: keyof IconSections): JSX.Element | null
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const { currentLang, switchLanguage, t } = useTranslation();
 
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur z-50 border-b">
@@ -156,11 +159,22 @@ export function Navbar() {
           </div>
 
           {/* Desktop Contact Button */}
-          <Link href="/contact">
-            <a className="hidden lg:inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-              Contact Sales
-            </a>
-          </Link>
+          <div className="hidden lg:flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => switchLanguage(currentLang === 'en' ? 'ro' : 'en')}
+              className="w-10 h-10"
+            >
+              <Languages className="h-5 w-5" />
+              <span className="sr-only">Switch Language</span>
+            </Button>
+            <Link href="/contact">
+              <a className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                {t('contact.sales')}
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
     </header>
