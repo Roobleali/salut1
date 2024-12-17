@@ -115,14 +115,9 @@ export const NAVIGATION_ITEMS = [
     title: "Resources",
     items: [
       {
-        title: "Documentation",
-        href: "/docs",
-        description: "Learn how to integrate and use our platform",
-      },
-      {
-        title: "Blog",
-        href: "/blog",
-        description: "Latest updates and industry insights",
+        title: "About Us",
+        href: "/about",
+        description: "Learn more about our company and mission",
       },
       {
         title: "Case Studies",
