@@ -61,8 +61,7 @@ export function Navbar() {
                   <NavigationMenuContent>
                     <ul className={cn(
                       "grid gap-3 p-6",
-                      item.title === "Industries" ? "w-[600px] grid-cols-2" : 
-                      item.title === "Enterprise" ? "w-[500px] grid-cols-2" :
+                      item.title === "Industries" || item.title === "Modules" ? "w-[600px] grid-cols-2" : 
                       "w-[400px]"
                     )}>
                       {item.items.map((subItem) => (
