@@ -70,12 +70,12 @@ export function Manufacturing() {
           <div className="flex gap-4 justify-center">
             <Link href="/contact">
               <Button size="lg">
-                {t('button.demo')} <ArrowRight className="ml-2 h-4 w-4" />
+                {t('common.schedule_demo')} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
             <Link href="/contact">
               <Button variant="outline" size="lg">
-                {t('button.contact_sales')}
+                {t('contact.sales')}
               </Button>
             </Link>
           </div>
