@@ -1,19 +1,22 @@
-import { useState } from "react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import { Link } from "wouter";
 import { NAVIGATION_ITEMS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/hooks/use-translation";
-import { Menu, X, Languages, ChevronRight } from "lucide-react";
+import { Menu, X, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import React from "react";
 
 export function Navbar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const { currentLang, switchLanguage, t } = useTranslation();
-
-  const toggleSection = (title: string) => {
-    setExpandedSection(expandedSection === title ? null : title);
-  };
 
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur z-50 border-b">
@@ -37,26 +40,73 @@ export function Navbar() {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:block">
+            <NavigationMenu>
+              <NavigationMenuList>
+                {NAVIGATION_ITEMS.map((item) => (
+                  <NavigationMenuItem key={item.title}>
+                    <NavigationMenuTrigger>{t(`nav.${item.title.toLowerCase()}`)}</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid gap-3 p-6 w-[400px]">
+                        {item.items.map((subItem) => (
+                          <li key={subItem.title}>
+                            <NavigationMenuLink asChild>
+                              <Link href={subItem.href}>
+                                <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
+                                  <div className="text-sm font-medium leading-none">{subItem.title}</div>
+                                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                    {subItem.description}
+                                  </p>
+                                </a>
+                              </Link>
+                            </NavigationMenuLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+
+          {/* Mobile Navigation Dropdown */}
+          <div
+            className={cn(
+              "lg:hidden absolute top-16 right-0 w-64 bg-white shadow-lg rounded-lg mt-2 overflow-hidden transition-all duration-200 ease-in-out origin-top-right",
+              isMobileMenuOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+            )}
+          >
             {NAVIGATION_ITEMS.map((section) => (
-              <div key={section.title} className="relative group">
-                <button className="py-2 text-gray-700 hover:text-primary">
+              <div key={section.title} className="py-2">
+                <div className="px-4 py-2 text-sm font-semibold text-gray-500">
                   {t(`nav.${section.title.toLowerCase()}`)}
-                </button>
-                <div className="absolute top-full left-0 hidden group-hover:block">
-                  <div className="py-2 mt-2 bg-white rounded-lg shadow-lg">
-                    {section.items.map((item) => (
-                      <Link key={item.title} href={item.href}>
-                        <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                          {item.title}
-                        </a>
-                      </Link>
-                    ))}
-                  </div>
                 </div>
+                {section.items.map((item) => (
+                  <Link key={item.title} href={item.href}>
+                    <a
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.title}
+                    </a>
+                  </Link>
+                ))}
               </div>
             ))}
-          </nav>
+            <div className="border-t border-gray-200 mt-2">
+              <button
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                onClick={() => {
+                  switchLanguage(currentLang === 'en' ? 'ro' : 'en');
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                <Languages className="h-4 w-4" />
+                {currentLang === 'en' ? 'Switch to Romanian' : 'Comută la Engleză'}
+              </button>
+            </div>
+          </div>
 
           {/* Desktop Language and Contact */}
           <div className="hidden lg:flex items-center gap-4">
@@ -73,73 +123,6 @@ export function Navbar() {
               <Button>{t('contact.sales')}</Button>
             </Link>
           </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <div
-        className={cn(
-          "lg:hidden fixed inset-0 top-16 bg-white z-40 flex flex-col transition-transform duration-300 transform",
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        )}
-      >
-        <div className="flex-1 overflow-y-auto">
-          <nav className="py-2">
-            {/* Main navigation items */}
-            {NAVIGATION_ITEMS.map((section) => (
-              <div key={section.title}>
-                <button
-                  onClick={() => toggleSection(section.title)}
-                  className="flex items-center justify-between w-full px-6 py-4 text-left text-gray-900 hover:bg-gray-50"
-                >
-                  <span className="text-base font-medium">{t(`nav.${section.title.toLowerCase()}`)}</span>
-                  <ChevronRight 
-                    className={cn(
-                      "h-5 w-5 transition-transform duration-200",
-                      expandedSection === section.title ? "rotate-90" : ""
-                    )}
-                  />
-                </button>
-                
-                {/* Submenu */}
-                <div
-                  className={cn(
-                    "overflow-hidden transition-all duration-200 bg-gray-50",
-                    expandedSection === section.title ? "max-h-[400px]" : "max-h-0"
-                  )}
-                >
-                  {section.items.map((item) => (
-                    <Link 
-                      key={item.title}
-                      href={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      <a className="block px-6 py-3 hover:bg-gray-100">
-                        <div className="text-base font-medium text-gray-900">{item.title}</div>
-                        <p className="mt-1 text-sm text-gray-500">{item.description}</p>
-                      </a>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </nav>
-        </div>
-
-        {/* Mobile Language Switcher */}
-        <div className="border-t border-gray-200 bg-white">
-          <button
-            className="flex items-center gap-3 w-full px-6 py-4 text-gray-900 hover:bg-gray-50"
-            onClick={() => {
-              switchLanguage(currentLang === 'en' ? 'ro' : 'en');
-              setIsMobileMenuOpen(false);
-            }}
-          >
-            <Languages className="h-5 w-5" />
-            <span className="text-base font-medium">
-              {currentLang === 'en' ? 'Switch to Romanian' : 'Comută la Engleză'}
-            </span>
-          </button>
         </div>
       </div>
     </header>
