@@ -5,47 +5,50 @@ import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-
-const FEATURES = [
-  {
-    title: "Patient Management",
-    description: "Comprehensive patient records and appointment scheduling system.",
-  },
-  {
-    title: "Medical Inventory",
-    description: "Advanced tracking of medical supplies and equipment.",
-  },
-  {
-    title: "Billing & Insurance",
-    description: "Integrated healthcare billing and insurance claim management.",
-  },
-  {
-    title: "Telemedicine",
-    description: "Secure video consultations and remote patient monitoring.",
-  },
-  {
-    title: "Compliance",
-    description: "Built-in compliance with Romanian and EU healthcare regulations.",
-  },
-  {
-    title: "Analytics",
-    description: "Healthcare analytics and reporting for improved patient care.",
-  },
-];
-
-const ROMANIA_SPECIFIC = [
-  "Romanian healthcare regulations compliance",
-  "Integration with CNAS (Casa Națională de Asigurări de Sănătate)",
-  "Prescription management system",
-  "Medical documentation in Romanian",
-  "Local healthcare provider network integration",
-  "Romanian medical coding standards"
-];
+import { useTranslation } from "react-i18next";
 
 export function Healthcare() {
+  const { t } = useTranslation();
+
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const FEATURES = [
+    {
+      title: t('industries.healthcare.features.patient.title'),
+      description: t('industries.healthcare.features.patient.description'),
+    },
+    {
+      title: t('industries.healthcare.features.inventory.title'),
+      description: t('industries.healthcare.features.inventory.description'),
+    },
+    {
+      title: t('industries.healthcare.features.billing.title'),
+      description: t('industries.healthcare.features.billing.description'),
+    },
+    {
+      title: t('industries.healthcare.features.telemedicine.title'),
+      description: t('industries.healthcare.features.telemedicine.description'),
+    },
+    {
+      title: t('industries.healthcare.features.compliance.title'),
+      description: t('industries.healthcare.features.compliance.description'),
+    },
+    {
+      title: t('industries.healthcare.features.analytics.title'),
+      description: t('industries.healthcare.features.analytics.description'),
+    },
+  ];
+
+  const ROMANIA_SPECIFIC = [
+    t('industries.healthcare.romania_specific.features.regulations'),
+    t('industries.healthcare.romania_specific.features.cnas'),
+    t('industries.healthcare.romania_specific.features.prescription'),
+    t('industries.healthcare.romania_specific.features.documentation'),
+    t('industries.healthcare.romania_specific.features.network'),
+    t('industries.healthcare.romania_specific.features.coding')
+  ];
 
   return (
     <motion.div
@@ -57,22 +60,22 @@ export function Healthcare() {
     >
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <Badge className="mb-4">Healthcare Solutions</Badge>
-          <h1 className="text-4xl font-bold mb-6">
-            Advanced Healthcare Management
+          <Badge className="mb-4">{t('industries.healthcare.badge')}</Badge>
+          <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            {t('industries.healthcare.title')}
           </h1>
           <p className="text-xl text-gray-600 mb-8">
-            Comprehensive healthcare solutions tailored for Romanian medical institutions, with full compliance and local healthcare system integration.
+            {t('industries.healthcare.subtitle')}
           </p>
           <div className="flex gap-4 justify-center">
             <Link href="/contact">
-              <Button size="lg">
-                Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
+              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary">
+                {t('button.demo')} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
             <Link href="/contact">
               <Button variant="outline" size="lg">
-                Contact Sales
+                {t('button.contact_sales')}
               </Button>
             </Link>
           </div>
@@ -90,7 +93,9 @@ export function Healthcare() {
         </div>
 
         <div className="max-w-3xl mx-auto mb-24">
-          <h2 className="text-3xl font-bold text-center mb-12">Romanian Healthcare Features</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">
+            {t('industries.healthcare.romania_specific.title')}
+          </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {ROMANIA_SPECIFIC.map((feature) => (
               <div key={feature} className="flex items-center gap-2">

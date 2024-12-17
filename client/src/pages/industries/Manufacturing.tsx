@@ -61,7 +61,7 @@ export function Manufacturing() {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <Badge className="mb-4">{t('industries.manufacturing.badge')}</Badge>
-          <h1 className="text-4xl font-bold mb-6">
+          <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
             {t('industries.manufacturing.title')}
           </h1>
           <p className="text-xl text-gray-600 mb-8">
@@ -69,13 +69,13 @@ export function Manufacturing() {
           </p>
           <div className="flex gap-4 justify-center">
             <Link href="/contact">
-              <Button size="lg">
-                {t('common.schedule_demo')} <ArrowRight className="ml-2 h-4 w-4" />
+              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary">
+                {t('button.demo')} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
             <Link href="/contact">
               <Button variant="outline" size="lg">
-                {t('contact.sales')}
+                {t('button.contact_sales')}
               </Button>
             </Link>
           </div>
