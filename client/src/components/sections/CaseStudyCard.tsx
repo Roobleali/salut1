@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronRight, Quote, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import { CaseStudyFeedback } from "./CaseStudyFeedback";
 
 interface CaseStudyProps {
   title: string;
@@ -116,7 +117,8 @@ export function CaseStudyCard({
               </footer>
             </blockquote>
             
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex justify-end gap-4">
+              <CaseStudyFeedback caseStudyId={id} title={title} />
               <Button variant="outline" className="group">
                 Read Full Case Study
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
