@@ -20,16 +20,24 @@
 @layer components {
   .curved-underline {
     @apply relative inline-block;
+    text-decoration: none;
   }
   
   .curved-underline::after {
     content: "";
-    @apply absolute -bottom-1 left-0 w-full h-[0.5em] bg-primary/10 rounded-full -z-10;
-    transform: scale(1.1) translateY(0.1em);
+    @apply absolute -bottom-2 left-0 w-full h-[0.6em] bg-primary/15 rounded-full -z-10;
+    transform: scale(1.05) translateY(0.2em);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .curved-underline:hover::after {
+    @apply bg-primary/25;
+    transform: scale(1.1) translateY(0.15em);
   }
 
   .gradient-heading {
     @apply bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent font-bold;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
   }
 }
 

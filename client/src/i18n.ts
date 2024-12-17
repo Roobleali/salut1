@@ -3,11 +3,105 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 
+const resources = {
+  en: {
+    translation: {
+      nav: {
+        industries: 'Industries',
+        modules: 'Modules',
+        resources: 'Resources',
+        solutions: 'Our Solutions',
+        about: 'About Us'
+      },
+      common: {
+        company_name: 'SalutTech',
+        learn_more: 'Learn More',
+        features: 'Features',
+        why_choose: 'Why Choose',
+        market_features: 'Market Features',
+        schedule_demo: 'Schedule Demo',
+        contact_sales: 'Contact Sales'
+      },
+      home: {
+        hero: {
+          title: 'Enterprise Solutions for Modern Business',
+          subtitle: 'Comprehensive software solutions tailored for your industry',
+          transform: 'Transform Your Enterprise',
+          unlock_growth: 'Unlock unprecedented growth with our suite of cutting-edge enterprise solutions.',
+          why_choose: 'Why Leading Companies Choose',
+          company_exp: 'Experience the perfect fusion of enterprise-grade reliability and modern innovation.',
+          platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.'
+        },
+        features: {
+          scalable: {
+            title: 'Infinite Scalability',
+            description: 'Future-proof architecture that grows with your ambitions. Scale from startup to enterprise with zero growing pains.'
+          },
+          integration: {
+            title: 'Perfect Integration',
+            description: 'Seamlessly connect your entire digital ecosystem. Unified operations across all platforms and systems.'
+          },
+          support: {
+            title: '24/7 Elite Support',
+            description: 'Expert assistance at your fingertips. Our dedicated team ensures your success around the clock.'
+          }
+        }
+      }
+    }
+  },
+  ro: {
+    translation: {
+      nav: {
+        industries: 'Industrii',
+        modules: 'Module',
+        resources: 'Resurse',
+        solutions: 'Soluțiile Noastre',
+        about: 'Despre Noi'
+      },
+      common: {
+        company_name: 'SalutTech',
+        learn_more: 'Află Mai Multe',
+        features: 'Funcționalități',
+        why_choose: 'De Ce Să Alegi',
+        market_features: 'Caracteristici de Piață',
+        schedule_demo: 'Programează Demo',
+        contact_sales: 'Contactează Vânzări'
+      },
+      home: {
+        hero: {
+          title: 'Soluții Enterprise pentru Afaceri Moderne',
+          subtitle: 'Soluții software complete adaptate pentru industria ta',
+          transform: 'Transformă-ți Întreprinderea',
+          unlock_growth: 'Deblochează o creștere fără precedent cu suita noastră de soluții enterprise de ultimă generație.',
+          why_choose: 'De Ce Companiile Lider Aleg',
+          company_exp: 'Experimentează fuziunea perfectă dintre fiabilitatea la nivel enterprise și inovația modernă.',
+          platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.'
+        },
+        features: {
+          scalable: {
+            title: 'Scalabilitate Infinită',
+            description: 'Arhitectură pregătită pentru viitor care crește odată cu ambițiile tale. Scalează de la startup la enterprise fără probleme.'
+          },
+          integration: {
+            title: 'Integrare Perfectă',
+            description: 'Conectează-ți perfect întregul ecosistem digital. Operațiuni unificate pe toate platformele și sistemele.'
+          },
+          support: {
+            title: 'Suport Elite 24/7',
+            description: 'Asistență expertă la îndemâna ta. Echipa noastră dedicată îți asigură succesul non-stop.'
+          }
+        }
+      }
+    }
+  }
+};
+
 i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
+    resources,
     fallbackLng: 'en',
     debug: true,
     interpolation: {

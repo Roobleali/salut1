@@ -13,8 +13,10 @@ export function Home() {
       <section className="py-24 bg-gradient-to-br from-background via-primary/5 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl curved-underline gradient-heading">
-              {t('home.hero.transform')}
+            <h2 className="text-4xl mb-4">
+              <span className="curved-underline gradient-heading">
+                {t('home.hero.transform')}
+              </span>
             </h2>
             <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
               {t('home.hero.unlock_growth')}
@@ -22,7 +24,7 @@ export function Home() {
           </div>
           
           <div className="grid md:grid-cols-2 gap-8">
-            {SERVICES.map((service) => (
+            {SERVICES?.map((service) => (
               <ServiceCard key={service.id} {...service} />
             ))}
           </div>
