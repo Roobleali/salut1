@@ -22,7 +22,7 @@ export function Navbar() {
           <NavigationMenu>
             <NavigationMenuList>
               {NAVIGATION_ITEMS.map((item) => (
-                <NavigationMenuItem key={item.title}>
+                <NavigationMenuItem key={item.title} className={`nav-${item.title.toLowerCase()}`}>
                   <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <ul className="grid w-[200px] gap-2 p-4">
@@ -48,7 +48,7 @@ export function Navbar() {
           </NavigationMenu>
 
           <Link href="/contact">
-            <a className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+            <a className="contact-sales inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
               Contact Sales
             </a>
           </Link>
