@@ -45,7 +45,7 @@ Output only valid JSON.`;
       messages: [{ role: "user", content: prompt }],
     });
 
-    const result = JSON.parse(response.content[0].value);
+    const result = JSON.parse(response.content[0].text);
     return {
       accuracy: result.accuracy,
       fluency: result.fluency,
@@ -85,7 +85,7 @@ export async function analyzeTranslationQuality(translations: Array<{ original: 
     return {
       scores,
       averageScore,
-      recommendations: recommendationsResponse.content[0].value
+      recommendations: recommendationsResponse.content[0].text
     };
   } catch (error) {
     console.error('Translation quality analysis error:', error);

@@ -130,6 +130,16 @@ const resources = {
             title: '24/7 Elite Support',
             description: 'Expert assistance at your fingertips. Our dedicated team ensures your success around the clock.'
           }
+        },
+        enterprise: {
+          solutions: {
+            title: "Enterprise Solutions",
+            description: "Complete enterprise management solutions",
+            modules: {
+              title: "Available Modules",
+              description: "Comprehensive suite of business modules"
+            }
+          }
         }
       },
       button: {
@@ -204,9 +214,19 @@ const resources = {
         project_management: 'Management Proiecte',
         hr: 'HR și Recrutare',
         ecommerce: 'Website și E-commerce',
-        pos: 'Point of Sale',
+        pos: 'Sistem de Vânzare',
         field_service: 'Servicii de Teren',
         marketing: 'Automatizare Marketing'
+      },
+      enterprise: {
+        solutions: {
+          title: "Soluții Enterprise",
+          description: "Soluții complete de management enterprise",
+          modules: {
+            title: "Module Disponibile",
+            description: "Suită completă de module pentru afaceri"
+          }
+        }
       },
       common: {
         company_name: 'SalutTech',
