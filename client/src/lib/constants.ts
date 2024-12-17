@@ -2,24 +2,22 @@ import { type NavigationItem } from "@/types";
 
 export const NAVIGATION_ITEMS = [
   {
-    title: "Industries",
+    title: "nav.industries",
     items: [
       {
-        title: "Manufacturing",
+        title: "nav.manufacturing",
         href: "/industries/manufacturing",
-        description: "End-to-end manufacturing management with MRP, production planning and quality control",
+        description: "industries.manufacturing.description",
       },
       {
-        title: "Real Estate",
+        title: "nav.real_estate",
         href: "/industries/real-estate",
-        description: "Complete property management solution with comprehensive features for leasing, maintenance, tenant portals, and full compliance with Romanian real estate regulations",
-        romanianTitle: "Imobiliare",
-        romanianDescription: "Soluție completă de administrare imobiliară cu funcționalități comprehensive pentru închiriere, întreținere și portaluri pentru chiriași",
+        description: "industries.real_estate.description",
       },
       {
-        title: "Retail & E-commerce",
+        title: "nav.retail",
         href: "/industries/retail",
-        description: "Integrated POS, inventory and e-commerce solutions for modern retail",
+        description: "industries.retail.description",
       },
       {
         title: "Professional Services",
