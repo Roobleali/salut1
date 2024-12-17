@@ -15,6 +15,7 @@ import { RealEstate } from "@/pages/industries/RealEstate";
 import { Healthcare } from "@/pages/industries/Healthcare";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { Glossary } from "@/pages/Glossary";
+import { GradientCustomizerPage } from "@/pages/GradientCustomizer";
 
 function App() {
   return (
@@ -42,6 +43,9 @@ function App() {
           
           {/* Glossary Route */}
           <Route path="/glossary" component={Glossary} />
+          
+          {/* Gradient Customizer Route */}
+          <Route path="/gradients" component={GradientCustomizerPage} />
         </Switch>
       </main>
       <Footer />
