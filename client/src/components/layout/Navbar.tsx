@@ -135,7 +135,7 @@ export function Navbar() {
               <div className="space-y-6">
                 {NAVIGATION_ITEMS.map((section) => (
                   <div key={section.title} className="pb-6 border-b border-border/50">
-                    <h3 className="text-sm font-semibold text-muted-foreground mb-4">{t(`nav.${section.title.toLowerCase()}`)}</h3>
+                    <h3 className="text-sm font-semibold text-muted-foreground mb-4">{section.title}</h3>
                     <ul className="grid gap-3">
                       {section.items.map((item) => (
                         <li key={item.title}>
