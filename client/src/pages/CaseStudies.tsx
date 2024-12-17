@@ -1,5 +1,6 @@
 import { CaseStudyCard } from "@/components/sections/CaseStudyCard";
-import { CASE_STUDIES } from "@/lib/constants";
+import { VideoGallery } from "@/components/sections/VideoGallery";
+import { CASE_STUDIES, VIDEO_TESTIMONIALS } from "@/lib/constants";
 
 export function CaseStudies() {
   return (
@@ -12,10 +13,18 @@ export function CaseStudies() {
           </p>
         </div>
 
-        <div className="space-y-16 case-studies-section">
-          {CASE_STUDIES.map((study) => (
-            <CaseStudyCard key={study.id} {...study} />
-          ))}
+        <div className="space-y-24">
+          <section>
+            <h2 className="text-3xl font-bold text-center mb-12">Video Testimonials</h2>
+            <VideoGallery testimonials={VIDEO_TESTIMONIALS} />
+          </section>
+
+          <section className="space-y-16 case-studies-section">
+            <h2 className="text-3xl font-bold text-center mb-12">Detailed Case Studies</h2>
+            {CASE_STUDIES.map((study) => (
+              <CaseStudyCard key={study.id} {...study} />
+            ))}
+          </section>
         </div>
       </div>
     </div>

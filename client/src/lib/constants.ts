@@ -77,6 +77,36 @@ export const SERVICES = [
   }
 ];
 
+export const VIDEO_TESTIMONIALS = [
+  {
+    id: "horeca-testimonial",
+    title: "Revolutionizing Restaurant Management",
+    clientName: "John Smith",
+    position: "Operations Director",
+    company: "FoodChain Co.",
+    videoUrl: "https://example.com/testimonials/foodchain.mp4",
+    thumbnail: "https://images.unsplash.com/photo-1552566626-52f8b828add9"
+  },
+  {
+    id: "manufacturing-testimonial",
+    title: "Smart Factory Success Story",
+    clientName: "Sarah Johnson",
+    position: "Plant Manager",
+    company: "TechManufacturing Inc.",
+    videoUrl: "https://example.com/testimonials/techmanufacturing.mp4",
+    thumbnail: "https://images.unsplash.com/photo-1565785755661-61aa53ca37c7"
+  },
+  {
+    id: "retail-testimonial",
+    title: "Multi-store Retail Transformation",
+    clientName: "Michael Chen",
+    position: "Retail Director",
+    company: "StyleMart",
+    videoUrl: "https://example.com/testimonials/stylemart.mp4",
+    thumbnail: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62"
+  }
+];
+
 export const CASE_STUDIES = [
   {
     id: "restaurant-chain",
