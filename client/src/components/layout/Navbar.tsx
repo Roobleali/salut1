@@ -13,36 +13,34 @@ import { Users, ShoppingCart, Package, Boxes, Factory, Calculator, ClipboardList
 import React from "react";
 
 const getIcon = (title: string, section: string) => {
-  if (section === "Industries") {
-    const industryIcons = {
-      "Manufacturing": <Factory className="w-4 h-4" />,
-      "Real Estate": <Building2 className="w-4 h-4" />,
-      "Retail & E-commerce": <ShoppingBag className="w-4 h-4" />,
-      "Professional Services": <Briefcase className="w-4 h-4" />,
-      "Construction": <Hammer className="w-4 h-4" />,
-      "Hospitality": <UtensilsCrossed className="w-4 h-4" />,
-      "Healthcare": <Stethoscope className="w-4 h-4" />,
-      "Education": <GraduationCap className="w-4 h-4" />
-    };
-    return industryIcons[title as keyof typeof industryIcons] || null;
-  } else if (section === "Enterprise") {
-    const enterpriseIcons = {
-      "CRM": <Users className="w-4 h-4" />,
-      "Sales": <ShoppingCart className="w-4 h-4" />,
-      "Purchase": <Package className="w-4 h-4" />,
-      "Inventory": <Boxes className="w-4 h-4" />,
-      "Manufacturing": <Factory className="w-4 h-4" />,
-      "Accounting": <Calculator className="w-4 h-4" />,
-      "Project Management": <ClipboardList className="w-4 h-4" />,
-      "HR & Recruitment": <UserPlus className="w-4 h-4" />,
-      "Website & E-commerce": <Globe className="w-4 h-4" />,
-      "Point of Sale": <ShoppingBag className="w-4 h-4" />,
-      "Field Service": <Truck className="w-4 h-4" />,
-      "Marketing Automation": <Megaphone className="w-4 h-4" />
-    };
-    return enterpriseIcons[title as keyof typeof enterpriseIcons] || null;
-  }
-  return null;
+  const icons = {
+    Industries: {
+      "Manufacturing": <Factory className="w-4 h-4" aria-hidden="true" />,
+      "Real Estate": <Building2 className="w-4 h-4" aria-hidden="true" />,
+      "Retail & E-commerce": <ShoppingBag className="w-4 h-4" aria-hidden="true" />,
+      "Professional Services": <Briefcase className="w-4 h-4" aria-hidden="true" />,
+      "Construction": <Hammer className="w-4 h-4" aria-hidden="true" />,
+      "Hospitality": <UtensilsCrossed className="w-4 h-4" aria-hidden="true" />,
+      "Healthcare": <Stethoscope className="w-4 h-4" aria-hidden="true" />,
+      "Education": <GraduationCap className="w-4 h-4" aria-hidden="true" />
+    },
+    Modules: {
+      "CRM": <Users className="w-4 h-4" aria-hidden="true" />,
+      "Sales": <ShoppingCart className="w-4 h-4" aria-hidden="true" />,
+      "Purchase": <Package className="w-4 h-4" aria-hidden="true" />,
+      "Inventory": <Boxes className="w-4 h-4" aria-hidden="true" />,
+      "Manufacturing": <Factory className="w-4 h-4" aria-hidden="true" />,
+      "Accounting": <Calculator className="w-4 h-4" aria-hidden="true" />,
+      "Project Management": <ClipboardList className="w-4 h-4" aria-hidden="true" />,
+      "HR & Recruitment": <UserPlus className="w-4 h-4" aria-hidden="true" />,
+      "Website & E-commerce": <Globe className="w-4 h-4" aria-hidden="true" />,
+      "Point of Sale": <ShoppingBag className="w-4 h-4" aria-hidden="true" />,
+      "Field Service": <Truck className="w-4 h-4" aria-hidden="true" />,
+      "Marketing Automation": <Megaphone className="w-4 h-4" aria-hidden="true" />
+    }
+  };
+  
+  return icons[section as keyof typeof icons]?.[title as string] || null;
 };
 
 export function Navbar() {
