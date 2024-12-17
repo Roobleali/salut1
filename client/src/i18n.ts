@@ -172,6 +172,14 @@ i18n
             select: 'Select Language',
             english: 'English',
             romanian: 'Romanian'
+          },
+          glossary: {
+            title: 'Industry Terminology Glossary',
+            description: 'Comprehensive guide to industry-specific terms and definitions',
+            search_placeholder: 'Search terms...',
+            all_industries: 'All Industries',
+            example: 'Example',
+            no_results: 'No terms found'
           }
         }
       },
@@ -333,6 +341,14 @@ i18n
             select: 'Selectează Limba',
             english: 'Engleză',
             romanian: 'Română'
+          },
+          glossary: {
+            title: 'Glosar de Terminologie Industrială',
+            description: 'Ghid complet al termenilor și definițiilor specifice industriei',
+            search_placeholder: 'Caută termeni...',
+            all_industries: 'Toate Industriile',
+            example: 'Exemplu',
+            no_results: 'Nu s-au găsit termeni'
           }
         }
       }
