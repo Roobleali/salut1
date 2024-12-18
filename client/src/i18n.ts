@@ -120,13 +120,16 @@ const resources = {
       },
       home: {
         hero: {
-          title: 'Enterprise Solutions for Modern Business',
-          subtitle: 'Comprehensive software solutions tailored for your industry',
-          transform: 'Transform Your Enterprise',
+          title: 'Unlock Your Business Potential',
+          subtitle: 'Comprehensive enterprise solutions tailored for your success',
+          transform: 'Transform',
           unlock_growth: 'Unlock unprecedented growth with our suite of cutting-edge enterprise solutions.',
           why_choose: 'Why Leading Companies Choose',
           company_exp: 'Experience the perfect fusion of enterprise-grade reliability and modern innovation.',
-          platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.'
+          platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.',
+          learn_more: 'Learn More',
+          get_started: 'Get Started Today',
+          description: 'Empower your business with our comprehensive suite of enterprise solutions.'
         },
         features: {
           title: 'Why Choose Our Platform',
@@ -264,13 +267,16 @@ const resources = {
       },
       home: {
         hero: {
-          title: 'Soluții Enterprise pentru Afaceri Moderne',
-          subtitle: 'Soluții software complete adaptate pentru industria ta',
-          transform: 'Transformă-ți Întreprinderea',
+          title: 'Deblochează Potențialul Afacerii Tale',
+          subtitle: 'Soluții enterprise complete adaptate pentru succesul tău',
+          transform: 'Transformă',
           unlock_growth: 'Deblochează o creștere fără precedent cu suita noastră de soluții enterprise de ultimă generație.',
           why_choose: 'De Ce Companiile Lider Aleg',
           company_exp: 'Experimentează fuziunea perfectă dintre fiabilitatea la nivel enterprise și inovația modernă.',
-          platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.'
+          platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.',
+          learn_more: 'Află Mai Multe',
+          get_started: 'Începe Astăzi',
+          description: 'Dezvoltă-ți afacerea cu suita noastră completă de soluții enterprise.'
         },
         features: {
           title: 'De Ce Să Alegi Platforma Noastră',
