@@ -2,56 +2,56 @@ import { type NavigationItem } from "@/types";
 
 export const NAVIGATION_ITEMS = [
   {
-    title: "Industries",
+    title: "industries",
     icon: "Factory",
     items: [
       {
-        title: "Manufacturing",
+        title: "manufacturing",
         icon: "Factory",
         href: "/industries/manufacturing",
-        description: "End-to-end manufacturing solutions with MRP and quality control",
+        description: "manufacturing_desc",
       },
       {
-        title: "Real Estate",
+        title: "real_estate",
         icon: "Building2",
         href: "/industries/real-estate",
-        description: "Complete property management and real estate solutions",
+        description: "real_estate_desc",
       },
       {
-        title: "Retail",
+        title: "retail",
         icon: "Store",
         href: "/industries/retail",
-        description: "Unified retail management across online and physical stores",
+        description: "retail_desc",
       },
       {
-        title: "Services",
+        title: "services",
         icon: "Briefcase",
         href: "/industries/services",
-        description: "Project management and service delivery solutions",
+        description: "services_desc",
       },
       {
-        title: "Construction",
+        title: "construction",
         icon: "Hammer",
         href: "/industries/construction",
-        description: "Construction project and resource management tools",
+        description: "construction_desc",
       },
       {
-        title: "Hospitality",
+        title: "hospitality",
         icon: "UtensilsCrossed",
         href: "/industries/hospitality",
-        description: "Hotel and restaurant management solutions",
+        description: "hospitality_desc",
       },
       {
-        title: "Healthcare",
+        title: "healthcare",
         icon: "Heart",
         href: "/industries/healthcare",
-        description: "Healthcare facility and patient management systems",
+        description: "healthcare_desc",
       },
       {
-        title: "Education",
+        title: "education",
         icon: "GraduationCap",
         href: "/industries/education",
-        description: "Educational institution management platform",
+        description: "education_desc",
       }
     ]
   },
