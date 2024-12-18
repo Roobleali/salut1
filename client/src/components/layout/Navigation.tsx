@@ -1,5 +1,4 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 import { NAVIGATION_ITEMS } from "@/lib/constants";
 import {
@@ -35,8 +34,6 @@ const ICONS = {
 };
 
 export function Navigation() {
-  const { t } = useTranslation();
-
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -48,7 +45,7 @@ export function Navigation() {
                 React.createElement(ICONS[item.icon as keyof typeof ICONS], {
                   className: "h-4 w-4",
                 })}
-              <span>{t(`menu.${item.title.toLowerCase()}`)}</span>
+              <span>{item.title}</span>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <div className="grid grid-cols-2 gap-4 p-4 w-[600px]">
@@ -64,10 +61,10 @@ export function Navigation() {
                           )}
                           <div>
                             <div className="text-sm font-medium">
-                              {t(`menu.${subItem.title.toLowerCase()}`)}
+                              {subItem.title}
                             </div>
                             <p className="text-sm text-muted-foreground">
-                              {t(`menu.${subItem.title.toLowerCase()}_desc`)}
+                              {subItem.description}
                             </p>
                           </div>
                         </div>
