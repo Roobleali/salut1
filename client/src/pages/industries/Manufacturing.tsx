@@ -42,12 +42,12 @@ export function Manufacturing() {
   };
 
   const romaniaSpecificFeatures = [
-    t('industries.manufacturing.romania_specific.features.efactura'),
-    t('industries.manufacturing.romania_specific.features.fiscal'),
-    t('industries.manufacturing.romania_specific.features.supply_chain'),
-    t('industries.manufacturing.romania_specific.features.eu_export'),
-    t('industries.manufacturing.romania_specific.features.labor'),
-    t('industries.manufacturing.romania_specific.features.inventory'),
+    'E-Factura Compliance and Integration',
+    'Romanian Fiscal Code Management',
+    'Local Supply Chain Optimization',
+    'EU Export Documentation',
+    'Romanian Labor Law Compliance',
+    'Regional Inventory Management'
   ];
 
   return (
@@ -94,7 +94,7 @@ export function Manufacturing() {
 
         <div className="max-w-3xl mx-auto mb-24">
           <h2 className="text-3xl font-bold text-center mb-12">
-            {t('industries.manufacturing.romania_specific.title')}
+            Romanian Market Features
           </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {romaniaSpecificFeatures.map((feature) => (
