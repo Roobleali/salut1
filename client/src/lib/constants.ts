@@ -2,56 +2,56 @@ import { type NavigationItem } from "@/types";
 
 export const NAVIGATION_ITEMS = [
   {
-    title: "industries",
+    title: "menu.industries",
     icon: "Factory",
     items: [
       {
-        title: "manufacturing",
+        title: "menu.manufacturing",
         icon: "Factory",
         href: "/industries/manufacturing",
-        description: "manufacturing_desc",
+        description: "menu.manufacturing_desc",
       },
       {
-        title: "real_estate",
+        title: "menu.real_estate",
         icon: "Building2",
         href: "/industries/real-estate",
-        description: "real_estate_desc",
+        description: "menu.real_estate_desc",
       },
       {
-        title: "retail",
+        title: "menu.retail",
         icon: "Store",
         href: "/industries/retail",
-        description: "retail_desc",
+        description: "menu.retail_desc",
       },
       {
-        title: "services",
+        title: "menu.services",
         icon: "Briefcase",
         href: "/industries/services",
-        description: "services_desc",
+        description: "menu.services_desc",
       },
       {
-        title: "construction",
+        title: "menu.construction",
         icon: "Hammer",
         href: "/industries/construction",
-        description: "construction_desc",
+        description: "menu.construction_desc",
       },
       {
-        title: "hospitality",
+        title: "menu.hospitality",
         icon: "UtensilsCrossed",
         href: "/industries/hospitality",
-        description: "hospitality_desc",
+        description: "menu.hospitality_desc",
       },
       {
-        title: "healthcare",
+        title: "menu.healthcare",
         icon: "Heart",
         href: "/industries/healthcare",
-        description: "healthcare_desc",
+        description: "menu.healthcare_desc",
       },
       {
-        title: "education",
+        title: "menu.education",
         icon: "GraduationCap",
         href: "/industries/education",
-        description: "education_desc",
+        description: "menu.education_desc",
       }
     ]
   },
