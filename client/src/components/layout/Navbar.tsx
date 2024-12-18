@@ -89,17 +89,17 @@ export function Navbar() {
   const { t } = useTranslation();
 
   return (
-    <header className="fixed top-0 w-full bg-white/95 backdrop-blur z-[100] border-b">
+    <header className="fixed top-0 w-full bg-white/95 backdrop-blur z-50 border-b">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between relative">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/">
-            <a className="font-bold text-2xl text-primary relative z-[101]">SalutTech</a>
+            <a className="font-bold text-2xl text-primary">SalutTech</a>
           </Link>
 
           {/* Mobile Menu Toggle */}
           <button
-            className="lg:hidden p-2 text-gray-600 hover:text-primary relative z-[101]"
+            className="lg:hidden p-2 text-gray-600 hover:text-primary"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={isMobileMenuOpen}
@@ -163,7 +163,7 @@ export function Navbar() {
 
           {/* Desktop Contact Button */}
           <div className="hidden lg:flex items-center gap-4">
-            <LanguageSelector />
+            {/* <LanguageSelector /> */}
             <Link href="/contact">
               <a className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
                 {t("contact.sales")}
@@ -176,14 +176,14 @@ export function Navbar() {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          "lg:hidden fixed bg-white inset-0 top-16 z-[99] overflow-y-auto overscroll-contain transition-transform duration-300 ease-in-out shadow-xl",
+          "lg:hidden fixed  inset-0 top-16 bg-background/95 backdrop-blur-sm z-50 transition-transform duration-300 ease-in-out",
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
-        <div className="container mx-auto px-4 py-6 space-y-6">
+        <div className="container  z-50 bg-white mx-auto px-4 py-6 space-y-6">
           {NAVIGATION_ITEMS.map((section) => (
             <div key={section.title} className="pb-6 border-b">
-              <h3 className="text-base font-semibold text-primary mb-4">
+              <h3 className="text-sm font-semibold text-muted-foreground mb-4">
                 {section.title}
               </h3>
               <ul className="grid gap-3">
@@ -191,17 +191,15 @@ export function Navbar() {
                   <li key={item.title}>
                     <Link href={item.href}>
                       <a
-                        className="block p-3 rounded-lg hover:bg-primary/5 transition-colors"
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        <div className="flex items-center gap-3">
-                          {getIcon(item.title, section.title)}
-                          <div>
-                            <span className="font-medium text-gray-900">{item.title}</span>
-                            <p className="text-sm text-gray-600 mt-1">
-                              {item.description}
-                            </p>
-                          </div>
+                        {getIcon(item.title, section.title)}
+                        <div>
+                          <span className="font-medium">{item.title}</span>
+                          <p className="text-sm text-muted-foreground">
+                            {item.description}
+                          </p>
                         </div>
                       </a>
                     </Link>
@@ -211,8 +209,8 @@ export function Navbar() {
             </div>
           ))}
 
-          <div className="sticky bottom-0 bg-white/95 backdrop-blur-sm p-4 border-t space-y-4">
-            <LanguageSelector />
+          <div className="sticky bottom-0 bg-white p-4 border-t">
+            {/* <LanguageSelector /> */}
             <Link href="/contact">
               <a>
                 <Button size="lg" className="w-full">
