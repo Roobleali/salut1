@@ -334,12 +334,12 @@ export const CASE_STUDIES = [
       "Real-time market analytics access"
     ],
     testimonial: {
-      quote: "The integrated software solution has transformed how we manage our real estate operations. The centralized platform has significantly improved our efficiency and client service capabilities.",
-      author: "Managing Director",
-      position: "Managing Director",
+      quote: "The integrated software solution has revolutionized our real estate operations. The centralized platform has dramatically improved our efficiency and enabled us to better serve our growing client base in Bucharest.",
+      author: "Grigore Anica",
+      position: "CEO",
       company: "Brec Business & Real Estate Consulting SRL"
     },
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa"
+    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747070/jpoxov3qweqyokkfeyco.png"
   },
   
   {
@@ -357,9 +357,9 @@ export const CASE_STUDIES = [
       "Improved financial reporting accuracy"
     ],
     testimonial: {
-      quote: "The property management software has transformed our operations. We've significantly improved efficiency and tenant satisfaction while reducing manual work.",
-      author: "Property Director",
-      position: "Director of Operations",
+      quote: "The property management software has revolutionized how we handle utility tracking and tenant communications. The automation features have significantly improved our operational efficiency and tenant satisfaction levels.",
+      author: "Costel Ciobanu",
+      position: "CEO",
       company: "Codavinci SRL"
     },
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab"
