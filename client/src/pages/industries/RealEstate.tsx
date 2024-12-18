@@ -9,39 +9,64 @@ import { Link } from "wouter";
 const FEATURES = [
   {
     title: "Property Management",
-    description: "Complete management of your property portfolio with detailed tracking and reporting",
-    romanianTitle: "Gestiune Proprietăți",
-    romanianDescription: "Administrare completă a portofoliului cu urmărire detaliată și raportare",
+    description: "Complete portfolio management and administration",
+    features: [
+      "Property Units Tracking",
+      "Tenant Management",
+      "Occupancy Reports",
+      "Contracts & Documents",
+      "Project Management"
+    ]
   },
   {
-    title: "Tenant Management",
-    description: "Comprehensive tenant relationship management and communication system",
-    romanianTitle: "Management Chiriași",
-    romanianDescription: "Sistem complet de gestionare a relațiilor cu chiriașii și comunicare",
+    title: "Project Tracking",
+    description: "Comprehensive property administration",
+    features: [
+      "Project Monitoring",
+      "Unit Records",
+      "Customization Options",
+      "Contract Management"
+    ]
   },
   {
-    title: "Maintenance Tracking",
-    description: "Automated maintenance request system with supplier management",
-    romanianTitle: "Mentenanță",
-    romanianDescription: "Sistem automatizat de solicitări de întreținere cu gestionarea furnizorilor",
+    title: "Sales & Rentals",
+    description: "Sales and rental administration",
+    features: [
+      "Contract Generation",
+      "Renewal Tracking",
+      "Document Management",
+      "Maintenance"
+    ]
   },
   {
-    title: "Utilities Management",
-    description: "Automated utility billing and consumption tracking",
-    romanianTitle: "Utilități",
-    romanianDescription: "Facturare automată a utilităților și urmărirea consumului",
+    title: "Property Maintenance",
+    description: "Building maintenance management",
+    features: [
+      "Ticket System",
+      "Vendor Management",
+      "Scheduled Maintenance",
+      "Utilities"
+    ]
   },
   {
-    title: "Financial Management",
-    description: "Complete financial management with Romanian e-Factura integration",
-    romanianTitle: "Contabilitate",
-    romanianDescription: "Gestiune financiară completă cu integrare e-Factura",
+    title: "Utilities & Billing",
+    description: "Utility cost management",
+    features: [
+      "Meter Reading",
+      "Automated Billing",
+      "Custom Rates",
+      "Financial Reports"
+    ]
   },
   {
-    title: "Document Management",
-    description: "Automated document generation and processing compliant with Romanian legislation",
-    romanianTitle: "Gestiune Documente",
-    romanianDescription: "Generare și procesare automată documente conform legislației",
+    title: "CRM & Clients",
+    description: "Customer relationship management",
+    features: [
+      "Client Profiles",
+      "Interaction History",
+      "Tasks & Follow-ups",
+      "Automated Communication"
+    ]
   },
 ];
 
@@ -110,13 +135,17 @@ export function RealEstate() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
           {FEATURES.map((feature) => (
-            <Card key={feature.title}>
+            <Card key={feature.title} className="h-full">
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
-                <div className="mt-4 pt-4 border-t">
-                  <h4 className="font-medium text-sm mb-1">{feature.romanianTitle}</h4>
-                  <p className="text-sm text-gray-500">{feature.romanianDescription}</p>
+                <p className="text-gray-600 mb-4">{feature.description}</p>
+                <div className="space-y-2">
+                  {feature.features.map((subFeature, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                      <span className="text-sm text-gray-700">{subFeature}</span>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
