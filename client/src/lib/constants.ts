@@ -1,48 +1,78 @@
 import { type NavigationItem } from "@/types";
 
-export const NAVIGATION_ITEMS = [
+import { 
+  Factory, 
+  Building2, 
+  ShoppingBag, 
+  Briefcase, 
+  HardHat, 
+  UtensilsCrossed, 
+  Stethoscope,
+  GraduationCap 
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+interface NavigationItem {
+  title: string;
+  items: {
+    title: string;
+    href: string;
+    description: string;
+    icon?: LucideIcon;
+  }[];
+}
+
+export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     title: "nav.industries",
     items: [
       {
         title: "nav.manufacturing",
         href: "/industries/manufacturing",
-        description: "industries.manufacturing.description",
+        description: "nav.manufacturing.description",
+        icon: Factory,
       },
       {
         title: "nav.real_estate",
         href: "/industries/real-estate",
-        description: "industries.real_estate.description",
+        description: "nav.real_estate.description",
+        icon: Building2,
       },
       {
         title: "nav.retail",
         href: "/industries/retail",
-        description: "industries.retail.description",
+        description: "nav.retail.description",
+        icon: ShoppingBag,
       },
       {
-        title: "Professional Services",
+        title: "nav.services",
         href: "/industries/services",
-        description: "Project management and service tracking for consulting firms",
+        description: "nav.services.description",
+        icon: Briefcase,
       },
       {
-        title: "Construction",
+        title: "nav.construction",
         href: "/industries/construction",
-        description: "Project cost estimation, material tracking and regulatory compliance",
+        description: "nav.construction.description",
+        icon: HardHat,
       },
       {
-        title: "Hospitality",
+        title: "nav.hospitality",
         href: "/industries/hospitality",
-        description: "Reservation systems and guest experience management solutions",
+        description: "nav.hospitality.description",
+        icon: UtensilsCrossed,
       },
       {
-        title: "Healthcare",
+        title: "nav.healthcare",
         href: "/industries/healthcare",
-        description: "Patient management and medical inventory tracking systems",
+        description: "nav.healthcare.description",
+        icon: Stethoscope,
       },
       {
-        title: "Education",
+        title: "nav.education",
         href: "/industries/education",
-        description: "Student information and educational resource management",
+        description: "nav.education.description",
+        icon: GraduationCap,
       }
     ]
   },
