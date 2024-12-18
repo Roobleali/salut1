@@ -176,14 +176,14 @@ export function Navbar() {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          "lg:hidden fixed bg-white/98 inset-0 top-16 z-[99] backdrop-blur-md overflow-y-auto overscroll-contain transition-transform duration-300 ease-in-out",
+          "lg:hidden fixed bg-white inset-0 top-16 z-[99] overflow-y-auto overscroll-contain transition-transform duration-300 ease-in-out shadow-xl",
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
         <div className="container mx-auto px-4 py-6 space-y-6">
           {NAVIGATION_ITEMS.map((section) => (
             <div key={section.title} className="pb-6 border-b">
-              <h3 className="text-sm font-semibold text-muted-foreground mb-4">
+              <h3 className="text-base font-semibold text-primary mb-4">
                 {section.title}
               </h3>
               <ul className="grid gap-3">
@@ -191,15 +191,17 @@ export function Navbar() {
                   <li key={item.title}>
                     <Link href={item.href}>
                       <a
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors"
+                        className="block p-3 rounded-lg hover:bg-primary/5 transition-colors"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        {getIcon(item.title, section.title)}
-                        <div>
-                          <span className="font-medium">{item.title}</span>
-                          <p className="text-sm text-muted-foreground">
-                            {item.description}
-                          </p>
+                        <div className="flex items-center gap-3">
+                          {getIcon(item.title, section.title)}
+                          <div>
+                            <span className="font-medium text-gray-900">{item.title}</span>
+                            <p className="text-sm text-gray-600 mt-1">
+                              {item.description}
+                            </p>
+                          </div>
                         </div>
                       </a>
                     </Link>
@@ -209,7 +211,7 @@ export function Navbar() {
             </div>
           ))}
 
-          <div className="sticky bottom-0 bg-white p-4 border-t">
+          <div className="sticky bottom-0 bg-white/95 backdrop-blur-sm p-4 border-t space-y-4">
             <LanguageSelector />
             <Link href="/contact">
               <a>
