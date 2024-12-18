@@ -341,25 +341,7 @@ export const CASE_STUDIES = [
     },
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa"
   },
-  {
-    id: "manufacturing-automation",
-    title: "Smart Factory Implementation",
-    industry: "Manufacturing",
-    challenge: "Manual production tracking leading to inefficiencies",
-    solution: "Deployed end-to-end manufacturing automation system",
-    results: [
-      "40% improvement in production efficiency",
-      "Real-time inventory tracking",
-      "Reduced production errors by 60%"
-    ],
-    testimonial: {
-      quote: "The manufacturing software from SalutTech has revolutionized our production process. We've seen tremendous improvements in efficiency and quality control.",
-      author: "Sarah Johnson",
-      position: "Plant Manager",
-      company: "TechManufacturing Inc."
-    },
-    image: "https://images.unsplash.com/photo-1565785755661-61aa53ca37c7"
-  },
+  
   {
     id: "retail-pos",
     title: "Multi-store Retail Solution",
