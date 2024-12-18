@@ -101,10 +101,6 @@ const resources = {
         field_service: 'Field Service',
         marketing: 'Marketing Automation'
       },
-      learn: {
-        knowledge: "Knowledge",
-        enlightenment: "is Enlightenment"
-      },
       common: {
         company_name: 'SalutTech',
         learn_more: 'Learn More',
@@ -124,38 +120,13 @@ const resources = {
       },
       home: {
         hero: {
-          title: 'Unlock Your Business Potential',
-          subtitle: 'Comprehensive enterprise solutions tailored for your success',
-          transform: 'Transform',
+          title: 'Enterprise Solutions for Modern Business',
+          subtitle: 'Comprehensive software solutions tailored for your industry',
+          transform: 'Transform Your Enterprise',
           unlock_growth: 'Unlock unprecedented growth with our suite of cutting-edge enterprise solutions.',
           why_choose: 'Why Leading Companies Choose',
           company_exp: 'Experience the perfect fusion of enterprise-grade reliability and modern innovation.',
-          platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.',
-          learn_more: 'Learn More',
-          get_started: 'Get Started Today',
-          description: 'Empower your business with our comprehensive suite of enterprise solutions.'
-        },
-        industries: {
-          title: 'Industry Solutions',
-          subtitle: 'Tailored solutions for your specific industry needs',
-          manufacturing: {
-            title: 'Manufacturing Excellence',
-            description: 'Advanced manufacturing solutions with integrated MRP and quality control',
-            features: {
-              planning: 'Production Planning',
-              quality: 'Quality Control',
-              automation: 'Process Automation'
-            }
-          },
-          real_estate: {
-            title: 'Real Estate Management',
-            description: 'Complete property management and real estate solutions',
-            features: {
-              property: 'Property Portfolio Management',
-              finance: 'Financial Analytics',
-              compliance: 'Regulatory Compliance'
-            }
-          }
+          platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.'
         },
         features: {
           title: 'Why Choose Our Platform',
@@ -194,10 +165,6 @@ const resources = {
   },
   ro: {
     translation: {
-      learn: {
-        knowledge: "Cunoașterea",
-        enlightenment: "este Iluminare"
-      },
       common: {
         company_name: 'SalutTech',
         learn_more: 'Află Mai Multe',
@@ -297,38 +264,13 @@ const resources = {
       },
       home: {
         hero: {
-          title: 'Deblochează Potențialul Afacerii Tale',
-          subtitle: 'Soluții enterprise complete adaptate pentru succesul tău',
-          transform: 'Transformă',
+          title: 'Soluții Enterprise pentru Afaceri Moderne',
+          subtitle: 'Soluții software complete adaptate pentru industria ta',
+          transform: 'Transformă-ți Întreprinderea',
           unlock_growth: 'Deblochează o creștere fără precedent cu suita noastră de soluții enterprise de ultimă generație.',
           why_choose: 'De Ce Companiile Lider Aleg',
           company_exp: 'Experimentează fuziunea perfectă dintre fiabilitatea la nivel enterprise și inovația modernă.',
-          platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.',
-          learn_more: 'Află Mai Multe',
-          get_started: 'Începe Astăzi',
-          description: 'Dezvoltă-ți afacerea cu suita noastră completă de soluții enterprise.'
-        },
-        industries: {
-          title: 'Soluții pe Industrii',
-          subtitle: 'Soluții personalizate pentru nevoile specifice industriei tale',
-          manufacturing: {
-            title: 'Excelență în Producție',
-            description: 'Soluții avansate de producție cu MRP integrat și control al calității',
-            features: {
-              planning: 'Planificarea Producției',
-              quality: 'Controlul Calității',
-              automation: 'Automatizarea Proceselor'
-            }
-          },
-          real_estate: {
-            title: 'Management Imobiliar',
-            description: 'Soluții complete pentru managementul proprietăților și imobiliare',
-            features: {
-              property: 'Gestionarea Portofoliului de Proprietăți',
-              finance: 'Analiză Financiară',
-              compliance: 'Conformitate Regulamentară'
-            }
-          }
+          platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.'
         },
         features: {
           title: 'De Ce Să Alegi Platforma Noastră',
