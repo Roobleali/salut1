@@ -20,29 +20,29 @@ export const NAVIGATION_ITEMS = [
         description: "industries.retail.description",
       },
       {
-        title: "Professional Services",
+        title: "nav.services",
         href: "/industries/services",
-        description: "Project management and service tracking for consulting firms",
+        description: "industries.services.description",
       },
       {
-        title: "Construction",
+        title: "nav.construction",
         href: "/industries/construction",
-        description: "Project cost estimation, material tracking and regulatory compliance",
+        description: "industries.construction.description",
       },
       {
-        title: "Hospitality",
+        title: "nav.hospitality",
         href: "/industries/hospitality",
-        description: "Reservation systems and guest experience management solutions",
+        description: "industries.hospitality.description",
       },
       {
-        title: "Healthcare",
+        title: "nav.healthcare",
         href: "/industries/healthcare",
-        description: "Patient management and medical inventory tracking systems",
+        description: "industries.healthcare.description",
       },
       {
-        title: "Education",
+        title: "nav.education",
         href: "/industries/education",
-        description: "Student information and educational resource management",
+        description: "industries.education.description",
       }
     ]
   },
