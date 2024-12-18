@@ -121,17 +121,6 @@ const resources = {
           }
         }
       },
-      contact: {
-        sales: 'Contact Sales',
-        title: 'Contact Us',
-        subtitle: 'Get in touch with our team',
-        form: {
-          name: 'Your Name',
-          email: 'Email Address',
-          message: 'Message',
-          submit: 'Send Message'
-        }
-      },
       home: {
         hero: {
           title: 'Enterprise Solutions for Modern Business',
@@ -140,9 +129,15 @@ const resources = {
           unlock_growth: 'Unlock unprecedented growth with our suite of cutting-edge enterprise solutions.',
           why_choose: 'Why Leading Companies Choose',
           company_exp: 'Experience the perfect fusion of enterprise-grade reliability and modern innovation.',
-          platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.'
+          platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.',
+          cta: {
+            primary: 'Get Started Today',
+            secondary: 'Schedule a Demo'
+          }
         },
         features: {
+          title: 'Why Choose Our Platform',
+          subtitle: 'Designed for modern enterprises',
           scalable: {
             title: 'Infinite Scalability',
             description: 'Future-proof architecture that grows with your ambitions. Scale from startup to enterprise with zero growing pains.'
@@ -155,6 +150,27 @@ const resources = {
             title: '24/7 Elite Support',
             description: 'Expert assistance at your fingertips. Our dedicated team ensures your success around the clock.'
           }
+        },
+        benefits: {
+          title: 'Benefits',
+          subtitle: 'Transform your business with our solutions',
+          list: [
+            'Improved efficiency and productivity',
+            'Reduced operational costs',
+            'Enhanced customer satisfaction',
+            'Real-time analytics and insights'
+          ]
+        }
+      },
+      contact: {
+        sales: 'Contact Sales',
+        title: 'Contact Us',
+        subtitle: 'Get in touch with our team',
+        form: {
+          name: 'Your Name',
+          email: 'Email Address',
+          message: 'Message',
+          submit: 'Send Message'
         }
       },
       button: {
@@ -205,16 +221,6 @@ const resources = {
         field_service: 'Servicii de Teren',
         marketing: 'Automatizare Marketing'
       },
-      enterprise: {
-        solutions: {
-          title: "Soluții Enterprise",
-          description: "Soluții complete de management enterprise",
-          modules: {
-            title: "Module Disponibile",
-            description: "Suită completă de module pentru afaceri"
-          }
-        }
-      },
       common: {
         company_name: 'SalutTech',
         learn_more: 'Află Mai Multe',
@@ -231,6 +237,16 @@ const resources = {
         testimonials: 'Testimoniale',
         case_studies: 'Studii de Caz',
         about_us: 'Despre Noi'
+      },
+      enterprise: {
+        solutions: {
+          title: "Soluții Enterprise",
+          description: "Soluții complete de management enterprise",
+          modules: {
+            title: "Module Disponibile",
+            description: "Suită completă de module pentru afaceri"
+          }
+        }
       },
       industries: {
         services: {
@@ -291,17 +307,6 @@ const resources = {
           }
         }
       },
-      contact: {
-        sales: 'Contactează Vânzări',
-        title: 'Contactează-ne',
-        subtitle: 'Intră în legătură cu echipa noastră',
-        form: {
-          name: 'Numele Tău',
-          email: 'Adresa de Email',
-          message: 'Mesaj',
-          submit: 'Trimite Mesaj'
-        }
-      },
       home: {
         hero: {
           title: 'Soluții Enterprise pentru Afaceri Moderne',
@@ -310,9 +315,15 @@ const resources = {
           unlock_growth: 'Deblochează o creștere fără precedent cu suita noastră de soluții enterprise de ultimă generație.',
           why_choose: 'De Ce Companiile Lider Aleg',
           company_exp: 'Experimentează fuziunea perfectă dintre fiabilitatea la nivel enterprise și inovația modernă.',
-          platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.'
+          platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.',
+          cta: {
+            primary: 'Începe Astăzi',
+            secondary: 'Programează o Demonstrație'
+          }
         },
         features: {
+          title: 'De Ce Să Alegi Platforma Noastră',
+          subtitle: 'Concepută pentru întreprinderile moderne',
           scalable: {
             title: 'Scalabilitate Infinită',
             description: 'Arhitectură pregătită pentru viitor care crește odată cu ambițiile tale. Scalează de la startup la enterprise fără probleme.'
@@ -325,6 +336,27 @@ const resources = {
             title: 'Suport Elite 24/7',
             description: 'Asistență expertă la îndemâna ta. Echipa noastră dedicată îți asigură succesul non-stop.'
           }
+        },
+        benefits: {
+          title: 'Beneficii',
+          subtitle: 'Transformă-ți afacerea cu soluțiile noastre',
+          list: [
+            'Eficiență și productivitate îmbunătățită',
+            'Costuri operaționale reduse',
+            'Satisfacție crescută a clienților',
+            'Analize și informații în timp real'
+          ]
+        }
+      },
+      contact: {
+        sales: 'Contactează Vânzări',
+        title: 'Contactează-ne',
+        subtitle: 'Intră în legătură cu echipa noastră',
+        form: {
+          name: 'Numele Tău',
+          email: 'Adresa de Email',
+          message: 'Mesaj',
+          submit: 'Trimite Mesaj'
         }
       },
       button: {
