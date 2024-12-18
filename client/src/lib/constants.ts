@@ -2,56 +2,47 @@ import { type NavigationItem } from "@/types";
 
 export const NAVIGATION_ITEMS = [
   {
-    title: "Industries",
-    icon: "Factory",
+    title: "nav.industries",
     items: [
       {
-        title: "Manufacturing",
-        icon: "Factory",
+        title: "nav.manufacturing",
         href: "/industries/manufacturing",
-        description: "End-to-end manufacturing solutions with MRP and quality control",
+        description: "industries.manufacturing.description",
       },
       {
-        title: "Real Estate",
-        icon: "Building2",
+        title: "nav.real_estate",
         href: "/industries/real-estate",
-        description: "Complete property management and real estate solutions",
+        description: "industries.real_estate.description",
       },
       {
-        title: "Retail & E-commerce",
-        icon: "Store",
+        title: "nav.retail",
         href: "/industries/retail",
-        description: "Unified retail management across online and physical stores",
+        description: "industries.retail.description",
       },
       {
         title: "Professional Services",
-        icon: "Briefcase",
         href: "/industries/services",
-        description: "Project management and service delivery solutions",
+        description: "Project management and service tracking for consulting firms",
       },
       {
         title: "Construction",
-        icon: "Hammer",
         href: "/industries/construction",
-        description: "Construction project and resource management tools",
+        description: "Project cost estimation, material tracking and regulatory compliance",
       },
       {
         title: "Hospitality",
-        icon: "UtensilsCrossed",
         href: "/industries/hospitality",
-        description: "Hotel and restaurant management solutions",
+        description: "Reservation systems and guest experience management solutions",
       },
       {
         title: "Healthcare",
-        icon: "Heart",
         href: "/industries/healthcare",
-        description: "Healthcare facility and patient management systems",
+        description: "Patient management and medical inventory tracking systems",
       },
       {
         title: "Education",
-        icon: "GraduationCap",
         href: "/industries/education",
-        description: "Educational institution management platform",
+        description: "Student information and educational resource management",
       }
     ]
   },
@@ -132,12 +123,6 @@ export const NAVIGATION_ITEMS = [
         title: "Case Studies",
         href: "/case-studies",
         description: "Success stories from our clients",
-      },
-      {
-        title: "Social Responsibility",
-        href: "/social-responsibility",
-        description: "Our commitment to sustainable and ethical practices",
-        icon: "Heart"
       }
     ]
   }
@@ -190,17 +175,31 @@ export const COMPANY_MILESTONES = [
 
 export const SERVICES = [
   {
+    id: "horeca",
+    title: "HORECA Solutions",
+    description: "Complete management solutions for hotels, restaurants, and catering businesses with integrated modules for seamless operations",
+    image: "https://images.unsplash.com/photo-1556742504-16b083241fab",
+    features: [
+      "Integrated Reservation System",
+      "Real-time Kitchen Display System",
+      "Smart Inventory Management",
+      "Staff Scheduling & Management",
+      "Customer Relationship Management",
+      "Financial Analytics & Reporting"
+    ]
+  },
+  {
     id: "manufacturing",
-    title: "services.manufacturing.title",
-    description: "services.manufacturing.description",
+    title: "Manufacturing Software",
+    description: "Enterprise-grade manufacturing solution with advanced production planning and real-time monitoring capabilities",
     image: "https://images.unsplash.com/photo-1580983230712-f7d0f878bcc4",
     features: [
-      "services.manufacturing.features.planning",
-      "services.manufacturing.features.quality",
-      "services.manufacturing.features.supply",
-      "services.manufacturing.features.cost",
-      "services.manufacturing.features.maintenance",
-      "services.manufacturing.features.compliance"
+      "Advanced Production Planning",
+      "Quality Control & Assurance",
+      "Supply Chain Optimization",
+      "Cost & Resource Tracking",
+      "Maintenance Management",
+      "Compliance & Documentation"
     ]
   },
   {

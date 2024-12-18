@@ -1,67 +1,11 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import Backend from 'i18next-http-backend';
 
 const resources = {
   en: {
     translation: {
-      menu: {
-        industries: 'Industries',
-        modules: 'Modules',
-        resources: 'Resources',
-        manufacturing: 'Manufacturing',
-        manufacturing_desc: 'End-to-end manufacturing solutions with MRP and quality control',
-        real_estate: 'Real Estate',
-        real_estate_desc: 'Complete property management and real estate solutions',
-        retail: 'Retail & E-commerce',
-        retail_desc: 'Unified retail management across online and physical stores',
-        services: 'Professional Services',
-        services_desc: 'Project management and service delivery solutions',
-        construction: 'Construction',
-        construction_desc: 'Construction project and resource management tools',
-        hospitality: 'Hospitality',
-        hospitality_desc: 'Hotel and restaurant management solutions',
-        healthcare: 'Healthcare',
-        healthcare_desc: 'Healthcare facility and patient management systems',
-        education: 'Education',
-        education_desc: 'Educational institution management platform',
-        social_responsibility: 'Social Responsibility',
-        social_responsibility_desc: 'Our commitment to sustainable and ethical practices'
-      },
-      social_responsibility: {
-        title: 'Social Responsibility',
-        subtitle: 'Building a Better Future Together',
-        environmental: {
-          title: 'Environmental Impact',
-          description: 'Our commitment to sustainable practices and reducing environmental footprint',
-          features: [
-            'Green Technology Solutions',
-            'Sustainable Development',
-            'Environmental Conservation',
-            'Energy Efficiency'
-          ]
-        },
-        community: {
-          title: 'Community Engagement',
-          description: 'Supporting and empowering local communities through technology',
-          features: [
-            'Educational Programs',
-            'Local Business Support',
-            'Digital Inclusion',
-            'Community Development'
-          ]
-        },
-        ethics: {
-          title: 'Business Ethics',
-          description: 'Maintaining high standards of ethical business practices',
-          features: [
-            'Transparent Operations',
-            'Fair Business Practices',
-            'Data Privacy',
-            'Ethical AI Development'
-          ]
-        }
-      },
       nav: {
         industries: 'Industries',
         modules: 'Modules',
@@ -70,38 +14,19 @@ const resources = {
         about: 'About Us',
         manufacturing: 'Manufacturing',
         real_estate: 'Real Estate',
+        healthcare: 'Healthcare',
         retail: 'Retail & E-commerce',
         services: 'Professional Services',
         construction: 'Construction',
         hospitality: 'Hospitality',
-        healthcare: 'Healthcare',
-        education: 'Education',
-        social_responsibility: 'Social Responsibility' // Added social responsibility to navigation
+        education: 'Education'
       },
       menu: {
-        industries: 'Industries',
-        manufacturing: 'Manufacturing',
-        manufacturing_desc: 'End-to-end manufacturing solutions with MRP and quality control',
-        real_estate: 'Real Estate',
-        real_estate_desc: 'Complete property management and real estate solutions',
-        retail: 'Retail & E-commerce',
-        retail_desc: 'Unified retail management across online and physical stores',
-        services: 'Professional Services',
-        services_desc: 'Project management and service delivery solutions',
-        construction: 'Construction',
-        construction_desc: 'Construction project and resource management tools',
-        hospitality: 'Hospitality',
-        hospitality_desc: 'Hotel and restaurant management solutions',
-        healthcare: 'Healthcare',
-        healthcare_desc: 'Healthcare facility and patient management systems',
-        education: 'Education',
-        education_desc: 'Educational institution management platform',
-        social_responsibility: 'Social Responsibility',
-        social_responsibility_desc: 'Our commitment to sustainable and ethical practices',
         crm: 'CRM',
         sales: 'Sales',
         purchase: 'Purchase',
         inventory: 'Inventory',
+        manufacturing: 'Manufacturing',
         accounting: 'Accounting',
         project_management: 'Project Management',
         hr: 'HR & Recruitment',
@@ -127,6 +52,61 @@ const resources = {
         case_studies: 'Case Studies',
         about_us: 'About Us'
       },
+      contact: {
+        sales: 'Contact Sales',
+        title: 'Contact Us',
+        subtitle: 'Get in touch with our team',
+        form: {
+          name: 'Your Name',
+          email: 'Email Address',
+          message: 'Message',
+          submit: 'Send Message'
+        }
+      },
+      industries: {
+        manufacturing: {
+          title: 'Advanced Manufacturing Solutions',
+          subtitle: 'Comprehensive manufacturing solutions tailored for industries',
+          description: 'Complete manufacturing management with MRP, planning and quality control',
+          badge: 'Manufacturing Solutions',
+          features: {
+            title: 'Key Features',
+            planning: {
+              title: 'Production Planning',
+              description: 'Advanced MRP system with real-time production scheduling'
+            },
+            quality: {
+              title: 'Quality Control',
+              description: 'Comprehensive quality management and testing protocols'
+            },
+            supply: {
+              title: 'Supply Chain',
+              description: 'End-to-end supply chain visibility and optimization'
+            },
+            cost: {
+              title: 'Cost Management',
+              description: 'Detailed cost tracking and financial analytics'
+            },
+            compliance: {
+              title: 'Compliance',
+              description: 'Automated compliance with industry standards'
+            },
+            documents: {
+              title: 'E-Document Integration',
+              description: 'Seamless integration with Romanian e-Factura system'
+            }
+          },
+          market_features: {
+            title: 'Romanian Market Features',
+            efactura: 'E-Factura compliance and integration',
+            fiscal: 'Romanian fiscal code management',
+            supply_chain: 'Local supply chain optimization',
+            eu_export: 'EU export documentation',
+            labor: 'Romanian labor law compliance',
+            inventory: 'Regional inventory management'
+          }
+        }
+      },
       home: {
         hero: {
           title: 'Enterprise Solutions for Modern Business',
@@ -138,8 +118,6 @@ const resources = {
           platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.'
         },
         features: {
-          title: 'Why Choose Our Platform',
-          subtitle: 'Designed for modern enterprises',
           scalable: {
             title: 'Infinite Scalability',
             description: 'Future-proof architecture that grows with your ambitions. Scale from startup to enterprise with zero growing pains.'
@@ -152,50 +130,103 @@ const resources = {
             title: '24/7 Elite Support',
             description: 'Expert assistance at your fingertips. Our dedicated team ensures your success around the clock.'
           }
-        }
-      },
-      services: {
-        title: 'Our Services',
-        subtitle: 'Explore our comprehensive suite of enterprise solutions',
-        manufacturing: {
-          title: 'Manufacturing Software',
-          description: 'Enterprise-grade manufacturing solution with advanced production planning and real-time monitoring capabilities',
-          features: {
-            planning: 'Advanced Production Planning',
-            quality: 'Quality Control & Assurance',
-            supply: 'Supply Chain Optimization',
-            cost: 'Cost & Resource Tracking',
-            maintenance: 'Maintenance Management',
-            compliance: 'Compliance & Documentation'
+        },
+        enterprise: {
+          solutions: {
+            title: "Enterprise Solutions",
+            description: "Complete enterprise management solutions",
+            modules: {
+              title: "Available Modules",
+              description: "Comprehensive suite of business modules"
+            }
           }
         }
+      },
+      button: {
+        demo: 'Schedule Demo',
+        learn_more: 'Learn More',
+        contact_sales: 'Contact Sales',
+        get_started: 'Get Started',
+        submit: 'Submit',
+        send: 'Send',
+        view_more: 'View More',
+        try_now: 'Try Now'
+      },
+      language: {
+        select: 'Select Language',
+        english: 'English',
+        romanian: 'Romanian'
+      },
+      gradients: {
+        customizer: {
+          title: 'Gradient Customizer',
+          page_title: 'Gradient Customization Toolkit',
+          page_description: 'Create beautiful, customized gradients for your enterprise application',
+          preset: 'Preset',
+          select_preset: 'Select a preset',
+          start_color: 'Start Color',
+          end_color: 'End Color',
+          direction: 'Direction',
+          preview: 'Gradient Preview',
+          copy_classes: 'Copy Gradient Classes'
+        },
+        directions: {
+          right: 'Right',
+          bottom_right: 'Bottom Right',
+          top_right: 'Top Right',
+          bottom: 'Bottom'
+        }
+      },
+      glossary: {
+        title: 'Industry Terminology Glossary',
+        description: 'Comprehensive guide to industry-specific terms and definitions',
+        search_placeholder: 'Search terms...',
+        all_industries: 'All Industries',
+        example: 'Example',
+        no_results: 'No terms found'
       }
     }
   },
   ro: {
     translation: {
-      menu: {
+      nav: {
         industries: 'Industrii',
         modules: 'Module',
         resources: 'Resurse',
+        solutions: 'Soluțiile Noastre',
+        about: 'Despre Noi',
         manufacturing: 'Producție',
-        manufacturing_desc: 'Soluții complete de producție cu MRP și control al calității',
         real_estate: 'Imobiliare',
-        real_estate_desc: 'Soluții complete pentru managementul proprietăților și imobiliare',
-        retail: 'Retail și E-commerce',
-        retail_desc: 'Management unificat pentru magazine online și fizice',
-        services: 'Servicii Profesionale',
-        services_desc: 'Soluții pentru managementul proiectelor și livrarea serviciilor',
-        construction: 'Construcții',
-        construction_desc: 'Instrumente pentru managementul proiectelor și resurselor în construcții',
-        hospitality: 'Ospitalitate',
-        hospitality_desc: 'Soluții pentru managementul hotelurilor și restaurantelor',
         healthcare: 'Sănătate',
-        healthcare_desc: 'Sisteme de management pentru facilități medicale și pacienți',
-        education: 'Educație',
-        education_desc: 'Platformă de management pentru instituții educaționale',
-        social_responsibility: 'Responsabilitate Socială',
-        social_responsibility_desc: 'Angajamentul nostru pentru practici durabile și etice'
+        retail: 'Retail și E-commerce',
+        services: 'Servicii Profesionale',
+        construction: 'Construcții',
+        hospitality: 'Ospitalitate',
+        education: 'Educație'
+      },
+      menu: {
+        crm: 'CRM',
+        sales: 'Vânzări',
+        purchase: 'Achiziții',
+        inventory: 'Inventar',
+        manufacturing: 'Producție',
+        accounting: 'Contabilitate',
+        project_management: 'Management Proiecte',
+        hr: 'HR și Recrutare',
+        ecommerce: 'Website și E-commerce',
+        pos: 'Sistem de Vânzare',
+        field_service: 'Servicii de Teren',
+        marketing: 'Automatizare Marketing'
+      },
+      enterprise: {
+        solutions: {
+          title: "Soluții Enterprise",
+          description: "Soluții complete de management enterprise",
+          modules: {
+            title: "Module Disponibile",
+            description: "Suită completă de module pentru afaceri"
+          }
+        }
       },
       common: {
         company_name: 'SalutTech',
@@ -214,85 +245,60 @@ const resources = {
         case_studies: 'Studii de Caz',
         about_us: 'Despre Noi'
       },
-      social_responsibility: {
-        title: 'Responsabilitate Socială',
-        subtitle: 'Construim Împreună un Viitor Mai Bun',
-        environmental: {
-          title: 'Impact asupra Mediului',
-          description: 'Angajamentul nostru față de practici sustenabile și reducerea amprentei de mediu',
-          features: [
-            'Soluții Tehnologice Verzi',
-            'Dezvoltare Durabilă',
-            'Conservarea Mediului',
-            'Eficiență Energetică'
-          ]
-        },
-        community: {
-          title: 'Implicare în Comunitate',
-          description: 'Sprijinirea și împuternicirea comunităților locale prin tehnologie',
-          features: [
-            'Programe Educaționale',
-            'Suport pentru Afaceri Locale',
-            'Incluziune Digitală',
-            'Dezvoltarea Comunității'
-          ]
-        },
-        ethics: {
-          title: 'Etică în Afaceri',
-          description: 'Menținerea unor standarde înalte de practici etice în afaceri',
-          features: [
-            'Operațiuni Transparente',
-            'Practici Comerciale Echitabile',
-            'Confidențialitatea Datelor',
-            'Dezvoltare Etică a AI'
-          ]
+      contact: {
+        sales: 'Contactează Vânzări',
+        title: 'Contactează-ne',
+        subtitle: 'Intră în legătură cu echipa noastră',
+        form: {
+          name: 'Numele Tău',
+          email: 'Adresa de Email',
+          message: 'Mesaj',
+          submit: 'Trimite Mesaj'
         }
       },
-      nav: {
-        industries: 'Industrii',
-        modules: 'Module',
-        resources: 'Resurse',
-        solutions: 'Soluțiile Noastre',
-        about: 'Despre Noi',
-        manufacturing: 'Producție',
-        real_estate: 'Imobiliare',
-        retail: 'Retail și E-commerce',
-        services: 'Servicii Profesionale',
-        construction: 'Construcții',
-        hospitality: 'Ospitalitate',
-        healthcare: 'Sănătate',
-        education: 'Educație',
-        social_responsibility: 'Responsabilitate Socială' // Added social responsibility to navigation
-      },
-      menu: {
-        industries: 'Industrii',
-        manufacturing: 'Producție',
-        manufacturing_desc: 'Soluții complete de producție cu MRP și control al calității',
-        real_estate: 'Imobiliare',
-        real_estate_desc: 'Soluții complete pentru managementul proprietăților și imobiliare',
-        retail: 'Retail și E-commerce',
-        retail_desc: 'Management unificat pentru magazine online și fizice',
-        services: 'Servicii Profesionale',
-        services_desc: 'Soluții pentru managementul proiectelor și livrarea serviciilor',
-        construction: 'Construcții',
-        construction_desc: 'Instrumente pentru managementul proiectelor și resurselor în construcții',
-        hospitality: 'Ospitalitate',
-        hospitality_desc: 'Soluții pentru managementul hotelurilor și restaurantelor',
-        healthcare: 'Sănătate',
-        healthcare_desc: 'Sisteme de management pentru facilități medicale și pacienți',
-        education: 'Educație',
-        education_desc: 'Platformă de management pentru instituții educaționale',
-        crm: 'CRM',
-        sales: 'Vânzări',
-        purchase: 'Achiziții',
-        inventory: 'Inventar',
-        accounting: 'Contabilitate',
-        project_management: 'Management Proiecte',
-        hr: 'HR și Recrutare',
-        ecommerce: 'Website și E-commerce',
-        pos: 'Punct de Vânzare',
-        field_service: 'Servicii de Teren',
-        marketing: 'Automatizare Marketing'
+      industries: {
+        manufacturing: {
+          title: 'Soluții Avansate pentru Producție',
+          subtitle: 'Soluții complete de producție adaptate industriilor din România',
+          description: 'Management complet al producției cu MRP, planificare și control al calității',
+          badge: 'Soluții pentru Producție',
+          features: {
+            title: 'Funcționalități Principale',
+            planning: {
+              title: 'Planificarea Producției',
+              description: 'Sistem MRP avansat cu programare în timp real'
+            },
+            quality: {
+              title: 'Controlul Calității',
+              description: 'Management comprehensiv al calității și protocoale de testare'
+            },
+            supply: {
+              title: 'Lanț de Aprovizionare',
+              description: 'Vizibilitate și optimizare end-to-end a lanțului de aprovizionare'
+            },
+            cost: {
+              title: 'Managementul Costurilor',
+              description: 'Urmărirea detaliată a costurilor și analiză financiară'
+            },
+            compliance: {
+              title: 'Conformitate',
+              description: 'Conformitate automatizată cu standardele industriei'
+            },
+            documents: {
+              title: 'Integrare E-Documente',
+              description: 'Integrare perfectă cu sistemul e-Factura românesc'
+            }
+          },
+          market_features: {
+            title: 'Funcționalități pentru Piața Românească',
+            efactura: 'Conformitate și integrare e-Factura',
+            fiscal: 'Gestionarea codului fiscal românesc',
+            supply_chain: 'Optimizare lanț de aprovizionare local',
+            eu_export: 'Documentație export UE',
+            labor: 'Conformitate cu legislația muncii',
+            inventory: 'Management inventar regional'
+          }
+        }
       },
       home: {
         hero: {
@@ -305,8 +311,6 @@ const resources = {
           platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.'
         },
         features: {
-          title: 'De Ce Să Alegi Platforma Noastră',
-          subtitle: 'Concepută pentru întreprinderile moderne',
           scalable: {
             title: 'Scalabilitate Infinită',
             description: 'Arhitectură pregătită pentru viitor care crește odată cu ambițiile tale. Scalează de la startup la enterprise fără probleme.'
@@ -321,32 +325,61 @@ const resources = {
           }
         }
       },
-      services: {
-        title: 'Serviciile Noastre',
-        subtitle: 'Explorează suita noastră completă de soluții enterprise',
-        manufacturing: {
-          title: 'Software pentru Producție',
-          description: 'Soluție de producție la nivel enterprise cu planificare avansată și monitorizare în timp real',
-          features: {
-            planning: 'Planificare Avansată a Producției',
-            quality: 'Control și Asigurarea Calității',
-            supply: 'Optimizarea Lanțului de Aprovizionare',
-            cost: 'Urmărirea Costurilor și Resurselor',
-            maintenance: 'Management Mentenanță',
-            compliance: 'Conformitate și Documentație'
-          }
+      button: {
+        demo: 'Programează Demo',
+        learn_more: 'Află Mai Multe',
+        contact_sales: 'Contactează Vânzări',
+        get_started: 'Începe Acum',
+        submit: 'Trimite',
+        send: 'Trimite',
+        view_more: 'Vezi Mai Mult',
+        try_now: 'Încearcă Acum'
+      },
+      language: {
+        select: 'Selectează Limba',
+        english: 'Engleză',
+        romanian: 'Română'
+      },
+      gradients: {
+        customizer: {
+          title: 'Personalizare Gradient',
+          page_title: 'Instrument de Personalizare Gradient',
+          page_description: 'Creează gradiente frumoase și personalizate pentru aplicația ta enterprise',
+          preset: 'Presetare',
+          select_preset: 'Selectează o presetare',
+          start_color: 'Culoare de Start',
+          end_color: 'Culoare de Final',
+          direction: 'Direcție',
+          preview: 'Previzualizare Gradient',
+          copy_classes: 'Copiază Clasele Gradient'
+        },
+        directions: {
+          right: 'Dreapta',
+          bottom_right: 'Dreapta Jos',
+          top_right: 'Dreapta Sus',
+          bottom: 'Jos'
         }
+      },
+      glossary: {
+        title: 'Glosar de Terminologie Industrială',
+        description: 'Ghid complet al termenilor și definițiilor specifice industriei',
+        search_placeholder: 'Caută termeni...',
+        all_industries: 'Toate Industriile',
+        example: 'Exemplu',
+        no_results: 'Nu s-au găsit termeni'
       }
     }
   }
 };
 
 i18n
+  .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
     fallbackLng: 'en',
+    debug: true,
     interpolation: {
       escapeValue: false,
     }
