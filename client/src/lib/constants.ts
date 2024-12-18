@@ -246,13 +246,13 @@ export const SERVICES = [
 
 export const VIDEO_TESTIMONIALS = [
   {
-    id: "horeca-testimonial",
-    title: "Revolutionizing Restaurant Management",
-    clientName: "John Smith",
-    position: "Operations Director",
-    company: "FoodChain Co.",
-    videoUrl: "https://example.com/testimonials/foodchain.mp4",
-    thumbnail: "https://images.unsplash.com/photo-1552566626-52f8b828add9"
+    id: "gourmet-coffee-testimonial",
+    title: "From Legacy Systems to Modern Enterprise Solution",
+    clientName: "Sherif Abdala",
+    position: "CEO",
+    company: "Gourmet Coffee",
+    videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/f_auto:video,q_auto/m59amoxkynlzn8jy7ows",
+    thumbnail: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747105/ttt1fmtpdnxfv3gagevm.png"
   },
   {
     id: "manufacturing-testimonial",
@@ -276,23 +276,25 @@ export const VIDEO_TESTIMONIALS = [
 
 export const CASE_STUDIES = [
   {
-    id: "restaurant-chain",
-    title: "National Restaurant Chain Transformation",
-    industry: "HORECA",
-    challenge: "Managing 50+ locations with outdated systems",
-    solution: "Implemented integrated HORECA management system",
+    id: "gourmet-coffee",
+    title: "Gourmet Coffee's Digital Transformation Journey",
+    industry: "Manufacturing & HORECA",
+    challenge: "Struggling with fragmented systems including Winmentor and SagaSoft, facing issues with tracking, manufacturing control, and reporting capabilities",
+    solution: "Implemented comprehensive enterprise solution with integrated manufacturing and business management capabilities",
     results: [
-      "30% reduction in inventory waste",
-      "25% increase in customer satisfaction",
-      "Streamlined operations across all locations"
+      "Streamlined production tracking and control",
+      "Unified system replacing multiple legacy software",
+      "Enhanced reporting and analytics capabilities",
+      "Improved inventory management efficiency",
+      "Real-time production monitoring"
     ],
     testimonial: {
-      quote: "SalutTech's solution transformed how we manage our restaurant chain. The system is intuitive and has significantly improved our efficiency.",
-      author: "John Smith",
-      position: "Operations Director",
-      company: "FoodChain Co."
+      quote: "The transition from our legacy systems to SalutTech's solution has revolutionized how we manage our coffee production and distribution operations. The integrated platform has given us the control and visibility we needed.",
+      author: "Sherif Abdala",
+      position: "CEO",
+      company: "Gourmet Coffee"
     },
-    image: "https://images.unsplash.com/photo-1552566626-52f8b828add9"
+    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747105/ttt1fmtpdnxfv3gagevm.png"
   },
   {
     id: "manufacturing-automation",
