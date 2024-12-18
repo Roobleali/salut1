@@ -5,21 +5,28 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   en: {
     translation: {
-      navigation: {
+      menu: {
         industries: 'Industries',
         modules: 'Modules',
         resources: 'Resources',
-        solutions: 'Our Solutions',
-        about: 'About Us',
         manufacturing: 'Manufacturing',
+        manufacturing_desc: 'End-to-end manufacturing solutions with MRP and quality control',
         real_estate: 'Real Estate',
+        real_estate_desc: 'Complete property management and real estate solutions',
         retail: 'Retail & E-commerce',
+        retail_desc: 'Unified retail management across online and physical stores',
         services: 'Professional Services',
+        services_desc: 'Project management and service delivery solutions',
         construction: 'Construction',
+        construction_desc: 'Construction project and resource management tools',
         hospitality: 'Hospitality',
+        hospitality_desc: 'Hotel and restaurant management solutions',
         healthcare: 'Healthcare',
+        healthcare_desc: 'Healthcare facility and patient management systems',
         education: 'Education',
-        social_responsibility: 'Social Responsibility'
+        education_desc: 'Educational institution management platform',
+        social_responsibility: 'Social Responsibility',
+        social_responsibility_desc: 'Our commitment to sustainable and ethical practices'
       },
       social_responsibility: {
         title: 'Social Responsibility',
@@ -167,6 +174,29 @@ const resources = {
   },
   ro: {
     translation: {
+      menu: {
+        industries: 'Industrii',
+        modules: 'Module',
+        resources: 'Resurse',
+        manufacturing: 'Producție',
+        manufacturing_desc: 'Soluții complete de producție cu MRP și control al calității',
+        real_estate: 'Imobiliare',
+        real_estate_desc: 'Soluții complete pentru managementul proprietăților și imobiliare',
+        retail: 'Retail și E-commerce',
+        retail_desc: 'Management unificat pentru magazine online și fizice',
+        services: 'Servicii Profesionale',
+        services_desc: 'Soluții pentru managementul proiectelor și livrarea serviciilor',
+        construction: 'Construcții',
+        construction_desc: 'Instrumente pentru managementul proiectelor și resurselor în construcții',
+        hospitality: 'Ospitalitate',
+        hospitality_desc: 'Soluții pentru managementul hotelurilor și restaurantelor',
+        healthcare: 'Sănătate',
+        healthcare_desc: 'Sisteme de management pentru facilități medicale și pacienți',
+        education: 'Educație',
+        education_desc: 'Platformă de management pentru instituții educaționale',
+        social_responsibility: 'Responsabilitate Socială',
+        social_responsibility_desc: 'Angajamentul nostru pentru practici durabile și etice'
+      },
       common: {
         company_name: 'SalutTech',
         learn_more: 'Află Mai Multe',
