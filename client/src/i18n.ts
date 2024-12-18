@@ -19,7 +19,31 @@ const resources = {
         services: 'Professional Services',
         construction: 'Construction',
         hospitality: 'Hospitality',
-        education: 'Education'
+        education: 'Education',
+        manufacturing: {
+          description: 'End-to-end manufacturing management with MRP, production planning and quality control'
+        },
+        real_estate: {
+          description: 'Complete property management solution for leasing, maintenance, and tenant portals'
+        },
+        retail: {
+          description: 'Integrated POS, inventory and e-commerce solutions for modern retail'
+        },
+        services: {
+          description: 'Project management and service tracking for consulting firms'
+        },
+        construction: {
+          description: 'Project cost estimation, material tracking and regulatory compliance'
+        },
+        hospitality: {
+          description: 'Reservation systems and guest experience management solutions'
+        },
+        healthcare: {
+          description: 'Patient management and medical inventory tracking systems'
+        },
+        education: {
+          description: 'Student information and educational resource management'
+        }
       },
       menu: {
         crm: 'CRM',
@@ -192,7 +216,31 @@ const resources = {
         services: 'Servicii Profesionale',
         construction: 'Construcții',
         hospitality: 'Ospitalitate',
-        education: 'Educație'
+        education: 'Educație',
+        manufacturing: {
+          description: 'Management complet al producției cu MRP, planificare și control al calității'
+        },
+        real_estate: {
+          description: 'Soluție completă de administrare imobiliară pentru închiriere, întreținere și portaluri pentru chiriași'
+        },
+        retail: {
+          description: 'Soluții integrate POS, inventar și e-commerce pentru retail modern'
+        },
+        services: {
+          description: 'Management de proiect și urmărirea serviciilor pentru firme de consultanță'
+        },
+        construction: {
+          description: 'Estimarea costurilor proiectelor, urmărirea materialelor și conformitate cu reglementările'
+        },
+        hospitality: {
+          description: 'Sisteme de rezervări și management al experienței oaspeților'
+        },
+        healthcare: {
+          description: 'Managementul pacienților și urmărirea inventarului medical'
+        },
+        education: {
+          description: 'Managementul informațiilor studenților și al resurselor educaționale'
+        }
       },
       menu: {
         crm: 'CRM',
