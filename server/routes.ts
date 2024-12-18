@@ -26,6 +26,28 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+  // Contact form submission endpoint
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const { name, email, company, industry, otherIndustry, goal, otherGoal, message } = req.body;
+
+      // Log the form submission for now (we'll add email functionality later)
+      console.log('New Implementation Request:', {
+        name,
+        email,
+        company,
+        industry: industry === 'other' ? otherIndustry : industry,
+        goal: goal === 'other' ? otherGoal : goal,
+        message
+      });
+
+      res.json({ message: "Request received successfully" });
+    } catch (error) {
+      console.error("Contact form submission error:", error);
+      res.status(500).json({ error: "Failed to process request" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
