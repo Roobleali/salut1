@@ -89,17 +89,17 @@ export function Navbar() {
   const { t } = useTranslation();
 
   return (
-    <header className="fixed top-0 w-full bg-white/95 backdrop-blur z-50 border-b">
+    <header className="fixed top-0 w-full bg-white/95 backdrop-blur z-[100] border-b">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between relative">
           {/* Logo */}
           <Link href="/">
-            <a className="font-bold text-2xl text-primary">SalutTech</a>
+            <a className="font-bold text-2xl text-primary relative z-[101]">SalutTech</a>
           </Link>
 
           {/* Mobile Menu Toggle */}
           <button
-            className="lg:hidden p-2 text-gray-600 hover:text-primary"
+            className="lg:hidden p-2 text-gray-600 hover:text-primary relative z-[101]"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={isMobileMenuOpen}
@@ -176,7 +176,7 @@ export function Navbar() {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          "lg:hidden fixed bg-white inset-0 top-16 z-50 bg-background/95 backdrop-blur-sm z-50 transition-transform duration-300 ease-in-out",
+          "lg:hidden fixed bg-white/98 inset-0 top-16 z-[99] backdrop-blur-md overflow-y-auto overscroll-contain transition-transform duration-300 ease-in-out",
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
