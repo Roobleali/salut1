@@ -5,6 +5,56 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   en: {
     translation: {
+      navigation: {
+        industries: 'Industries',
+        modules: 'Modules',
+        resources: 'Resources',
+        solutions: 'Our Solutions',
+        about: 'About Us',
+        manufacturing: 'Manufacturing',
+        real_estate: 'Real Estate',
+        retail: 'Retail & E-commerce',
+        services: 'Professional Services',
+        construction: 'Construction',
+        hospitality: 'Hospitality',
+        healthcare: 'Healthcare',
+        education: 'Education',
+        social_responsibility: 'Social Responsibility'
+      },
+      social_responsibility: {
+        title: 'Social Responsibility',
+        subtitle: 'Building a Better Future Together',
+        environmental: {
+          title: 'Environmental Impact',
+          description: 'Our commitment to sustainable practices and reducing environmental footprint',
+          features: [
+            'Green Technology Solutions',
+            'Sustainable Development',
+            'Environmental Conservation',
+            'Energy Efficiency'
+          ]
+        },
+        community: {
+          title: 'Community Engagement',
+          description: 'Supporting and empowering local communities through technology',
+          features: [
+            'Educational Programs',
+            'Local Business Support',
+            'Digital Inclusion',
+            'Community Development'
+          ]
+        },
+        ethics: {
+          title: 'Business Ethics',
+          description: 'Maintaining high standards of ethical business practices',
+          features: [
+            'Transparent Operations',
+            'Fair Business Practices',
+            'Data Privacy',
+            'Ethical AI Development'
+          ]
+        }
+      },
       nav: {
         industries: 'Industries',
         modules: 'Modules',
@@ -18,14 +68,31 @@ const resources = {
         construction: 'Construction',
         hospitality: 'Hospitality',
         healthcare: 'Healthcare',
-        education: 'Education'
+        education: 'Education',
+        social_responsibility: 'Social Responsibility' // Added social responsibility to navigation
       },
       menu: {
+        industries: 'Industries',
+        manufacturing: 'Manufacturing',
+        manufacturing_desc: 'End-to-end manufacturing solutions with MRP and quality control',
+        real_estate: 'Real Estate',
+        real_estate_desc: 'Complete property management and real estate solutions',
+        retail: 'Retail & E-commerce',
+        retail_desc: 'Unified retail management across online and physical stores',
+        services: 'Professional Services',
+        services_desc: 'Project management and service delivery solutions',
+        construction: 'Construction',
+        construction_desc: 'Construction project and resource management tools',
+        hospitality: 'Hospitality',
+        hospitality_desc: 'Hotel and restaurant management solutions',
+        healthcare: 'Healthcare',
+        healthcare_desc: 'Healthcare facility and patient management systems',
+        education: 'Education',
+        education_desc: 'Educational institution management platform',
         crm: 'CRM',
         sales: 'Sales',
         purchase: 'Purchase',
         inventory: 'Inventory',
-        manufacturing: 'Manufacturing',
         accounting: 'Accounting',
         project_management: 'Project Management',
         hr: 'HR & Recruitment',
@@ -98,35 +165,6 @@ const resources = {
   },
   ro: {
     translation: {
-      nav: {
-        industries: 'Industrii',
-        modules: 'Module',
-        resources: 'Resurse',
-        solutions: 'Soluțiile Noastre',
-        about: 'Despre Noi',
-        manufacturing: 'Producție',
-        real_estate: 'Imobiliare',
-        retail: 'Retail și E-commerce',
-        services: 'Servicii Profesionale',
-        construction: 'Construcții',
-        hospitality: 'Ospitalitate',
-        healthcare: 'Sănătate',
-        education: 'Educație'
-      },
-      menu: {
-        crm: 'CRM',
-        sales: 'Vânzări',
-        purchase: 'Achiziții',
-        inventory: 'Inventar',
-        manufacturing: 'Producție',
-        accounting: 'Contabilitate',
-        project_management: 'Management Proiecte',
-        hr: 'HR și Recrutare',
-        ecommerce: 'Website și E-commerce',
-        pos: 'Punct de Vânzare',
-        field_service: 'Servicii de Teren',
-        marketing: 'Automatizare Marketing'
-      },
       common: {
         company_name: 'SalutTech',
         learn_more: 'Află Mai Multe',
@@ -143,6 +181,86 @@ const resources = {
         testimonials: 'Testimoniale',
         case_studies: 'Studii de Caz',
         about_us: 'Despre Noi'
+      },
+      social_responsibility: {
+        title: 'Responsabilitate Socială',
+        subtitle: 'Construim Împreună un Viitor Mai Bun',
+        environmental: {
+          title: 'Impact asupra Mediului',
+          description: 'Angajamentul nostru față de practici sustenabile și reducerea amprentei de mediu',
+          features: [
+            'Soluții Tehnologice Verzi',
+            'Dezvoltare Durabilă',
+            'Conservarea Mediului',
+            'Eficiență Energetică'
+          ]
+        },
+        community: {
+          title: 'Implicare în Comunitate',
+          description: 'Sprijinirea și împuternicirea comunităților locale prin tehnologie',
+          features: [
+            'Programe Educaționale',
+            'Suport pentru Afaceri Locale',
+            'Incluziune Digitală',
+            'Dezvoltarea Comunității'
+          ]
+        },
+        ethics: {
+          title: 'Etică în Afaceri',
+          description: 'Menținerea unor standarde înalte de practici etice în afaceri',
+          features: [
+            'Operațiuni Transparente',
+            'Practici Comerciale Echitabile',
+            'Confidențialitatea Datelor',
+            'Dezvoltare Etică a AI'
+          ]
+        }
+      },
+      nav: {
+        industries: 'Industrii',
+        modules: 'Module',
+        resources: 'Resurse',
+        solutions: 'Soluțiile Noastre',
+        about: 'Despre Noi',
+        manufacturing: 'Producție',
+        real_estate: 'Imobiliare',
+        retail: 'Retail și E-commerce',
+        services: 'Servicii Profesionale',
+        construction: 'Construcții',
+        hospitality: 'Ospitalitate',
+        healthcare: 'Sănătate',
+        education: 'Educație',
+        social_responsibility: 'Responsabilitate Socială' // Added social responsibility to navigation
+      },
+      menu: {
+        industries: 'Industrii',
+        manufacturing: 'Producție',
+        manufacturing_desc: 'Soluții complete de producție cu MRP și control al calității',
+        real_estate: 'Imobiliare',
+        real_estate_desc: 'Soluții complete pentru managementul proprietăților și imobiliare',
+        retail: 'Retail și E-commerce',
+        retail_desc: 'Management unificat pentru magazine online și fizice',
+        services: 'Servicii Profesionale',
+        services_desc: 'Soluții pentru managementul proiectelor și livrarea serviciilor',
+        construction: 'Construcții',
+        construction_desc: 'Instrumente pentru managementul proiectelor și resurselor în construcții',
+        hospitality: 'Ospitalitate',
+        hospitality_desc: 'Soluții pentru managementul hotelurilor și restaurantelor',
+        healthcare: 'Sănătate',
+        healthcare_desc: 'Sisteme de management pentru facilități medicale și pacienți',
+        education: 'Educație',
+        education_desc: 'Platformă de management pentru instituții educaționale',
+        crm: 'CRM',
+        sales: 'Vânzări',
+        purchase: 'Achiziții',
+        inventory: 'Inventar',
+        accounting: 'Contabilitate',
+        project_management: 'Management Proiecte',
+        hr: 'HR și Recrutare',
+        ecommerce: 'Website și E-commerce',
+        pos: 'Punct de Vânzare',
+        field_service: 'Servicii de Teren',
+        marketing: 'Automatizare Marketing'
       },
       home: {
         hero: {
