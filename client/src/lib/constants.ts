@@ -2,56 +2,56 @@ import { type NavigationItem } from "@/types";
 
 export const NAVIGATION_ITEMS = [
   {
-    title: "menu.industries",
+    title: "Industries",
     icon: "Factory",
     items: [
       {
-        title: "menu.manufacturing",
+        title: "Manufacturing",
         icon: "Factory",
         href: "/industries/manufacturing",
-        description: "menu.manufacturing_desc",
+        description: "End-to-end manufacturing solutions with MRP and quality control",
       },
       {
-        title: "menu.real_estate",
+        title: "Real Estate",
         icon: "Building2",
         href: "/industries/real-estate",
-        description: "menu.real_estate_desc",
+        description: "Complete property management and real estate solutions",
       },
       {
-        title: "menu.retail",
+        title: "Retail",
         icon: "Store",
         href: "/industries/retail",
-        description: "menu.retail_desc",
+        description: "Unified retail management across online and physical stores",
       },
       {
-        title: "menu.services",
+        title: "Services",
         icon: "Briefcase",
         href: "/industries/services",
-        description: "menu.services_desc",
+        description: "Project management and service delivery solutions",
       },
       {
-        title: "menu.construction",
+        title: "Construction",
         icon: "Hammer",
         href: "/industries/construction",
-        description: "menu.construction_desc",
+        description: "Construction project and resource management tools",
       },
       {
-        title: "menu.hospitality",
+        title: "Hospitality",
         icon: "UtensilsCrossed",
         href: "/industries/hospitality",
-        description: "menu.hospitality_desc",
+        description: "Hotel and restaurant management solutions",
       },
       {
-        title: "menu.healthcare",
+        title: "Healthcare",
         icon: "Heart",
         href: "/industries/healthcare",
-        description: "menu.healthcare_desc",
+        description: "Healthcare facility and patient management systems",
       },
       {
-        title: "menu.education",
+        title: "Education",
         icon: "GraduationCap",
         href: "/industries/education",
-        description: "menu.education_desc",
+        description: "Educational institution management platform",
       }
     ]
   },
