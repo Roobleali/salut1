@@ -298,26 +298,48 @@ export const CASE_STUDIES = [
     image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747105/ttt1fmtpdnxfv3gagevm.png"
   },
   {
-    id: "property-management",
-    title: "Real Estate Agency Revolutionizes Property Management",
-    industry: "Real Estate",
-    challenge: "Manual utility tracking and payment collections led to errors and inefficiencies. Multiple disconnected systems caused delays in payment processing and poor tenant communication.",
-    solution: "Implemented an integrated property management solution with automated utility tracking, payment processing, and tenant communication features",
+    id: "dolcenera-coffee",
+    title: "Dolcenera Coffee Shops Digital Revolution",
+    industry: "Manufacturing & HORECA",
+    challenge: "Prior to the software implementation, Dolcenera coffee shops faced challenges with inefficient inventory management, slow service times, and difficulties in tracking customer preferences, impacting their ability to maintain competitive advantage in the market.",
+    solution: "Implemented comprehensive software solution with POS system, inventory management, CRM tools, and analytics dashboard to streamline operations and enhance customer experience",
     results: [
-      "40% reduction in manual tracking time",
-      "30% decrease in late payments",
-      "Improved tenant satisfaction through portal access",
-      "Enhanced utility consumption monitoring",
-      "Streamlined payment collection process"
+      "30% reduction in order processing times",
+      "40% increase in customer satisfaction",
+      "25% reduction in inventory waste",
+      "Enhanced customer data analytics",
+      "Improved staff efficiency through training",
+      "Real-time monitoring of operations"
     ],
     testimonial: {
-      quote: "The property management software has transformed our operations. We've significantly improved efficiency and tenant satisfaction while reducing manual work.",
-      author: "Maria Popescu",
-      position: "Property Manager",
-      company: "Real Estate Agency"
+      quote: "The software has revolutionized how we interact with customers. We've seen remarkable improvements in customer satisfaction and operational efficiency across all our locations.",
+      author: "Operations Director",
+      position: "Director of Operations",
+      company: "Dolcenera Coffee Shops"
     },
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
-    videoUrl: "https://example.com/testimonials/property-management.mp4"
+    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"
+  },
+  {
+    id: "brec-real-estate",
+    title: "Brec Business & Real Estate Consulting Digital Transformation",
+    industry: "Real Estate",
+    challenge: "As a growing real estate consulting firm in Bucharest, Brec faced challenges in managing increasing volumes of data and client interactions. They needed a unified platform to streamline their operations and improve client management.",
+    solution: "Integrated a customized real estate software solution with comprehensive CRM, property management tools, and mobile accessibility for agents",
+    results: [
+      "40% reduction in property listing management time",
+      "30% improvement in client satisfaction",
+      "Enhanced data management efficiency",
+      "Automated property listing updates",
+      "Improved team collaboration",
+      "Real-time market analytics access"
+    ],
+    testimonial: {
+      quote: "The integrated software solution has transformed how we manage our real estate operations. The centralized platform has significantly improved our efficiency and client service capabilities.",
+      author: "Managing Director",
+      position: "Managing Director",
+      company: "Brec Business & Real Estate Consulting SRL"
+    },
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa"
   },
   {
     id: "manufacturing-automation",
