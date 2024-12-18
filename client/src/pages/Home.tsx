@@ -10,7 +10,52 @@ export function Home() {
     <>
       <Hero />
 
-      {/* Services Section */}
+      {/* Industry Solutions Section */}
+      <section className="py-24 bg-gradient-to-br from-background via-primary/5 to-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">
+              <span className="curved-underline gradient-heading">
+                {t("home.industries.title")}
+              </span>
+            </h2>
+            <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+              {t("home.industries.subtitle")}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Manufacturing */}
+            <ServiceCard
+              title="home.industries.manufacturing.title"
+              description="home.industries.manufacturing.description"
+              image="/images/manufacturing.jpg"
+              features={[
+                "home.industries.manufacturing.features.planning",
+                "home.industries.manufacturing.features.quality",
+                "home.industries.manufacturing.features.automation"
+              ]}
+              id="manufacturing"
+            />
+
+            {/* Real Estate */}
+            <ServiceCard
+              title="home.industries.real_estate.title"
+              description="home.industries.real_estate.description"
+              image="/images/real-estate.jpg"
+              features={[
+                "home.industries.real_estate.features.property",
+                "home.industries.real_estate.features.finance",
+                "home.industries.real_estate.features.compliance"
+              ]}
+              id="real-estate"
+            />
+
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
       <section className="py-24 bg-gradient-to-br from-background via-primary/5 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">

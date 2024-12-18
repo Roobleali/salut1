@@ -1,6 +1,8 @@
 import { m } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export function LearnAnimation() {
+  const { t } = useTranslation();
   return (
     <div className="relative mt-8 mb-4">
       <div
@@ -67,7 +69,7 @@ export function LearnAnimation() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
               >
-                Aqoon la'aan
+                {t("learn.knowledge")}
               </m.div>
 
               <m.div
@@ -76,7 +78,7 @@ export function LearnAnimation() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2 }}
               >
-                Waa iftiin la'aan
+                {t("learn.enlightenment")}
               </m.div>
             </div>
           </m.div>
