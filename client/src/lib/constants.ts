@@ -161,45 +161,27 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
 export const COMPANY_MILESTONES = [
   {
     id: "founding",
-    year: "2018",
+    year: "2023",
+    month: "November",
     title: "Company Founded",
-    description: "SalutTech was founded with a vision to transform enterprise software solutions.",
+    description: "SalutTech was founded with our first manufacturing industry client.",
     category: "launch" as const,
   },
   {
-    id: "first-client",
-    year: "2019",
-    title: "First Enterprise Client",
-    description: "Successfully implemented our solution for a major HORECA chain.",
-    category: "achievement" as const,
-  },
-  {
-    id: "team-expansion",
-    year: "2020",
-    title: "Team Growth",
-    description: "Expanded our team to 50+ professionals across development and consulting.",
-    category: "team" as const,
-  },
-  {
-    id: "international",
-    year: "2021",
-    title: "International Expansion",
-    description: "Opened offices in three new countries to serve our growing client base.",
-    category: "office" as const,
-  },
-  {
-    id: "award",
-    year: "2022",
-    title: "Industry Recognition",
-    description: "Received 'Best Enterprise Solution Provider' award.",
-    category: "achievement" as const,
-  },
-  {
-    id: "growth-milestone",
-    year: "2023",
-    title: "Major Growth Milestone",
-    description: "Reached 1000+ enterprise clients across multiple industries.",
+    id: "expansion",
+    year: "2024",
+    month: "January",
+    title: "Market Expansion",
+    description: "Successfully helped 16 companies in the real-estate industry and partnered with local resellers.",
     category: "growth" as const,
+  },
+  {
+    id: "team-growth",
+    year: "2024",
+    month: "March",
+    title: "Team Growth",
+    description: "Expanded our team with talented sales professionals and developers to build a greater future together.",
+    category: "team" as const,
   }
 ];
 
@@ -355,37 +337,24 @@ export const CASE_STUDIES = [
 export const TEAM_MEMBERS = [
   {
     id: "ceo",
-    name: "Sarah Johnson",
+    name: "Shakuur Ally",
     role: "CEO & Founder",
-    bio: "20+ years of experience in enterprise software solutions. Previously led digital transformation initiatives at Fortune 500 companies.",
-    expertise: ["Strategic Planning", "Digital Transformation", "Enterprise Architecture"],
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2",
+    bio: "Extensive experience across multiple software industries, bringing innovative solutions to enterprise challenges.",
+    expertise: ["Strategic Planning", "Digital Transformation", "Enterprise Solutions"],
+    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1697357976/lx7l2p8rpywnz5jfn5oa.jpg",
     social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com"
+      linkedin: "https://www.linkedin.com/in/rooblecali/"
     }
   },
   {
-    id: "cto",
-    name: "Michael Chen",
-    role: "Chief Technology Officer",
-    bio: "Expert in cloud architecture and enterprise software development. Passionate about leveraging technology to solve complex business challenges.",
-    expertise: ["Cloud Architecture", "System Design", "Software Development"],
-    image: "https://images.unsplash.com/photo-1556157382-97eda2d62296",
+    id: "sales-director",
+    name: "Sherif Abdala",
+    role: "Sales Director",
+    bio: "Leading our sales initiatives and client relationships to drive growth and success.",
+    expertise: ["Sales Strategy", "Client Relations", "Business Development"],
+    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747105/ttt1fmtpdnxfv3gagevm.png",
     social: {
-      linkedin: "https://linkedin.com"
-    }
-  },
-  {
-    id: "product-lead",
-    name: "Emma Rodriguez",
-    role: "Head of Product",
-    bio: "Specializes in product strategy and user experience. Dedicated to creating intuitive enterprise solutions that users love.",
-    expertise: ["Product Strategy", "UX Design", "Agile Management"],
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com"
+      linkedin: "https://www.linkedin.com/in/sherif-abdala-03640932/"
     }
   }
 ];
