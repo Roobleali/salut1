@@ -17,33 +17,44 @@ export function CaseStudies() {
   return (
     <div className="pt-32 pb-24">
       <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h1 className="text-4xl font-bold mb-6">Client Success Stories</h1>
-          <p className="text-gray-600 mb-8">
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            Client Success Stories
+          </h1>
+          <p className="text-xl text-gray-600 mb-12">
             Discover how SalutTech has helped businesses transform their operations and achieve remarkable results.
           </p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            <Badge
-              className={`cursor-pointer ${!selectedIndustry ? 'bg-primary' : 'bg-secondary hover:bg-primary/80'}`}
-              onClick={() => setSelectedIndustry(null)}
-            >
-              All Industries
-            </Badge>
-            {INDUSTRIES.map((industry) => (
+          <div className="bg-white/50 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+            <h3 className="text-lg font-medium mb-4">Filter by Industry</h3>
+            <div className="flex flex-wrap gap-3 justify-center">
               <Badge
-                key={industry}
-                className={`cursor-pointer ${
-                  selectedIndustry === industry ? 'bg-primary' : 'bg-secondary hover:bg-primary/80'
+                className={`cursor-pointer px-4 py-2 text-sm transition-all ${
+                  !selectedIndustry 
+                    ? 'bg-primary text-primary-foreground shadow-lg scale-105' 
+                    : 'bg-secondary hover:bg-primary/80'
                 }`}
-                onClick={() => setSelectedIndustry(industry)}
+                onClick={() => setSelectedIndustry(null)}
               >
-                {industry}
+                All Industries
               </Badge>
-            ))}
+              {INDUSTRIES.map((industry) => (
+                <Badge
+                  key={industry}
+                  className={`cursor-pointer px-4 py-2 text-sm transition-all ${
+                    selectedIndustry === industry 
+                      ? 'bg-primary text-primary-foreground shadow-lg scale-105' 
+                      : 'bg-secondary hover:bg-primary/80'
+                  }`}
+                  onClick={() => setSelectedIndustry(industry)}
+                >
+                  {industry}
+                </Badge>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="space-y-16">
+        <div className="grid md:grid-cols-2 gap-8">
           {filteredStudies.map((study) => (
             <CaseStudyCard key={study.id} {...study} />
           ))}

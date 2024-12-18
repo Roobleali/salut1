@@ -298,6 +298,28 @@ export const CASE_STUDIES = [
     videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/f_auto:video,q_auto/m59amoxkynlzn8jy7ows"
   },
   {
+    id: "property-management",
+    title: "Real Estate Agency Revolutionizes Property Management",
+    industry: "Real Estate",
+    challenge: "Manual utility tracking and payment collections led to errors and inefficiencies. Multiple disconnected systems caused delays in payment processing and poor tenant communication.",
+    solution: "Implemented an integrated property management solution with automated utility tracking, payment processing, and tenant communication features",
+    results: [
+      "40% reduction in manual tracking time",
+      "30% decrease in late payments",
+      "Improved tenant satisfaction through portal access",
+      "Enhanced utility consumption monitoring",
+      "Streamlined payment collection process"
+    ],
+    testimonial: {
+      quote: "The property management software has transformed our operations. We've significantly improved efficiency and tenant satisfaction while reducing manual work.",
+      author: "Maria Popescu",
+      position: "Property Manager",
+      company: "Real Estate Agency"
+    },
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
+    videoUrl: "https://example.com/testimonials/property-management.mp4"
+  },
+  {
     id: "manufacturing-automation",
     title: "Smart Factory Implementation",
     industry: "Manufacturing",
