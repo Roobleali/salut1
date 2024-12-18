@@ -24,14 +24,14 @@ export function CaseStudies() {
           <p className="text-xl text-gray-600 mb-12">
             Discover how SalutTech has helped businesses transform their operations and achieve remarkable results.
           </p>
-          <div className="bg-white/80 rounded-lg p-6 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter by Industry</h3>
-            <div className="flex flex-wrap gap-3 justify-center">
+          <div className="bg-white/80 rounded-lg px-4 py-5 sm:p-6 border-b border-gray-200 w-full max-w-2xl mx-auto">
+            <h3 className="text-lg font-semibold text-black mb-4 text-center">Filter by Industry</h3>
+            <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
               <Badge
-                className={`cursor-pointer px-4 py-2 text-sm transition-all ${
+                className={`cursor-pointer px-3 sm:px-4 py-1.5 sm:py-2 text-sm whitespace-nowrap transition-all ${
                   !selectedIndustry 
                     ? 'bg-primary text-primary-foreground scale-105' 
-                    : 'bg-secondary/80 hover:bg-primary/70'
+                    : 'bg-secondary hover:bg-primary/90'
                 }`}
                 onClick={() => setSelectedIndustry(null)}
               >
