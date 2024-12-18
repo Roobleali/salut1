@@ -277,25 +277,25 @@ export const VIDEO_TESTIMONIALS = [
 export const CASE_STUDIES = [
   {
     id: "gourmet-coffee",
-    title: "Gourmet Coffee's Digital Transformation Journey",
+    title: "Gourmet Coffee's Journey to Modern Enterprise Solutions",
     industry: "Manufacturing & HORECA",
-    challenge: "Struggling with fragmented systems including Winmentor and SagaSoft, facing issues with tracking, manufacturing control, and reporting capabilities",
-    solution: "Implemented comprehensive enterprise solution with integrated manufacturing and business management capabilities",
+    challenge: "As Romania's pioneering coffee producer since 1996, Gourmet Coffee faced challenges with fragmented systems (Winmentor and SagaSoft), limiting their ability to efficiently manage production tracking, quality control, and market differentiation. They needed a solution that could handle their diverse operations while maintaining their commitment to premium quality.",
+    solution: "Implemented a comprehensive enterprise solution that unified their production management, quality control, and distribution operations. The system was tailored to support their unique coffee blend customization process and streamline their private labeling capabilities.",
     results: [
-      "Streamlined production tracking and control",
-      "Unified system replacing multiple legacy software",
-      "Enhanced reporting and analytics capabilities",
-      "Improved inventory management efficiency",
-      "Real-time production monitoring"
+      "Streamlined production tracking and quality control",
+      "Enhanced coffee blend customization capabilities",
+      "Improved inventory and distribution management",
+      "Efficient private label management system",
+      "Real-time production monitoring and analytics",
+      "Seamless integration of all business operations"
     ],
     testimonial: {
-      quote: "The transition from our legacy systems to SalutTech's solution has revolutionized how we manage our coffee production and distribution operations. The integrated platform has given us the control and visibility we needed.",
+      quote: "The transition from our legacy systems to SalutTech's solution has revolutionized how we manage our coffee production and distribution operations. As Romania's first company specialized in private labeling of coffee, we needed a system that could handle our unique requirements, and this solution has exceeded our expectations.",
       author: "Sherif Abdala",
       position: "CEO",
       company: "Gourmet Coffee"
     },
-    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747105/ttt1fmtpdnxfv3gagevm.png",
-    videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/f_auto:video,q_auto/m59amoxkynlzn8jy7ows"
+    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747105/ttt1fmtpdnxfv3gagevm.png"
   },
   {
     id: "property-management",
