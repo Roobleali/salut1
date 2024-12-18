@@ -20,6 +20,7 @@ interface CaseStudyProps {
     company: string;
   };
   image: string;
+  videoUrl?: string;
 }
 
 export function CaseStudyCard({
@@ -40,14 +41,16 @@ export function CaseStudyCard({
       transition={{ duration: 0.5 }}
     >
       <Card className="overflow-hidden">
-        <div className="aspect-video relative">
-          <img
-            src={image}
-            alt={title}
-            className="object-cover w-full h-full"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <Badge className="absolute top-4 left-4">{industry}</Badge>
+        <div className="aspect-video relative bg-gray-900 rounded-t-lg overflow-hidden">
+          <video
+            className="w-full h-full object-cover"
+            controls
+            poster={image}
+          >
+            <source src={videoUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <Badge className="absolute top-4 left-4 z-10">{industry}</Badge>
         </div>
         
         <CardHeader>

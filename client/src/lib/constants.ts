@@ -294,7 +294,8 @@ export const CASE_STUDIES = [
       position: "CEO",
       company: "Gourmet Coffee"
     },
-    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747105/ttt1fmtpdnxfv3gagevm.png"
+    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747105/ttt1fmtpdnxfv3gagevm.png",
+    videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/f_auto:video,q_auto/m59amoxkynlzn8jy7ows"
   },
   {
     id: "manufacturing-automation",
