@@ -48,7 +48,7 @@ export function Navigation() {
                 React.createElement(ICONS[item.icon as keyof typeof ICONS], {
                   className: "h-4 w-4",
                 })}
-              <span>{t(item.title)}</span>
+              <span>{t(`menu.${item.title.toLowerCase()}`)}</span>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <div className="grid grid-cols-2 gap-4 p-4 w-[600px]">
@@ -64,10 +64,10 @@ export function Navigation() {
                           )}
                           <div>
                             <div className="text-sm font-medium">
-                              {t(subItem.title)}
+                              {t(`menu.${subItem.title.toLowerCase()}`)}
                             </div>
                             <p className="text-sm text-muted-foreground">
-                              {t(subItem.description)}
+                              {t(`menu.${subItem.title.toLowerCase()}_desc`)}
                             </p>
                           </div>
                         </div>
