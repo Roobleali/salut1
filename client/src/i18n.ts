@@ -65,10 +65,10 @@ const resources = {
       },
       industries: {
         manufacturing: {
-          title: 'Advanced Manufacturing Solutions',
-          subtitle: 'Comprehensive manufacturing solutions tailored for industries',
-          description: 'Complete manufacturing management with MRP, planning and quality control',
-          badge: 'Manufacturing Solutions',
+          title: 'Enterprise Manufacturing Suite',
+          subtitle: 'Advanced manufacturing solutions tailored for modern industries',
+          description: 'Complete manufacturing management system with integrated MRP, real-time planning, and quality control',
+          badge: 'Manufacturing Excellence',
           features: {
             title: 'Key Features',
             planning: {
@@ -238,10 +238,10 @@ const resources = {
       },
       industries: {
         manufacturing: {
-          title: 'Soluții Avansate pentru Producție',
-          subtitle: 'Soluții complete de producție adaptate industriilor din România',
-          description: 'Management complet al producției cu MRP, planificare și control al calității',
-          badge: 'Soluții pentru Producție',
+          title: 'Suită Enterprise pentru Producție',
+          subtitle: 'Soluții avansate de producție adaptate industriilor moderne',
+          description: 'Sistem complet de management al producției cu MRP integrat, planificare în timp real și control al calității',
+          badge: 'Excelență în Producție',
           features: {
             title: 'Funcționalități Principale',
             planning: {
