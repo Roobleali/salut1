@@ -18,13 +18,13 @@ export const NAVIGATION_ITEMS = [
         description: "Complete property management and real estate solutions",
       },
       {
-        title: "Retail",
+        title: "Retail & E-commerce",
         icon: "Store",
         href: "/industries/retail",
         description: "Unified retail management across online and physical stores",
       },
       {
-        title: "Services",
+        title: "Professional Services",
         icon: "Briefcase",
         href: "/industries/services",
         description: "Project management and service delivery solutions",
