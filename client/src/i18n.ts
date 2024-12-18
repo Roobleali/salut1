@@ -120,14 +120,16 @@ const resources = {
               description: 'Seamless integration with Romanian e-Factura system'
             }
           },
-          market_features: {
+          romania_specific: {
             title: 'Romanian Market Features',
-            efactura: 'E-Factura compliance and integration',
-            fiscal: 'Romanian fiscal code management',
-            supply_chain: 'Local supply chain optimization',
-            eu_export: 'EU export documentation',
-            labor: 'Romanian labor law compliance',
-            inventory: 'Regional inventory management'
+            features: {
+              efactura: 'E-Factura Compliance and Integration',
+              fiscal: 'Romanian Fiscal Code Management',
+              supply_chain: 'Local Supply Chain Optimization',
+              eu_export: 'EU Export Documentation',
+              labor: 'Romanian Labor Law Compliance',
+              inventory: 'Regional Inventory Management'
+            }
           }
         }
       },
@@ -317,14 +319,16 @@ const resources = {
               description: 'Integrare perfectă cu sistemul e-Factura românesc'
             }
           },
-          market_features: {
+          romania_specific: {
             title: 'Funcționalități pentru Piața Românească',
-            efactura: 'Conformitate și integrare e-Factura',
-            fiscal: 'Gestionarea codului fiscal românesc',
-            supply_chain: 'Optimizare lanț de aprovizionare local',
-            eu_export: 'Documentație export UE',
-            labor: 'Conformitate cu legislația muncii',
-            inventory: 'Management inventar regional'
+            features: {
+              efactura: 'Conformitate și Integrare e-Factura',
+              fiscal: 'Gestionarea Codului Fiscal Românesc',
+              supply_chain: 'Optimizare Lanț de Aprovizionare Local',
+              eu_export: 'Documentație Export UE',
+              labor: 'Conformitate cu Legislația Muncii',
+              inventory: 'Management Inventar Regional'
+            }
           }
         }
       },
