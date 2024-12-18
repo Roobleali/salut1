@@ -89,6 +89,8 @@ const resources = {
         healthcare_desc: 'Healthcare facility and patient management systems',
         education: 'Education',
         education_desc: 'Educational institution management platform',
+        social_responsibility: 'Social Responsibility',
+        social_responsibility_desc: 'Our commitment to sustainable and ethical practices',
         crm: 'CRM',
         sales: 'Sales',
         purchase: 'Purchase',
