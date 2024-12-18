@@ -35,16 +35,6 @@ const resources = {
         field_service: 'Field Service',
         marketing: 'Marketing Automation'
       },
-      enterprise: {
-        solutions: {
-          title: "Enterprise Solutions",
-          description: "Complete enterprise management solutions",
-          modules: {
-            title: "Available Modules",
-            description: "Comprehensive suite of business modules"
-          }
-        }
-      },
       common: {
         company_name: 'SalutTech',
         learn_more: 'Learn More',
@@ -61,6 +51,16 @@ const resources = {
         testimonials: 'Testimonials',
         case_studies: 'Case Studies',
         about_us: 'About Us'
+      },
+      enterprise: {
+        solutions: {
+          title: "Enterprise Solutions",
+          description: "Complete enterprise management solutions",
+          modules: {
+            title: "Available Modules",
+            description: "Comprehensive suite of business modules"
+          }
+        }
       },
       industries: {
         services: {
