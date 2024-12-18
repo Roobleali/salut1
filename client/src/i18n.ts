@@ -101,6 +101,10 @@ const resources = {
         field_service: 'Field Service',
         marketing: 'Marketing Automation'
       },
+      learn: {
+        knowledge: "Knowledge",
+        enlightenment: "is Enlightenment"
+      },
       common: {
         company_name: 'SalutTech',
         learn_more: 'Learn More',
@@ -130,6 +134,28 @@ const resources = {
           learn_more: 'Learn More',
           get_started: 'Get Started Today',
           description: 'Empower your business with our comprehensive suite of enterprise solutions.'
+        },
+        industries: {
+          title: 'Industry Solutions',
+          subtitle: 'Tailored solutions for your specific industry needs',
+          manufacturing: {
+            title: 'Manufacturing Excellence',
+            description: 'Advanced manufacturing solutions with integrated MRP and quality control',
+            features: {
+              planning: 'Production Planning',
+              quality: 'Quality Control',
+              automation: 'Process Automation'
+            }
+          },
+          real_estate: {
+            title: 'Real Estate Management',
+            description: 'Complete property management and real estate solutions',
+            features: {
+              property: 'Property Portfolio Management',
+              finance: 'Financial Analytics',
+              compliance: 'Regulatory Compliance'
+            }
+          }
         },
         features: {
           title: 'Why Choose Our Platform',
@@ -168,6 +194,10 @@ const resources = {
   },
   ro: {
     translation: {
+      learn: {
+        knowledge: "Cunoașterea",
+        enlightenment: "este Iluminare"
+      },
       common: {
         company_name: 'SalutTech',
         learn_more: 'Află Mai Multe',
@@ -277,6 +307,28 @@ const resources = {
           learn_more: 'Află Mai Multe',
           get_started: 'Începe Astăzi',
           description: 'Dezvoltă-ți afacerea cu suita noastră completă de soluții enterprise.'
+        },
+        industries: {
+          title: 'Soluții pe Industrii',
+          subtitle: 'Soluții personalizate pentru nevoile specifice industriei tale',
+          manufacturing: {
+            title: 'Excelență în Producție',
+            description: 'Soluții avansate de producție cu MRP integrat și control al calității',
+            features: {
+              planning: 'Planificarea Producției',
+              quality: 'Controlul Calității',
+              automation: 'Automatizarea Proceselor'
+            }
+          },
+          real_estate: {
+            title: 'Management Imobiliar',
+            description: 'Soluții complete pentru managementul proprietăților și imobiliare',
+            features: {
+              property: 'Gestionarea Portofoliului de Proprietăți',
+              finance: 'Analiză Financiară',
+              compliance: 'Conformitate Regulamentară'
+            }
+          }
         },
         features: {
           title: 'De Ce Să Alegi Platforma Noastră',
