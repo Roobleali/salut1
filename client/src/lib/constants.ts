@@ -24,54 +24,54 @@ interface NavigationItem {
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
-    title: "nav.industries",
+    title: "Industries",
     items: [
       {
-        title: "nav.manufacturing",
+        title: "Manufacturing",
         href: "/industries/manufacturing",
-        description: "nav.manufacturing.description",
+        description: "End-to-end manufacturing management with MRP, production planning and quality control",
         icon: Factory,
       },
       {
-        title: "nav.real_estate",
+        title: "Real Estate",
         href: "/industries/real-estate",
-        description: "nav.real_estate.description",
+        description: "Complete property management solution for leasing, maintenance, and tenant portals",
         icon: Building2,
       },
       {
-        title: "nav.retail",
+        title: "Retail & E-commerce",
         href: "/industries/retail",
-        description: "nav.retail.description",
+        description: "Integrated POS, inventory and e-commerce solutions for modern retail",
         icon: ShoppingBag,
       },
       {
-        title: "nav.services",
+        title: "Professional Services",
         href: "/industries/services",
-        description: "nav.services.description",
+        description: "Project management and service tracking for consulting firms",
         icon: Briefcase,
       },
       {
-        title: "nav.construction",
+        title: "Construction",
         href: "/industries/construction",
-        description: "nav.construction.description",
+        description: "Project cost estimation, material tracking and regulatory compliance",
         icon: HardHat,
       },
       {
-        title: "nav.hospitality",
+        title: "Hospitality",
         href: "/industries/hospitality",
-        description: "nav.hospitality.description",
+        description: "Reservation systems and guest experience management solutions",
         icon: UtensilsCrossed,
       },
       {
-        title: "nav.healthcare",
+        title: "Healthcare",
         href: "/industries/healthcare",
-        description: "nav.healthcare.description",
+        description: "Patient management and medical inventory tracking systems",
         icon: Stethoscope,
       },
       {
-        title: "nav.education",
+        title: "Education",
         href: "/industries/education",
-        description: "nav.education.description",
+        description: "Student information and educational resource management",
         icon: GraduationCap,
       }
     ]
