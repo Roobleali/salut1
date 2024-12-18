@@ -105,6 +105,21 @@ const resources = {
             labor: 'Romanian labor law compliance',
             inventory: 'Regional inventory management'
           }
+        },
+        services: {
+          description: "Project management and service tracking for consulting firms"
+        },
+        construction: {
+          description: "Project cost estimation, material tracking and regulatory compliance"
+        },
+        hospitality: {
+          description: "Reservation systems and guest experience management solutions"
+        },
+        healthcare: {
+          description: "Patient management and medical inventory tracking systems"
+        },
+        education: {
+          description: "Student information and educational resource management"
         }
       },
       home: {
@@ -298,6 +313,21 @@ const resources = {
             labor: 'Conformitate cu legislația muncii',
             inventory: 'Management inventar regional'
           }
+        },
+        services: {
+          description: "Management de proiect și urmărire servicii pentru firme de consultanță"
+        },
+        construction: {
+          description: "Estimarea costurilor proiectului, urmărirea materialelor și conformitatea cu reglementările"
+        },
+        hospitality: {
+          description: "Sisteme de rezervare și soluții de management al experienței clienților"
+        },
+        healthcare: {
+          description: "Sisteme de management al pacienților și urmărire a inventarului medical"
+        },
+        education: {
+          description: "Managementul informațiilor despre studenți și al resurselor educaționale"
         }
       },
       home: {
