@@ -12,18 +12,18 @@ export function Home() {
       
       <section className="py-24 bg-gradient-to-br from-background via-primary/5 to-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl mb-4">
-              <span className="curved-underline gradient-heading">
-                Franchising HoReCa All-in-One
-              </span>
+          <div className="text-center mb-16 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 blur-3xl -z-10"></div>
+            <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              Salut Enterprise
             </h2>
             <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              Choose the future of business management
+              Choose the future of business management with our AI-powered solutions
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+          <div className="grid lg:grid-cols-2 gap-8 mb-16 relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 rounded-3xl blur-2xl -z-10"></div>
             {/* Traditional Software Card */}
             <div className="p-8 rounded-xl bg-white/80 backdrop-blur shadow-xl">
               <h3 className="text-2xl font-bold mb-6 text-gray-800">Traditional Software</h3>
