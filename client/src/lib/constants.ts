@@ -2,47 +2,56 @@ import { type NavigationItem } from "@/types";
 
 export const NAVIGATION_ITEMS = [
   {
-    title: "nav.industries",
+    title: "menu.industries",
+    icon: "Factory",
     items: [
       {
-        title: "nav.manufacturing",
+        title: "menu.manufacturing",
+        icon: "Factory",
         href: "/industries/manufacturing",
-        description: "industries.manufacturing.description",
+        description: "menu.manufacturing_desc",
       },
       {
-        title: "nav.real_estate",
+        title: "menu.real_estate",
+        icon: "Building2",
         href: "/industries/real-estate",
-        description: "industries.real_estate.description",
+        description: "menu.real_estate_desc",
       },
       {
-        title: "nav.retail",
+        title: "menu.retail",
+        icon: "Store",
         href: "/industries/retail",
-        description: "industries.retail.description",
+        description: "menu.retail_desc",
       },
       {
-        title: "nav.services",
+        title: "menu.services",
+        icon: "Briefcase",
         href: "/industries/services",
-        description: "industries.services.description",
+        description: "menu.services_desc",
       },
       {
-        title: "nav.construction",
+        title: "menu.construction",
+        icon: "Hammer",
         href: "/industries/construction",
-        description: "industries.construction.description",
+        description: "menu.construction_desc",
       },
       {
-        title: "nav.hospitality",
+        title: "menu.hospitality",
+        icon: "UtensilsCrossed",
         href: "/industries/hospitality",
-        description: "industries.hospitality.description",
+        description: "menu.hospitality_desc",
       },
       {
-        title: "nav.healthcare",
+        title: "menu.healthcare",
+        icon: "Heart",
         href: "/industries/healthcare",
-        description: "industries.healthcare.description",
+        description: "menu.healthcare_desc",
       },
       {
-        title: "nav.education",
+        title: "menu.education",
+        icon: "GraduationCap",
         href: "/industries/education",
-        description: "industries.education.description",
+        description: "menu.education_desc",
       }
     ]
   },
@@ -123,6 +132,12 @@ export const NAVIGATION_ITEMS = [
         title: "Case Studies",
         href: "/case-studies",
         description: "Success stories from our clients",
+      },
+      {
+        title: "Social Responsibility",
+        href: "/social-responsibility",
+        description: "Our commitment to sustainable and ethical practices",
+        icon: "Heart"
       }
     ]
   }
