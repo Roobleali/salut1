@@ -121,12 +121,8 @@ export function CaseStudyCard({
               </footer>
             </blockquote>
             
-            <div className="mt-6 flex justify-end gap-4">
+            <div className="mt-6 flex justify-end">
               <CaseStudyFeedback caseStudyId={id} title={title} />
-              <Button variant="outline" className="group">
-                Read Full Case Study
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
             </div>
           </div>
         </CardContent>

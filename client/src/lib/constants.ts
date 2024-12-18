@@ -343,23 +343,26 @@ export const CASE_STUDIES = [
   },
   
   {
-    id: "retail-pos",
-    title: "Multi-store Retail Solution",
-    industry: "Point of Sale",
-    challenge: "Disconnected POS systems across multiple locations",
-    solution: "Unified POS system with central management",
+    id: "codavinci-property",
+    title: "Codavinci SRL Property Management Transformation",
+    industry: "Real Estate",
+    challenge: "The agency struggled with fragmented systems for utility tracking and payment collections, leading to inefficiencies, delayed payments, and communication issues with tenants.",
+    solution: "Implemented a comprehensive property management software solution focused on automated utility tracking, payment collection, and tenant communication.",
     results: [
-      "50% faster checkout times",
-      "Integrated inventory across all stores",
-      "15% increase in sales through better analytics"
+      "40% reduction in manual tracking time",
+      "30% decrease in late payments",
+      "Enhanced tenant satisfaction with portal access",
+      "Real-time utility consumption monitoring",
+      "Streamlined payment collection process",
+      "Improved financial reporting accuracy"
     ],
     testimonial: {
-      quote: "The POS system has made managing our retail chain so much easier. The real-time analytics have been invaluable for our business decisions.",
-      author: "Michael Chen",
-      position: "Retail Director",
-      company: "StyleMart"
+      quote: "The property management software has transformed our operations. We've significantly improved efficiency and tenant satisfaction while reducing manual work.",
+      author: "Property Director",
+      position: "Director of Operations",
+      company: "Codavinci SRL"
     },
-    image: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62"
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab"
   }
 ];
 
