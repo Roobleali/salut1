@@ -15,12 +15,68 @@ export function Home() {
           <div className="text-center mb-16">
             <h2 className="text-4xl mb-4">
               <span className="curved-underline gradient-heading">
-                {t('home.hero.transform')}
+                Franchising HoReCa All-in-One
               </span>
             </h2>
             <p className="mt-6 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              {t('home.hero.unlock_growth')}
+              Choose the future of business management
             </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+            {/* Traditional Software Card */}
+            <div className="p-8 rounded-xl bg-white/80 backdrop-blur shadow-xl">
+              <h3 className="text-2xl font-bold mb-6 text-gray-800">Traditional Software</h3>
+              <div className="space-y-4">
+                {[
+                  "Do Nothing: Relying on outdated systems that hinder growth.",
+                  "Limited Customization: One-size-fits-all solutions that don't cater to your unique needs.",
+                  "Time-Consuming Processes: Manual tasks that waste valuable hours.",
+                  "High Costs: Expensive licenses and hidden fees.",
+                  "Stagnant Growth: Lack of innovative features to propel your business forward.",
+                  "Lack of Support: Minimal access to expert guidance and mentorship.",
+                  "Risk of Obsolescence: Falling behind competitors embracing modern technologies.",
+                  "Complex Interfaces: Difficult to navigate, requiring extensive training.",
+                  "Rigid Pricing: Inflexible pricing models that can strain your budget.",
+                  "Outdated Technology: Technology that doesn't keep pace with industry advancements."
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-red-500 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <span className="text-gray-700">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* AI-Powered Solutions Card */}
+            <div className="p-8 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur shadow-xl">
+              <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                Impress the Future with AI
+              </h3>
+              <div className="space-y-4">
+                {[
+                  "Increase Profits: Optimize operations to maximize your revenue potential.",
+                  "Save Time: Streamline processes with automation, freeing up your schedule for strategic growth.",
+                  "Eliminate Manual Tasks: Let AI handle routine activities, reducing errors and enhancing efficiency.",
+                  "Cut Costs: Lower operational expenses with cost-effective solutions and transparent pricing.",
+                  "Boost Productivity: Advanced tools designed to enhance your team's performance and output.",
+                  "Enhance Customization: Tailor features to meet your franchise's specific needs and goals.",
+                  "Seamless Integration: Easily incorporate our software with your existing systems for smooth transitions.",
+                  "Scalable Solutions: Grow your business without worrying about software limitations.",
+                  "Real-Time Analytics: Make informed decisions with up-to-the-minute data insights.",
+                  "No Experience Needed: Designed for all skill levels with user-friendly interfaces."
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-primary mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-700">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8">
