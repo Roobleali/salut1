@@ -1,7 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-http-backend';
 
 const resources = {
   en: {
@@ -14,11 +13,11 @@ const resources = {
         about: 'About Us',
         manufacturing: 'Manufacturing',
         real_estate: 'Real Estate',
-        healthcare: 'Healthcare',
         retail: 'Retail & E-commerce',
         services: 'Professional Services',
         construction: 'Construction',
         hospitality: 'Hospitality',
+        healthcare: 'Healthcare',
         education: 'Education'
       },
       menu: {
@@ -52,75 +51,6 @@ const resources = {
         case_studies: 'Case Studies',
         about_us: 'About Us'
       },
-      enterprise: {
-        solutions: {
-          title: "Enterprise Solutions",
-          description: "Complete enterprise management solutions",
-          modules: {
-            title: "Available Modules",
-            description: "Comprehensive suite of business modules"
-          }
-        }
-      },
-      industries: {
-        services: {
-          description: 'Project management and service tracking for consulting firms'
-        },
-        construction: {
-          description: 'Project cost estimation, material tracking and regulatory compliance'
-        },
-        hospitality: {
-          description: 'Reservation systems and guest experience management solutions'
-        },
-        healthcare: {
-          description: 'Patient management and medical inventory tracking systems'
-        },
-        education: {
-          description: 'Student information and educational resource management'
-        },
-        manufacturing: {
-          title: 'Advanced Manufacturing Solutions',
-          subtitle: 'Comprehensive manufacturing solutions tailored for industries',
-          description: 'Complete manufacturing management with MRP, planning and quality control',
-          badge: 'Manufacturing Solutions',
-          features: {
-            title: 'Key Features',
-            planning: {
-              title: 'Production Planning',
-              description: 'Advanced MRP system with real-time production scheduling'
-            },
-            quality: {
-              title: 'Quality Control',
-              description: 'Comprehensive quality management and testing protocols'
-            },
-            supply: {
-              title: 'Supply Chain',
-              description: 'End-to-end supply chain visibility and optimization'
-            },
-            cost: {
-              title: 'Cost Management',
-              description: 'Detailed cost tracking and financial analytics'
-            },
-            compliance: {
-              title: 'Compliance',
-              description: 'Automated compliance with industry standards'
-            },
-            documents: {
-              title: 'E-Document Integration',
-              description: 'Seamless integration with Romanian e-Factura system'
-            }
-          },
-          market_features: {
-            title: 'Romanian Market Features',
-            efactura: 'E-Factura compliance and integration',
-            fiscal: 'Romanian fiscal code management',
-            supply_chain: 'Local supply chain optimization',
-            eu_export: 'EU export documentation',
-            labor: 'Romanian labor law compliance',
-            inventory: 'Regional inventory management'
-          }
-        }
-      },
       home: {
         hero: {
           title: 'Enterprise Solutions for Modern Business',
@@ -129,11 +59,7 @@ const resources = {
           unlock_growth: 'Unlock unprecedented growth with our suite of cutting-edge enterprise solutions.',
           why_choose: 'Why Leading Companies Choose',
           company_exp: 'Experience the perfect fusion of enterprise-grade reliability and modern innovation.',
-          platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.',
-          cta: {
-            primary: 'Get Started Today',
-            secondary: 'Schedule a Demo'
-          }
+          platform_evolves: 'Our platform evolves with your ambitions, providing the foundation for sustainable growth and digital excellence.'
         },
         features: {
           title: 'Why Choose Our Platform',
@@ -150,43 +76,23 @@ const resources = {
             title: '24/7 Elite Support',
             description: 'Expert assistance at your fingertips. Our dedicated team ensures your success around the clock.'
           }
-        },
-        benefits: {
-          title: 'Benefits',
-          subtitle: 'Transform your business with our solutions',
-          list: [
-            'Improved efficiency and productivity',
-            'Reduced operational costs',
-            'Enhanced customer satisfaction',
-            'Real-time analytics and insights'
-          ]
         }
       },
-      contact: {
-        sales: 'Contact Sales',
-        title: 'Contact Us',
-        subtitle: 'Get in touch with our team',
-        form: {
-          name: 'Your Name',
-          email: 'Email Address',
-          message: 'Message',
-          submit: 'Send Message'
+      services: {
+        title: 'Our Services',
+        subtitle: 'Explore our comprehensive suite of enterprise solutions',
+        manufacturing: {
+          title: 'Manufacturing Software',
+          description: 'Enterprise-grade manufacturing solution with advanced production planning and real-time monitoring capabilities',
+          features: {
+            planning: 'Advanced Production Planning',
+            quality: 'Quality Control & Assurance',
+            supply: 'Supply Chain Optimization',
+            cost: 'Cost & Resource Tracking',
+            maintenance: 'Maintenance Management',
+            compliance: 'Compliance & Documentation'
+          }
         }
-      },
-      button: {
-        demo: 'Schedule Demo',
-        learn_more: 'Learn More',
-        contact_sales: 'Contact Sales',
-        get_started: 'Get Started',
-        submit: 'Submit',
-        send: 'Send',
-        view_more: 'View More',
-        try_now: 'Try Now'
-      },
-      language: {
-        select: 'Select Language',
-        english: 'English',
-        romanian: 'Romanian'
       }
     }
   },
@@ -200,11 +106,11 @@ const resources = {
         about: 'Despre Noi',
         manufacturing: 'Producție',
         real_estate: 'Imobiliare',
-        healthcare: 'Sănătate',
         retail: 'Retail și E-commerce',
         services: 'Servicii Profesionale',
         construction: 'Construcții',
         hospitality: 'Ospitalitate',
+        healthcare: 'Sănătate',
         education: 'Educație'
       },
       menu: {
@@ -217,7 +123,7 @@ const resources = {
         project_management: 'Management Proiecte',
         hr: 'HR și Recrutare',
         ecommerce: 'Website și E-commerce',
-        pos: 'Sistem de Vânzare',
+        pos: 'Punct de Vânzare',
         field_service: 'Servicii de Teren',
         marketing: 'Automatizare Marketing'
       },
@@ -238,75 +144,6 @@ const resources = {
         case_studies: 'Studii de Caz',
         about_us: 'Despre Noi'
       },
-      enterprise: {
-        solutions: {
-          title: "Soluții Enterprise",
-          description: "Soluții complete de management enterprise",
-          modules: {
-            title: "Module Disponibile",
-            description: "Suită completă de module pentru afaceri"
-          }
-        }
-      },
-      industries: {
-        services: {
-          description: 'Management de proiecte și urmărirea serviciilor pentru firme de consultanță'
-        },
-        construction: {
-          description: 'Estimarea costurilor proiectelor, urmărirea materialelor și conformitate cu reglementările'
-        },
-        hospitality: {
-          description: 'Sisteme de rezervări și management al experienței clienților'
-        },
-        healthcare: {
-          description: 'Managementul pacienților și urmărirea inventarului medical'
-        },
-        education: {
-          description: 'Gestiunea informațiilor despre studenți și resurse educaționale'
-        },
-        manufacturing: {
-          title: 'Soluții Avansate pentru Producție',
-          subtitle: 'Soluții complete de producție adaptate industriilor din România',
-          description: 'Management complet al producției cu MRP, planificare și control al calității',
-          badge: 'Soluții pentru Producție',
-          features: {
-            title: 'Funcționalități Principale',
-            planning: {
-              title: 'Planificarea Producției',
-              description: 'Sistem MRP avansat cu programare în timp real'
-            },
-            quality: {
-              title: 'Controlul Calității',
-              description: 'Management comprehensiv al calității și protocoale de testare'
-            },
-            supply: {
-              title: 'Lanț de Aprovizionare',
-              description: 'Vizibilitate și optimizare end-to-end a lanțului de aprovizionare'
-            },
-            cost: {
-              title: 'Managementul Costurilor',
-              description: 'Urmărirea detaliată a costurilor și analiză financiară'
-            },
-            compliance: {
-              title: 'Conformitate',
-              description: 'Conformitate automatizată cu standardele industriei'
-            },
-            documents: {
-              title: 'Integrare E-Documente',
-              description: 'Integrare perfectă cu sistemul e-Factura românesc'
-            }
-          },
-          market_features: {
-            title: 'Funcționalități pentru Piața Românească',
-            efactura: 'Conformitate și integrare e-Factura',
-            fiscal: 'Gestionarea codului fiscal românesc',
-            supply_chain: 'Optimizare lanț de aprovizionare local',
-            eu_export: 'Documentație export UE',
-            labor: 'Conformitate cu legislația muncii',
-            inventory: 'Management inventar regional'
-          }
-        }
-      },
       home: {
         hero: {
           title: 'Soluții Enterprise pentru Afaceri Moderne',
@@ -315,11 +152,7 @@ const resources = {
           unlock_growth: 'Deblochează o creștere fără precedent cu suita noastră de soluții enterprise de ultimă generație.',
           why_choose: 'De Ce Companiile Lider Aleg',
           company_exp: 'Experimentează fuziunea perfectă dintre fiabilitatea la nivel enterprise și inovația modernă.',
-          platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.',
-          cta: {
-            primary: 'Începe Astăzi',
-            secondary: 'Programează o Demonstrație'
-          }
+          platform_evolves: 'Platforma noastră evoluează odată cu ambițiile tale, oferind fundația pentru o creștere sustenabilă și excelență digitală.'
         },
         features: {
           title: 'De Ce Să Alegi Platforma Noastră',
@@ -336,56 +169,34 @@ const resources = {
             title: 'Suport Elite 24/7',
             description: 'Asistență expertă la îndemâna ta. Echipa noastră dedicată îți asigură succesul non-stop.'
           }
-        },
-        benefits: {
-          title: 'Beneficii',
-          subtitle: 'Transformă-ți afacerea cu soluțiile noastre',
-          list: [
-            'Eficiență și productivitate îmbunătățită',
-            'Costuri operaționale reduse',
-            'Satisfacție crescută a clienților',
-            'Analize și informații în timp real'
-          ]
         }
       },
-      contact: {
-        sales: 'Contactează Vânzări',
-        title: 'Contactează-ne',
-        subtitle: 'Intră în legătură cu echipa noastră',
-        form: {
-          name: 'Numele Tău',
-          email: 'Adresa de Email',
-          message: 'Mesaj',
-          submit: 'Trimite Mesaj'
+      services: {
+        title: 'Serviciile Noastre',
+        subtitle: 'Explorează suita noastră completă de soluții enterprise',
+        manufacturing: {
+          title: 'Software pentru Producție',
+          description: 'Soluție de producție la nivel enterprise cu planificare avansată și monitorizare în timp real',
+          features: {
+            planning: 'Planificare Avansată a Producției',
+            quality: 'Control și Asigurarea Calității',
+            supply: 'Optimizarea Lanțului de Aprovizionare',
+            cost: 'Urmărirea Costurilor și Resurselor',
+            maintenance: 'Management Mentenanță',
+            compliance: 'Conformitate și Documentație'
+          }
         }
-      },
-      button: {
-        demo: 'Programează Demo',
-        learn_more: 'Află Mai Multe',
-        contact_sales: 'Contactează Vânzări',
-        get_started: 'Începe Acum',
-        submit: 'Trimite',
-        send: 'Trimite',
-        view_more: 'Vezi Mai Mult',
-        try_now: 'Încearcă Acum'
-      },
-      language: {
-        select: 'Selectează Limba',
-        english: 'Engleză',
-        romanian: 'Română'
       }
     }
   }
 };
 
 i18n
-  .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
     fallbackLng: 'en',
-    debug: true,
     interpolation: {
       escapeValue: false,
     }

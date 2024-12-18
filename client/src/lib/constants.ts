@@ -175,31 +175,17 @@ export const COMPANY_MILESTONES = [
 
 export const SERVICES = [
   {
-    id: "horeca",
-    title: "HORECA Solutions",
-    description: "Complete management solutions for hotels, restaurants, and catering businesses with integrated modules for seamless operations",
-    image: "https://images.unsplash.com/photo-1556742504-16b083241fab",
-    features: [
-      "Integrated Reservation System",
-      "Real-time Kitchen Display System",
-      "Smart Inventory Management",
-      "Staff Scheduling & Management",
-      "Customer Relationship Management",
-      "Financial Analytics & Reporting"
-    ]
-  },
-  {
     id: "manufacturing",
-    title: "Manufacturing Software",
-    description: "Enterprise-grade manufacturing solution with advanced production planning and real-time monitoring capabilities",
+    title: "services.manufacturing.title",
+    description: "services.manufacturing.description",
     image: "https://images.unsplash.com/photo-1580983230712-f7d0f878bcc4",
     features: [
-      "Advanced Production Planning",
-      "Quality Control & Assurance",
-      "Supply Chain Optimization",
-      "Cost & Resource Tracking",
-      "Maintenance Management",
-      "Compliance & Documentation"
+      "services.manufacturing.features.planning",
+      "services.manufacturing.features.quality",
+      "services.manufacturing.features.supply",
+      "services.manufacturing.features.cost",
+      "services.manufacturing.features.maintenance",
+      "services.manufacturing.features.compliance"
     ]
   },
   {
