@@ -35,6 +35,16 @@ const resources = {
         field_service: 'Field Service',
         marketing: 'Marketing Automation'
       },
+      enterprise: {
+        solutions: {
+          title: "Enterprise Solutions",
+          description: "Complete enterprise management solutions",
+          modules: {
+            title: "Available Modules",
+            description: "Comprehensive suite of business modules"
+          }
+        }
+      },
       common: {
         company_name: 'SalutTech',
         learn_more: 'Learn More',
@@ -52,18 +62,22 @@ const resources = {
         case_studies: 'Case Studies',
         about_us: 'About Us'
       },
-      contact: {
-        sales: 'Contact Sales',
-        title: 'Contact Us',
-        subtitle: 'Get in touch with our team',
-        form: {
-          name: 'Your Name',
-          email: 'Email Address',
-          message: 'Message',
-          submit: 'Send Message'
-        }
-      },
       industries: {
+        services: {
+          description: 'Project management and service tracking for consulting firms'
+        },
+        construction: {
+          description: 'Project cost estimation, material tracking and regulatory compliance'
+        },
+        hospitality: {
+          description: 'Reservation systems and guest experience management solutions'
+        },
+        healthcare: {
+          description: 'Patient management and medical inventory tracking systems'
+        },
+        education: {
+          description: 'Student information and educational resource management'
+        },
         manufacturing: {
           title: 'Advanced Manufacturing Solutions',
           subtitle: 'Comprehensive manufacturing solutions tailored for industries',
@@ -107,6 +121,17 @@ const resources = {
           }
         }
       },
+      contact: {
+        sales: 'Contact Sales',
+        title: 'Contact Us',
+        subtitle: 'Get in touch with our team',
+        form: {
+          name: 'Your Name',
+          email: 'Email Address',
+          message: 'Message',
+          submit: 'Send Message'
+        }
+      },
       home: {
         hero: {
           title: 'Enterprise Solutions for Modern Business',
@@ -130,16 +155,6 @@ const resources = {
             title: '24/7 Elite Support',
             description: 'Expert assistance at your fingertips. Our dedicated team ensures your success around the clock.'
           }
-        },
-        enterprise: {
-          solutions: {
-            title: "Enterprise Solutions",
-            description: "Complete enterprise management solutions",
-            modules: {
-              title: "Available Modules",
-              description: "Comprehensive suite of business modules"
-            }
-          }
         }
       },
       button: {
@@ -156,34 +171,6 @@ const resources = {
         select: 'Select Language',
         english: 'English',
         romanian: 'Romanian'
-      },
-      gradients: {
-        customizer: {
-          title: 'Gradient Customizer',
-          page_title: 'Gradient Customization Toolkit',
-          page_description: 'Create beautiful, customized gradients for your enterprise application',
-          preset: 'Preset',
-          select_preset: 'Select a preset',
-          start_color: 'Start Color',
-          end_color: 'End Color',
-          direction: 'Direction',
-          preview: 'Gradient Preview',
-          copy_classes: 'Copy Gradient Classes'
-        },
-        directions: {
-          right: 'Right',
-          bottom_right: 'Bottom Right',
-          top_right: 'Top Right',
-          bottom: 'Bottom'
-        }
-      },
-      glossary: {
-        title: 'Industry Terminology Glossary',
-        description: 'Comprehensive guide to industry-specific terms and definitions',
-        search_placeholder: 'Search terms...',
-        all_industries: 'All Industries',
-        example: 'Example',
-        no_results: 'No terms found'
       }
     }
   },
@@ -245,18 +232,22 @@ const resources = {
         case_studies: 'Studii de Caz',
         about_us: 'Despre Noi'
       },
-      contact: {
-        sales: 'Contactează Vânzări',
-        title: 'Contactează-ne',
-        subtitle: 'Intră în legătură cu echipa noastră',
-        form: {
-          name: 'Numele Tău',
-          email: 'Adresa de Email',
-          message: 'Mesaj',
-          submit: 'Trimite Mesaj'
-        }
-      },
       industries: {
+        services: {
+          description: 'Management de proiecte și urmărirea serviciilor pentru firme de consultanță'
+        },
+        construction: {
+          description: 'Estimarea costurilor proiectelor, urmărirea materialelor și conformitate cu reglementările'
+        },
+        hospitality: {
+          description: 'Sisteme de rezervări și management al experienței clienților'
+        },
+        healthcare: {
+          description: 'Managementul pacienților și urmărirea inventarului medical'
+        },
+        education: {
+          description: 'Gestiunea informațiilor despre studenți și resurse educaționale'
+        },
         manufacturing: {
           title: 'Soluții Avansate pentru Producție',
           subtitle: 'Soluții complete de producție adaptate industriilor din România',
@@ -300,6 +291,17 @@ const resources = {
           }
         }
       },
+      contact: {
+        sales: 'Contactează Vânzări',
+        title: 'Contactează-ne',
+        subtitle: 'Intră în legătură cu echipa noastră',
+        form: {
+          name: 'Numele Tău',
+          email: 'Adresa de Email',
+          message: 'Mesaj',
+          submit: 'Trimite Mesaj'
+        }
+      },
       home: {
         hero: {
           title: 'Soluții Enterprise pentru Afaceri Moderne',
@@ -339,34 +341,6 @@ const resources = {
         select: 'Selectează Limba',
         english: 'Engleză',
         romanian: 'Română'
-      },
-      gradients: {
-        customizer: {
-          title: 'Personalizare Gradient',
-          page_title: 'Instrument de Personalizare Gradient',
-          page_description: 'Creează gradiente frumoase și personalizate pentru aplicația ta enterprise',
-          preset: 'Presetare',
-          select_preset: 'Selectează o presetare',
-          start_color: 'Culoare de Start',
-          end_color: 'Culoare de Final',
-          direction: 'Direcție',
-          preview: 'Previzualizare Gradient',
-          copy_classes: 'Copiază Clasele Gradient'
-        },
-        directions: {
-          right: 'Dreapta',
-          bottom_right: 'Dreapta Jos',
-          top_right: 'Dreapta Sus',
-          bottom: 'Jos'
-        }
-      },
-      glossary: {
-        title: 'Glosar de Terminologie Industrială',
-        description: 'Ghid complet al termenilor și definițiilor specifice industriei',
-        search_placeholder: 'Caută termeni...',
-        all_industries: 'Toate Industriile',
-        example: 'Exemplu',
-        no_results: 'Nu s-au găsit termeni'
       }
     }
   }
