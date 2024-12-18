@@ -10,7 +10,10 @@ export function Hero() {
               Enterprise Software Solutions for Digital Transformation
             </h1>
             <p className="mt-6 text-xl text-gray-600">
-              Transform your business with our comprehensive suite of integrated enterprise solutions. From implementation to customization and support, we deliver tailored software that drives growth and efficiency across industries.
+              Transform your business with our comprehensive suite of integrated
+              enterprise solutions. From implementation to customization and
+              support, we deliver tailored software that drives growth and
+              efficiency across industries.
             </p>
             <div className="mt-8 flex gap-4">
               <Link href="/contact">
@@ -25,7 +28,7 @@ export function Hero() {
               </Link>
             </div>
           </div>
-          
+
           <div className="relative">
             <img
               src="https://images.unsplash.com/photo-1556761175-4b46a572b786"
