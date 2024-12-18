@@ -32,6 +32,7 @@ export function CaseStudyCard({
   results,
   testimonial,
   image,
+  videoUrl,
 }: CaseStudyProps) {
   return (
     <motion.div
