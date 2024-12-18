@@ -105,21 +105,6 @@ const resources = {
             labor: 'Romanian labor law compliance',
             inventory: 'Regional inventory management'
           }
-        },
-        services: {
-          description: "Project management and service tracking for consulting firms"
-        },
-        construction: {
-          description: "Project cost estimation, material tracking and regulatory compliance"
-        },
-        hospitality: {
-          description: "Reservation systems and guest experience management solutions"
-        },
-        healthcare: {
-          description: "Patient management and medical inventory tracking systems"
-        },
-        education: {
-          description: "Student information and educational resource management"
         }
       },
       home: {
@@ -144,16 +129,6 @@ const resources = {
           support: {
             title: '24/7 Elite Support',
             description: 'Expert assistance at your fingertips. Our dedicated team ensures your success around the clock.'
-          }
-        },
-        enterprise: {
-          solutions: {
-            title: "Enterprise Solutions",
-            description: "Complete enterprise management solutions",
-            modules: {
-              title: "Available Modules",
-              description: "Comprehensive suite of business modules"
-            }
           }
         }
       },
@@ -229,19 +204,9 @@ const resources = {
         project_management: 'Management Proiecte',
         hr: 'HR și Recrutare',
         ecommerce: 'Website și E-commerce',
-        pos: 'Sistem de Vânzare',
+        pos: 'Point of Sale',
         field_service: 'Servicii de Teren',
         marketing: 'Automatizare Marketing'
-      },
-      enterprise: {
-        solutions: {
-          title: "Soluții Enterprise",
-          description: "Soluții complete de management enterprise",
-          modules: {
-            title: "Module Disponibile",
-            description: "Suită completă de module pentru afaceri"
-          }
-        }
       },
       common: {
         company_name: 'SalutTech',
@@ -313,21 +278,6 @@ const resources = {
             labor: 'Conformitate cu legislația muncii',
             inventory: 'Management inventar regional'
           }
-        },
-        services: {
-          description: "Management de proiect și urmărire servicii pentru firme de consultanță"
-        },
-        construction: {
-          description: "Estimarea costurilor proiectului, urmărirea materialelor și conformitatea cu reglementările"
-        },
-        hospitality: {
-          description: "Sisteme de rezervare și soluții de management al experienței clienților"
-        },
-        healthcare: {
-          description: "Sisteme de management al pacienților și urmărire a inventarului medical"
-        },
-        education: {
-          description: "Managementul informațiilor despre studenți și al resurselor educaționale"
         }
       },
       home: {
