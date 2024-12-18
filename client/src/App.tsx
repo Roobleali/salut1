@@ -13,7 +13,6 @@ import { Purchase } from "@/pages/enterprise/Purchase";
 import { Manufacturing } from "@/pages/industries/Manufacturing";
 import { RealEstate } from "@/pages/industries/RealEstate";
 import { Healthcare } from "@/pages/industries/Healthcare";
-import { SocialResponsibility } from "@/pages/SocialResponsibility";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { Glossary } from "@/pages/Glossary";
 import { GradientCustomizerPage } from "@/pages/GradientCustomizer";
@@ -44,9 +43,6 @@ function App() {
           
           {/* Glossary Route */}
           <Route path="/glossary" component={Glossary} />
-          
-          {/* Social Responsibility Route */}
-          <Route path="/social-responsibility" component={SocialResponsibility} />
           
           {/* Gradient Customizer Route */}
           <Route path="/gradients" component={GradientCustomizerPage} />
