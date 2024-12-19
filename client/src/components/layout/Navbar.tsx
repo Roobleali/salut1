@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -175,38 +176,45 @@ export function Navbar() {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          "lg:hidden fixed  inset-0 top-16 bg-background/95 backdrop-blur-sm z-50 transition-transform duration-300 ease-in-out",
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full",
+          "lg:hidden fixed inset-0 top-16 bg-background/95 backdrop-blur-sm z-50 transition-all duration-300 ease-in-out",
+          isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
       >
-        <div className="container  z-50 bg-white mx-auto px-4 py-6 space-y-6">
-          {NAVIGATION_ITEMS.map((section) => (
-            <div key={section.title} className="pb-6 border-b">
-              <h3 className="text-sm font-semibold text-muted-foreground mb-4">
-                {section.title}
-              </h3>
-              <ul className="grid gap-3">
-                {section.items.map((item) => (
-                  <li key={item.title}>
-                    <Link href={item.href}>
-                      <a
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {getIcon(item.title, section.title)}
-                        <div>
-                          <span className="font-medium">{item.title}</span>
-                          <p className="text-sm text-muted-foreground">
-                            {item.description}
-                          </p>
-                        </div>
-                      </a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        <div className="container mx-auto h-[calc(100vh-4rem)] bg-background flex flex-col">
+          <div className="flex-1 overflow-y-auto px-4 py-6 space-y-8 hide-scrollbar">
+            {NAVIGATION_ITEMS.map((section) => (
+              <div key={section.title} className="pb-6 border-b last:border-b-0">
+                <h3 className="text-sm font-semibold text-muted-foreground mb-4 sticky top-0 bg-white py-2">
+                  {section.title}
+                </h3>
+                <ul className="grid gap-3">
+                  {section.items.map((item) => (
+                    <motion.li
+                      key={item.title}
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Link href={item.href}>
+                        <a
+                          className="flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {getIcon(item.title, section.title)}
+                          <div>
+                            <span className="font-medium">{item.title}</span>
+                            <p className="text-sm text-muted-foreground">
+                              {item.description}
+                            </p>
+                          </div>
+                        </a>
+                      </Link>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
 
           <div className="sticky bottom-0 bg-white p-4 border-t">
             {/* <LanguageSelector /> */}
