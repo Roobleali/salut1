@@ -17,7 +17,7 @@ interface CaseStudyProps {
     position: string;
     company: string;
   };
-  videoUrl: string;
+  videoUrl?: string;
 }
 
 export function CaseStudyCard({
