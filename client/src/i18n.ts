@@ -14,10 +14,8 @@ const resources = {
         about: 'About Us',
         manufacturing: 'Manufacturing',
         real_estate: 'Real Estate',
-        healthcare: 'Healthcare',
         retail: 'Retail & E-commerce',
         services: 'Professional Services',
-        construction: 'Construction',
         hospitality: 'Hospitality',
         education: 'Education',
         manufacturing: {
@@ -32,14 +30,8 @@ const resources = {
         services: {
           description: 'Project management and service tracking for consulting firms'
         },
-        construction: {
-          description: 'Project cost estimation, material tracking and regulatory compliance'
-        },
         hospitality: {
           description: 'Reservation systems and guest experience management solutions'
-        },
-        healthcare: {
-          description: 'Patient management and medical inventory tracking systems'
         },
         education: {
           description: 'Student information and educational resource management'
@@ -131,7 +123,20 @@ const resources = {
               inventory: 'Regional Inventory Management'
             }
           }
+        },
+        retail: {
+          title: 'Retail & E-commerce Solutions',
+          subtitle: 'Streamline your retail operations with integrated POS, inventory, and e-commerce tools.',
+          description: 'Boost sales and efficiency with our comprehensive retail and e-commerce platform.  Optimize your inventory, manage your point of sale effectively, and enhance the customer experience.',
+          seoDescription: 'Increase your retail sales and efficiency with our powerful e-commerce and POS system.  Manage inventory, optimize checkout, and improve the customer journey.'
+        },
+        education: {
+          title: 'Education Management System',
+          subtitle: 'Manage student information, resources, and curriculum effectively.',
+          description: 'Our education management system helps streamline administrative tasks, improve communication, and enhance the learning experience.',
+          seoDescription: 'Simplify school administration, boost student engagement, and improve the learning experience with our powerful education management system.'
         }
+
       },
       home: {
         hero: {
@@ -213,10 +218,8 @@ const resources = {
         about: 'Despre Noi',
         manufacturing: 'Producție',
         real_estate: 'Imobiliare',
-        healthcare: 'Sănătate',
         retail: 'Retail și E-commerce',
         services: 'Servicii Profesionale',
-        construction: 'Construcții',
         hospitality: 'Ospitalitate',
         education: 'Educație',
         manufacturing: {
@@ -231,14 +234,8 @@ const resources = {
         services: {
           description: 'Management de proiect și urmărirea serviciilor pentru firme de consultanță'
         },
-        construction: {
-          description: 'Estimarea costurilor proiectelor, urmărirea materialelor și conformitate cu reglementările'
-        },
         hospitality: {
           description: 'Sisteme de rezervări și management al experienței oaspeților'
-        },
-        healthcare: {
-          description: 'Managementul pacienților și urmărirea inventarului medical'
         },
         education: {
           description: 'Managementul informațiilor studenților și al resurselor educaționale'
@@ -330,6 +327,18 @@ const resources = {
               inventory: 'Management Inventar Regional'
             }
           }
+        },
+        retail: {
+          title: 'Soluții Retail & E-commerce',
+          subtitle: 'Optimizează-ți operațiunile de retail cu instrumente integrate POS, inventar și e-commerce.',
+          description: 'Stimulează vânzările și eficiența cu platforma noastră completă de retail și e-commerce. Optimizează-ți inventarul, gestionează eficient punctul de vânzare și îmbunătățește experiența clientului.',
+          seoDescription: 'Crește vânzările și eficiența în retail cu sistemul nostru puternic de e-commerce și POS. Gestionează inventarul, optimizează procesul de plată și îmbunătățește experiența clientului.'
+        },
+        education: {
+          title: 'Sistem de Management Educațional',
+          subtitle: 'Gestionează informațiile studenților, resursele și programa eficient.',
+          description: 'Sistemul nostru de management educațional ajută la optimizarea sarcinilor administrative, îmbunătățirea comunicării și la îmbunătățirea experienței de învățare.',
+          seoDescription: 'Simplifică administrația școlii, stimulează implicarea studenților și îmbunătățește experiența de învățare cu sistemul nostru puternic de management educațional.'
         }
       },
       home: {
