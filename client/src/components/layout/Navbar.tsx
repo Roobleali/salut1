@@ -47,11 +47,7 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
         href: "/industries/real-estate",
         description: "Property management systems",
       },
-      {
-        title: "Healthcare",
-        href: "/industries/healthcare",
-        description: "Healthcare management solutions",
-      },
+      
     ],
   },
 ];
@@ -87,7 +83,7 @@ export function Navbar() {
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur z-[100] border-b">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between relative">
+        <div className="flex h-16 items-center justify-between relative z-50">
           {/* Logo */}
           <Link href="/">
             <a className="font-bold text-2xl text-primary relative z-[101]">SalutTech</a>
@@ -177,9 +173,10 @@ export function Navbar() {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          "lg:hidden fixed bg-white inset-0 top-16 z-[99] overflow-y-auto overscroll-contain transition-transform duration-300 ease-in-out shadow-xl",
+          "lg:hidden fixed bg-white inset-0 top-16 z-40 overflow-y-auto overscroll-contain transition-transform duration-300 ease-in-out shadow-xl",
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
+        style={{ height: 'calc(100vh - 4rem)' }}
       >
         <div className="container mx-auto px-4 py-6 space-y-6">
           {NAVIGATION_ITEMS.map((section) => (
