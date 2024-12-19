@@ -51,22 +51,10 @@ export const NAVIGATION_ITEMS: NavigationItem[] = [
         icon: Briefcase,
       },
       {
-        title: "Construction",
-        href: "/industries/construction",
-        description: "Project cost estimation, material tracking and regulatory compliance",
-        icon: HardHat,
-      },
-      {
         title: "Hospitality",
         href: "/industries/hospitality",
         description: "Reservation systems and guest experience management solutions",
         icon: UtensilsCrossed,
-      },
-      {
-        title: "Healthcare",
-        href: "/industries/healthcare",
-        description: "Patient management and medical inventory tracking systems",
-        icon: Stethoscope,
       },
       {
         title: "Education",
@@ -260,7 +248,7 @@ export const VIDEO_TESTIMONIALS = [
     clientName: "Sarah Johnson",
     position: "Plant Manager",
     company: "TechManufacturing Inc.",
-    videoUrl: "https://example.com/testimonials/techmanufacturing.mp4",
+    videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/f_auto:video,q_auto/m59amoxkynlzn8jy7ows",
     thumbnail: "https://images.unsplash.com/photo-1565785755661-61aa53ca37c7"
   },
   {
