@@ -13,7 +13,7 @@ import { Sales } from "@/pages/enterprise/Sales";
 import { Purchase } from "@/pages/enterprise/Purchase";
 import { Manufacturing } from "@/pages/industries/Manufacturing";
 import { RealEstate } from "@/pages/industries/RealEstate";
-
+import { Healthcare } from "@/pages/industries/Healthcare";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { Glossary } from "@/pages/Glossary";
 import { GradientCustomizerPage } from "@/pages/GradientCustomizer";
@@ -284,7 +284,7 @@ function App() {
           {/* Industry Routes */}
           <Route path="/industries/manufacturing" component={Manufacturing} />
           <Route path="/industries/real-estate" component={RealEstate} />
-          
+          <Route path="/industries/healthcare" component={Healthcare} />
           
           {/* Glossary Route */}
           <Route path="/glossary" component={Glossary} />
