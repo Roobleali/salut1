@@ -285,28 +285,7 @@ export const CASE_STUDIES = [
     },
     videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/f_auto:video,q_auto/m59amoxkynlzn8jy7ows"
   },
-  {
-    id: "dolcenera-coffee",
-    title: "Dolcenera Coffee Shops Digital Revolution",
-    industry: "Manufacturing & HORECA",
-    challenge: "Prior to the software implementation, Dolcenera coffee shops faced challenges with inefficient inventory management, slow service times, and difficulties in tracking customer preferences, impacting their ability to maintain competitive advantage in the market.",
-    solution: "Implemented comprehensive software solution with POS system, inventory management, CRM tools, and analytics dashboard to streamline operations and enhance customer experience",
-    results: [
-      "30% reduction in order processing times",
-      "40% increase in customer satisfaction",
-      "25% reduction in inventory waste",
-      "Enhanced customer data analytics",
-      "Improved staff efficiency through training",
-      "Real-time monitoring of operations"
-    ],
-    testimonial: {
-      quote: "The software has revolutionized how we interact with customers. We've seen remarkable improvements in customer satisfaction and operational efficiency across all our locations.",
-      author: "Operations Director",
-      position: "Director of Operations",
-      company: "Dolcenera Coffee Shops"
-    },
-    // No video available for this case study - using placeholder
-  },
+ 
   {
     id: "brec-real-estate",
     title: "Brec Business & Real Estate Consulting Digital Transformation",
@@ -328,6 +307,27 @@ export const CASE_STUDIES = [
       company: "Brec Business & Real Estate Consulting SRL"
     },
     videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/v1734621913/7982cf6b-2687-43f1-b24e-bdadebc9777a_elwl2b.mov"
+  }, {
+    id: "dolcenera-coffee",
+    title: "Dolcenera Coffee Shops Digital Revolution",
+    industry: "Manufacturing & HORECA",
+    challenge: "Prior to the software implementation, Dolcenera coffee shops faced challenges with inefficient inventory management, slow service times, and difficulties in tracking customer preferences, impacting their ability to maintain competitive advantage in the market.",
+    solution: "Implemented comprehensive software solution with POS system, inventory management, CRM tools, and analytics dashboard to streamline operations and enhance customer experience",
+    results: [
+      "30% reduction in order processing times",
+      "40% increase in customer satisfaction",
+      "25% reduction in inventory waste",
+      "Enhanced customer data analytics",
+      "Improved staff efficiency through training",
+      "Real-time monitoring of operations"
+    ],
+    testimonial: {
+      quote: "The software has revolutionized how we interact with customers. We've seen remarkable improvements in customer satisfaction and operational efficiency across all our locations.",
+      author: "Operations Director",
+      position: "Director of Operations",
+      company: "Dolcenera Coffee Shops"
+    },
+    // No video available for this case study - using placeholder
   },
   {
     id: "codavinci-property",
