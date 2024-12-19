@@ -56,6 +56,32 @@
 }
 
 @keyframes wave {
+/* Hide scrollbar while maintaining functionality */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* Internet Explorer and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Mobile navigation styles */
+.mobile-nav-section {
+  position: relative;
+}
+
+.mobile-nav-section-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
   0% { background-position: 0 0; }
   100% { background-position: 0.5em 0; }
 }
