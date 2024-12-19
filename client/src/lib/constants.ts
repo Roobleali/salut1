@@ -327,7 +327,8 @@ export const CASE_STUDIES = [
       position: "CEO",
       company: "Brec Business & Real Estate Consulting SRL"
     },
-    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747070/jpoxov3qweqyokkfeyco.png"
+    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747070/jpoxov3qweqyokkfeyco.png",
+    videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/v1734621913/7982cf6b-2687-43f1-b24e-bdadebc9777a_elwl2b.mov"
   },
   
   {
