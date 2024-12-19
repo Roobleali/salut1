@@ -176,7 +176,7 @@ export function Navbar() {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          "lg:hidden fixed bg-white inset-0 top-16 z-[99] overflow-y-auto overscroll-contain transition-transform duration-300 ease-in-out shadow-xl",
+          "lg:hidden fixed inset-0 top-16 z-[99] bg-white overflow-y-auto overscroll-contain transition-transform duration-300 ease-in-out border-l",
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
@@ -186,19 +186,21 @@ export function Navbar() {
               <h3 className="text-base font-semibold text-primary mb-4">
                 {section.title}
               </h3>
-              <ul className="grid gap-3">
+              <ul className="grid gap-2">
                 {section.items.map((item) => (
                   <li key={item.title}>
                     <Link href={item.href}>
                       <a
-                        className="block p-3 rounded-lg hover:bg-primary/5 transition-colors"
+                        className="block p-4 rounded-lg bg-gray-50/80 hover:bg-primary/5 transition-colors"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         <div className="flex items-center gap-3">
-                          {getIcon(item.title, section.title)}
+                          <div className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+                            {getIcon(item.title, section.title)}
+                          </div>
                           <div>
-                            <span className="font-medium text-gray-900">{item.title}</span>
-                            <p className="text-sm text-gray-600 mt-1">
+                            <span className="font-semibold text-gray-900">{item.title}</span>
+                            <p className="text-sm text-gray-600 mt-1 line-clamp-2">
                               {item.description}
                             </p>
                           </div>
