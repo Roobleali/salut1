@@ -3,16 +3,12 @@ import { ServiceCard } from "@/components/sections/ServiceCard";
 import { SERVICES } from "@/lib/constants";
 import { useTranslation } from "react-i18next";
 
-interface HomeProps {
-  onGetStarted?: () => void;
-}
-
-export function Home({ onGetStarted }: HomeProps) {
+export function Home() {
   const { t } = useTranslation();
 
   return (
     <>
-      <Hero onGetStarted={onGetStarted} />
+      <Hero />
       
       <section className="py-24 bg-gradient-to-br from-background via-primary/5 to-background">
         <div className="container mx-auto px-4">
