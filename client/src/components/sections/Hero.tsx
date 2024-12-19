@@ -1,6 +1,11 @@
+import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 
-export function Hero() {
+interface HeroProps {
+  onGetStarted?: () => void;
+}
+
+export function Hero({ onGetStarted }: HeroProps) {
   return (
     <div className="relative overflow-hidden bg-gradient-to-b from-primary/5 to-transparent pt-32 pb-24">
       <div className="container mx-auto px-4">
@@ -19,15 +24,17 @@ export function Hero() {
               </svg>
             </p>
             <div className="mt-8 flex gap-4">
-              <Link href="/contact">
-                <a className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8">
-                  Get Started
-                </a>
-              </Link>
+              <Button 
+                size="lg" 
+                onClick={onGetStarted}
+                className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary"
+              >
+                Get Started
+              </Button>
               <Link href="/services">
-                <a className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8">
+                <Button variant="outline" size="lg">
                   Learn More
-                </a>
+                </Button>
               </Link>
             </div>
           </div>
