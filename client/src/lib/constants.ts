@@ -283,7 +283,6 @@ export const CASE_STUDIES = [
       position: "CEO",
       company: "Gourmet Coffee"
     },
-    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747105/ttt1fmtpdnxfv3gagevm.png",
     videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/f_auto:video,q_auto/m59amoxkynlzn8jy7ows"
   },
   {
@@ -306,7 +305,7 @@ export const CASE_STUDIES = [
       position: "Director of Operations",
       company: "Dolcenera Coffee Shops"
     },
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"
+    videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/f_auto:video,q_auto/m59amoxkynlzn8jy7ows"
   },
   {
     id: "brec-real-estate",
@@ -328,10 +327,8 @@ export const CASE_STUDIES = [
       position: "CEO",
       company: "Brec Business & Real Estate Consulting SRL"
     },
-    image: "https://res.cloudinary.com/do3dahfvh/image/upload/v1731747070/jpoxov3qweqyokkfeyco.png",
     videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/v1734621913/7982cf6b-2687-43f1-b24e-bdadebc9777a_elwl2b.mov"
   },
-  
   {
     id: "codavinci-property",
     title: "Codavinci SRL Property Management Transformation",
@@ -352,7 +349,7 @@ export const CASE_STUDIES = [
       position: "CEO",
       company: "Codavinci SRL"
     },
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab"
+    videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/v1734621913/7982cf6b-2687-43f1-b24e-bdadebc9777a_elwl2b.mov"
   }
 ];
 
