@@ -39,14 +39,18 @@ export function CaseStudyCard({
     >
       <Card className="overflow-hidden">
         <div className="aspect-video relative bg-black">
-          <video
-            src={videoUrl}
-            className="object-cover w-full h-full"
-            autoPlay
-            muted
-            loop
-            playsInline
-          />
+          {videoUrl ? (
+            <video
+              src={videoUrl}
+              className="object-cover w-full h-full"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-background" />
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <Badge className="absolute top-4 left-4 z-10">{industry}</Badge>
         </div>

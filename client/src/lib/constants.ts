@@ -305,7 +305,7 @@ export const CASE_STUDIES = [
       position: "Director of Operations",
       company: "Dolcenera Coffee Shops"
     },
-    videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/f_auto:video,q_auto/m59amoxkynlzn8jy7ows"
+    // No video available for this case study - using placeholder
   },
   {
     id: "brec-real-estate",
@@ -349,7 +349,7 @@ export const CASE_STUDIES = [
       position: "CEO",
       company: "Codavinci SRL"
     },
-    videoUrl: "https://res.cloudinary.com/do3dahfvh/video/upload/v1734621913/7982cf6b-2687-43f1-b24e-bdadebc9777a_elwl2b.mov"
+    // No video available for this case study - using placeholder
   }
 ];
 
