@@ -17,7 +17,7 @@ interface CaseStudyProps {
     position: string;
     company: string;
   };
-  videoUrl?: string;
+  videoUrl?: string | undefined;
 }
 
 export function CaseStudyCard({
@@ -39,7 +39,7 @@ export function CaseStudyCard({
     >
       <Card className="overflow-hidden">
         <div className="aspect-video relative bg-black">
-          {videoUrl ? (
+          {videoUrl && videoUrl.length > 0 ? (
             <video
               src={videoUrl}
               className="object-cover w-full h-full"
@@ -49,7 +49,9 @@ export function CaseStudyCard({
               playsInline
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-background" />
+            <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/10 to-background flex items-center justify-center">
+              <div className="text-primary/30 text-lg font-medium">No video preview available</div>
+            </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <Badge className="absolute top-4 left-4 z-10">{industry}</Badge>
