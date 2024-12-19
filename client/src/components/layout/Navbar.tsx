@@ -1,83 +1,91 @@
-import { useState } from "react";
+import React from "react";
 import { Link } from "wouter";
-import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import {
   NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuTrigger,
   NavigationMenuContent,
+  NavigationMenuItem,
   NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { Button } from "@/components/ui/button";
 import { LanguageSelector } from "@/components/LanguageSelector";
-import type { NavigationItem } from "@/types";
+import {
+  Users,
+  ShoppingCart,
+  Package,
+  Boxes,
+  Factory,
+  Calculator,
+  ClipboardList,
+  UserPlus,
+  Globe,
+  ShoppingBag,
+  Truck,
+  Megaphone,
+  Building2,
+  Briefcase,
+  Hammer,
+  UtensilsCrossed,
+  Stethoscope,
+  GraduationCap,
+  Menu,
+  X,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { NAVIGATION_ITEMS } from "@/lib/constants";
 
-const NAVIGATION_ITEMS: NavigationItem[] = [
-  {
-    title: "Enterprise",
-    items: [
-      {
-        title: "CRM",
-        href: "/enterprise/crm",
-        description: "Customer relationship management system",
-      },
-      {
-        title: "Sales",
-        href: "/enterprise/sales",
-        description: "Sales management and forecasting",
-      },
-      {
-        title: "Purchase",
-        href: "/enterprise/purchase",
-        description: "Procurement and vendor management",
-      },
-    ],
-  },
-  {
-    title: "Industries",
-    items: [
-      {
-        title: "Manufacturing",
-        href: "/industries/manufacturing",
-        description: "End-to-end manufacturing solutions",
-      },
-      {
-        title: "Real Estate",
-        href: "/industries/real-estate",
-        description: "Property management systems",
-      },
-      
-    ],
-  },
-];
+type IconMapping = {
+  [key: string]: JSX.Element;
+};
 
-function getIcon(title: string, section: string) {
-  return (
-    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-      <svg
-        className="w-5 h-5 text-primary"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={1.5}
-          d={
-            section === "Enterprise"
-              ? "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-              : "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-          }
-        />
-      </svg>
-    </div>
-  );
-}
+type IconSections = {
+  Industries: IconMapping;
+  Modules: IconMapping;
+};
+
+const icons: IconSections = {
+  Industries: {
+    Manufacturing: <Factory className="w-4 h-4" aria-hidden="true" />,
+    "Real Estate": <Building2 className="w-4 h-4" aria-hidden="true" />,
+    "Retail & E-commerce": (
+      <ShoppingBag className="w-4 h-4" aria-hidden="true" />
+    ),
+    "Professional Services": (
+      <Briefcase className="w-4 h-4" aria-hidden="true" />
+    ),
+    Construction: <Hammer className="w-4 h-4" aria-hidden="true" />,
+    Hospitality: <UtensilsCrossed className="w-4 h-4" aria-hidden="true" />,
+    Healthcare: <Stethoscope className="w-4 h-4" aria-hidden="true" />,
+    Education: <GraduationCap className="w-4 h-4" aria-hidden="true" />,
+  },
+  Modules: {
+    CRM: <Users className="w-4 h-4" aria-hidden="true" />,
+    Sales: <ShoppingCart className="w-4 h-4" aria-hidden="true" />,
+    Purchase: <Package className="w-4 h-4" aria-hidden="true" />,
+    Inventory: <Boxes className="w-4 h-4" aria-hidden="true" />,
+    Manufacturing: <Factory className="w-4 h-4" aria-hidden="true" />,
+    Accounting: <Calculator className="w-4 h-4" aria-hidden="true" />,
+    "Project Management": (
+      <ClipboardList className="w-4 h-4" aria-hidden="true" />
+    ),
+    "HR & Recruitment": <UserPlus className="w-4 h-4" aria-hidden="true" />,
+    "Website & E-commerce": <Globe className="w-4 h-4" aria-hidden="true" />,
+    "Point of Sale": <ShoppingBag className="w-4 h-4" aria-hidden="true" />,
+    "Field Service": <Truck className="w-4 h-4" aria-hidden="true" />,
+    "Marketing Automation": (
+      <Megaphone className="w-4 h-4" aria-hidden="true" />
+    ),
+  },
+};
+
+const getIcon = (title: string, section: string): JSX.Element | null => {
+  return icons[section as keyof IconSections]?.[title] || null;
+};
 
 export function Navbar() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const { t } = useTranslation();
 
   return (
@@ -96,49 +104,49 @@ export function Navbar() {
             aria-label="Toggle menu"
             aria-expanded={isMobileMenuOpen}
           >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMobileMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
+            {isMobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:block">
             <NavigationMenu>
               <NavigationMenuList>
-                {NAVIGATION_ITEMS.map((section) => (
-                  <NavigationMenuItem key={section.title}>
-                    <NavigationMenuTrigger>{section.title}</NavigationMenuTrigger>
+                {NAVIGATION_ITEMS.map((item) => (
+                  <NavigationMenuItem key={item.title}>
+                    <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        {section.items.map((item) => (
-                          <li key={item.title}>
+                      <ul
+                        className={cn(
+                          "grid gap-3 p-6",
+                          item.title === "Industries" ||
+                            item.title === "Modules"
+                            ? "w-[600px] grid-cols-2"
+                            : "w-[400px]",
+                        )}
+                      >
+                        {item.items.map((subItem) => (
+                          <li key={subItem.title} className="row-span-3">
                             <NavigationMenuLink asChild>
-                              <Link href={item.href}>
-                                <a className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                                  <div className="text-sm font-medium leading-none">
-                                    {item.title}
+                              <Link href={subItem.href}>
+                                <a
+                                  className={cn(
+                                    "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-200",
+                                    "hover:bg-gradient-to-r hover:from-primary/10 hover:to-primary/5",
+                                    "focus:bg-gradient-to-r focus:from-primary/20 focus:to-primary/10",
+                                  )}
+                                >
+                                  <div className="flex items-center gap-2 text-sm font-medium leading-none mb-2">
+                                    {getIcon(subItem.title, item.title)}
+                                    <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                                      {subItem.title}
+                                    </span>
                                   </div>
                                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                    {item.description}
+                                    {subItem.description}
                                   </p>
                                 </a>
                               </Link>
@@ -151,22 +159,17 @@ export function Navbar() {
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
+          </div>
 
-            <Link href="/services">
-              <a className="text-sm font-medium hover:text-primary">Services</a>
-            </Link>
-            <Link href="/case-studies">
-              <a className="text-sm font-medium hover:text-primary">Case Studies</a>
-            </Link>
-            <Link href="/about">
-              <a className="text-sm font-medium hover:text-primary">About</a>
-            </Link>
-            <Link href="/contact">
-              <a className="text-sm font-medium hover:text-primary">Contact</a>
-            </Link>
-
+          {/* Desktop Contact Button */}
+          <div className="hidden lg:flex items-center gap-4">
             <LanguageSelector />
-          </nav>
+            <Link href="/contact">
+              <a className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                {t("contact.sales")}
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -212,9 +215,9 @@ export function Navbar() {
             <LanguageSelector />
             <Link href="/contact">
               <a>
-                <button className="w-full px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors">
-                  Contact Us
-                </button>
+                <Button size="lg" className="w-full">
+                  {t("contact.sales")}
+                </Button>
               </a>
             </Link>
           </div>
