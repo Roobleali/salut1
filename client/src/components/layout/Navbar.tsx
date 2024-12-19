@@ -47,11 +47,7 @@ const NAVIGATION_ITEMS: NavigationItem[] = [
         href: "/industries/real-estate",
         description: "Property management systems",
       },
-      {
-        title: "Healthcare",
-        href: "/industries/healthcare",
-        description: "Healthcare management solutions",
-      },
+      
     ],
   },
 ];
