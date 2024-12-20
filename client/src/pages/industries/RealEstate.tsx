@@ -111,25 +111,35 @@ export function RealEstate() {
       className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 pt-32 pb-24"
     >
       <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <Badge className="mb-4">Real Estate Solutions</Badge>
-          <h1 className="text-4xl font-bold mb-6">
-            Advanced Real Estate Management
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Comprehensive real estate solutions tailored for the Romanian market, with full compliance and local market integration.
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Link href="/contact">
-              <Button size="lg">
-                Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button variant="outline" size="lg">
-                Contact Sales
-              </Button>
-            </Link>
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          <div className="text-left">
+            <Badge className="mb-4">Real Estate Solutions</Badge>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
+              Advanced Real Estate Management
+            </h1>
+            <p className="text-xl text-gray-600 mb-8">
+              Comprehensive real estate solutions with full integration of modern property management tools and analytics.
+            </p>
+          <div className="flex gap-4">
+              <Link href="/contact">
+                <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+                  Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="/contact">
+                <Button variant="outline" size="lg">
+                  Contact Sales
+                </Button>
+              </Link>
+            </div>
+          </div>
+          <div className="relative lg:mt-0 mt-8">
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-2xl"></div>
+            <img
+              src="/Brown Modern Visit Our Website Video Instagram Post.png"
+              alt="Real Estate Management Platform"
+              className="rounded-2xl shadow-2xl relative z-10 w-full object-cover"
+            />
           </div>
         </div>
 
