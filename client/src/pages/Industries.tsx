@@ -8,52 +8,53 @@ import { ServiceFeature } from "@/components/sections/ServiceFeature";
 const FEATURES = [
   {
     title: "Project Management",
-    desire: "Achieve seamless project execution",
-    outcome: "Utilize Gantt charts and Kanban views for clear task visualization and progress tracking, ensuring projects are completed on time and within budget",
+    desire: "Achieve seamless project execution across industries",
+    outcome: "Utilize comprehensive project tools including Gantt charts, Kanban boards, and milestone tracking to ensure projects are completed efficiently",
   },
   {
     title: "Customer Relationship Management (CRM)",
-    desire: "Build lasting relationships with clients",
-    outcome: "Capture and nurture leads effectively, enhancing conversion rates and maintaining detailed interaction records to elevate service delivery",
+    desire: "Build and maintain strong client relationships",
+    outcome: "Transform customer interactions with advanced lead tracking, detailed interaction history, and automated follow-ups",
   },
   {
-    title: "Billing and Invoicing",
-    desire: "Simplify financial processes",
-    outcome: "Automate invoicing directly from projects, ensuring timely payments and reducing administrative burdens with recurring billing options",
+    title: "Service Operations",
+    desire: "Streamline your service delivery process",
+    outcome: "Efficiently manage service agreements and operations with automated workflows and real-time tracking",
   },
   {
-    title: "Integrated Communication Tools",
-    desire: "Foster collaboration among teams",
-    outcome: "Enable real-time communication through integrated messaging and dashboards, ensuring everyone is aligned and informed",
+    title: "Industry-Specific Solutions",
+    desire: "Get tailored solutions for your sector",
+    outcome: "Access specialized tools and features designed specifically for your industry's unique requirements",
   },
   {
-    title: "Service Agreements Management",
-    desire: "Streamline service operations",
-    outcome: "Efficiently manage service agreements, simplifying tracking and renewal processes for enhanced operational flow",
+    title: "Integrated Analytics",
+    desire: "Make data-driven business decisions",
+    outcome: "Leverage comprehensive analytics and reporting tools for strategic planning and performance optimization",
   },
   {
-    title: "Mobile Accessibility",
-    desire: "Manage your business on-the-go",
-    outcome: "Access all features from mobile devices, empowering you to oversee operations anytime, anywhere",
+    title: "Digital Transformation",
+    desire: "Modernize your business operations",
+    outcome: "Implement cutting-edge digital solutions that drive efficiency and growth in your industry",
   },
   {
-    title: "Customizable Workflows",
-    desire: "Tailor processes to fit your needs",
-    outcome: "Automate repetitive tasks with customizable workflows that enhance efficiency across departments",
+    title: "Automation & Workflow",
+    desire: "Reduce manual tasks and streamline processes",
+    outcome: "Automate routine operations and create efficient workflows tailored to your industry needs",
   },
   {
-    title: "Reporting and Analytics",
-    desire: "Make informed decisions based on data",
-    outcome: "Leverage built-in analytics tools to monitor performance metrics, enabling strategic decision-making for sustained growth",
+    title: "Scalable Infrastructure",
+    desire: "Grow your business with confidence",
+    outcome: "Build on a robust, scalable platform that evolves with your business needs and industry demands",
   },
 ];
 
 const BENEFITS = [
-  "All-in-One Solution: Integrate multiple business functions into a single platform, eliminating the hassle of managing disparate systems",
-  "Modular Design: Select only the applications you need, creating a tailored solution that aligns with your specific business goals without unnecessary costs",
-  "Scalability: As your business grows, easily scale your operations with our cloud-based solution that adapts to increasing demands",
-  "Enhanced Customer Experience: Improve client interactions through effective CRM tools and self-service portals that foster loyalty and satisfaction",
-  "Improved Financial Management: Simplify billing processes with integrated features that ensure timely payments and accurate financial reporting",
+  "Industry-Specific Solutions: Get specialized tools and features designed for your sector's unique requirements",
+  "Comprehensive Integration: Unify all your business operations in a single, powerful platform tailored to your industry",
+  "Adaptive Technology: Stay ahead with solutions that evolve alongside your industry's changing needs",
+  "Enhanced Efficiency: Streamline operations with automated workflows and industry-best practices",
+  "Data-Driven Growth: Make informed decisions with industry-specific analytics and insights",
+  "Scalable Architecture: Grow confidently with a platform that adapts to your expanding business needs",
 ];
 
 export function Industries() {
