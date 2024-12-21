@@ -36,14 +36,24 @@ const FEATURES = [
     desire: "Manage your business on-the-go",
     outcome: "Access all features from mobile devices, empowering you to oversee operations anytime, anywhere",
   },
+  {
+    title: "Customizable Workflows",
+    desire: "Tailor processes to fit your needs",
+    outcome: "Automate repetitive tasks with customizable workflows that enhance efficiency across departments",
+  },
+  {
+    title: "Reporting and Analytics",
+    desire: "Make informed decisions based on data",
+    outcome: "Leverage built-in analytics tools to monitor performance metrics, enabling strategic decision-making for sustained growth",
+  },
 ];
 
 const BENEFITS = [
-  "All-in-One Solution: Integrate multiple business functions into a single platform",
-  "Modular Design: Select only the applications you need",
-  "Scalability: Easily scale your operations with our cloud-based solution",
-  "Enhanced Customer Experience: Improve client interactions through effective CRM tools",
-  "Improved Financial Management: Simplify billing processes with integrated features",
+  "All-in-One Solution: Integrate multiple business functions into a single platform, eliminating the hassle of managing disparate systems",
+  "Modular Design: Select only the applications you need, creating a tailored solution that aligns with your specific business goals without unnecessary costs",
+  "Scalability: As your business grows, easily scale your operations with our cloud-based solution that adapts to increasing demands",
+  "Enhanced Customer Experience: Improve client interactions through effective CRM tools and self-service portals that foster loyalty and satisfaction",
+  "Improved Financial Management: Simplify billing processes with integrated features that ensure timely payments and accurate financial reporting",
 ];
 
 export function Services() {
