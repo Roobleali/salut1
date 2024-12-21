@@ -73,7 +73,7 @@ export function Services() {
                 Transform Your Business with Salut Enterprise
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Unlock your potential with our comprehensive suite of features designed to drive efficiency, growth, and exceptional customer experiences.
+                At Salut Enterprise, we understand that service companies are driven by the desire for efficiency, growth, and exceptional customer experiences.
               </p>
               <div className="flex gap-4 justify-center">
                 <Link href="/contact">
