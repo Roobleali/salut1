@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,36 +28,38 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { Loader2, ArrowRight, ArrowLeft } from "lucide-react";
 
 const formSchema = z.object({
-  industry: z.string().min(1, "Please select an industry"),
+  industry: z.string().min(1, "Please select your industry"),
   otherIndustry: z.string().optional(),
-  goal: z.string().min(1, "Please select your main goal"),
-  otherGoal: z.string().optional(),
+  company: z.string().min(2, "Company name must be at least 2 characters"),
+  cui: z.string().optional(),
+  contactName: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
-  companyName: z.string().min(1, "Please enter your company name"),
-  message: z.string().optional(),
+  phone: z.string().optional(),
+  requirements: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 const INDUSTRIES = [
-  { value: "manufacturing", label: "Manufacturing" },
-  { value: "retail", label: "Retail & E-commerce" },
-  { value: "real-estate", label: "Real Estate" },
-  { value: "hospitality", label: "Hospitality" },
-  { value: "education", label: "Education" },
-  { value: "other", label: "Other" },
+  { id: "manufacturing", label: "Manufacturing" },
+  { id: "real-estate", label: "Real Estate" },
+  { id: "retail", label: "Retail & E-commerce" },
+  { id: "horeca", label: "HORECA" },
+  { id: "healthcare", label: "Healthcare" },
+  { id: "education", label: "Education" },
+  { id: "services", label: "Professional Services" },
+  { id: "other", label: "Other" },
 ];
 
-const GOALS = [
-  { value: "automation", label: "Automate Business Processes" },
-  { value: "growth", label: "Scale Business Operations" },
-  { value: "efficiency", label: "Improve Operational Efficiency" },
-  { value: "costs", label: "Reduce Operational Costs" },
-  { value: "experience", label: "Enhance Customer Experience" },
-  { value: "other", label: "Other" },
-];
+const STEPS = {
+  1: "Industry Selection",
+  2: "Company Details",
+  3: "Contact Information",
+  4: "Additional Requirements",
+} as const;
 
 interface GetStartedModalProps {
   open: boolean;
@@ -65,28 +67,50 @@ interface GetStartedModalProps {
 }
 
 export function GetStartedModal({ open, onOpenChange }: GetStartedModalProps) {
+  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       industry: "",
       otherIndustry: "",
-      goal: "",
-      otherGoal: "",
+      company: "",
+      cui: "",
+      contactName: "",
       email: "",
-      companyName: "",
-      message: "",
+      phone: "",
+      requirements: "",
     },
   });
 
+  const selectedIndustry = form.watch("industry");
+
   const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          subject: `New Business Inquiry - ${data.company} (${data.industry})`,
+          message: `
+Industry: ${data.industry}
+${data.otherIndustry ? `Specific Industry: ${data.otherIndustry}` : ''}
+Company: ${data.company}
+CUI: ${data.cui || 'Not provided'}
+Contact Name: ${data.contactName}
+Email: ${data.email}
+Phone: ${data.phone || 'Not provided'}
+
+Requirements:
+${data.requirements || 'No specific requirements provided'}
+          `.trim(),
+        }),
       });
 
       if (!response.ok) {
@@ -95,69 +119,201 @@ export function GetStartedModal({ open, onOpenChange }: GetStartedModalProps) {
 
       toast({
         title: "Success!",
-        description: "We've received your information and will contact you soon.",
+        description: "Thank you for your interest. Our team will contact you shortly.",
       });
 
       onOpenChange(false);
       form.reset();
+      setStep(1);
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to send your information. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const selectedIndustry = form.watch("industry");
-  const selectedGoal = form.watch("goal");
+  const nextStep = () => {
+    const currentFields = {
+      1: ["industry"],
+      2: ["company"],
+      3: ["contactName", "email"],
+      4: ["requirements"],
+    }[step as keyof typeof STEPS] || [];
+
+    const isValid = currentFields.every((field) => {
+      const value = form.getValues(field as keyof FormData);
+      return !formSchema.shape[field as keyof FormData].isOptional() ? value && value.length > 0 : true;
+    });
+
+    if (isValid) {
+      setStep((s) => Math.min(s + 1, Object.keys(STEPS).length));
+    } else {
+      currentFields.forEach((field) => {
+        form.trigger(field as keyof FormData);
+      });
+    }
+  };
+
+  const prevStep = () => setStep((s) => Math.max(s - 1, 1));
+
+  const isLastStep = step === Object.keys(STEPS).length;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Get Started with SalutTech</DialogTitle>
+          <DialogTitle>Get Started with Salut Enterprise</DialogTitle>
           <DialogDescription>
-            Tell us about your business and how we can help you succeed.
+            Step {step} of {Object.keys(STEPS).length}: {STEPS[step as keyof typeof STEPS]}
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="industry"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Industry</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your industry" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {INDUSTRIES.map((industry) => (
-                        <SelectItem key={industry.value} value={industry.value}>
-                          {industry.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Step 1: Industry Selection */}
+            {step === 1 && (
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="industry"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Select Your Industry</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Choose your industry" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {INDUSTRIES.map((industry) => (
+                            <SelectItem key={industry.id} value={industry.id}>
+                              {industry.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            {selectedIndustry === "other" && (
+                {selectedIndustry === "other" && (
+                  <FormField
+                    control={form.control}
+                    name="otherIndustry"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Please Specify Your Industry</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Your specific industry" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+              </div>
+            )}
+
+            {/* Step 2: Company Details */}
+            {step === 2 && (
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="company"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Company Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Your company name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="cui"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>CUI (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Company CUI" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+
+            {/* Step 3: Contact Information */}
+            {step === 3 && (
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="contactName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Contact Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Your full name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="your@email.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Your phone number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
+
+            {/* Step 4: Additional Requirements */}
+            {step === 4 && (
               <FormField
                 control={form.control}
-                name="otherIndustry"
+                name="requirements"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Specify Industry</FormLabel>
+                    <FormLabel>Additional Requirements (Optional)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your industry" {...field} />
+                      <Textarea
+                        placeholder="Tell us about your specific needs or requirements..."
+                        className="min-h-[100px]"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -165,95 +321,33 @@ export function GetStartedModal({ open, onOpenChange }: GetStartedModalProps) {
               />
             )}
 
-            <FormField
-              control={form.control}
-              name="goal"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Main Goal</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your main goal" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {GOALS.map((goal) => (
-                        <SelectItem key={goal.value} value={goal.value}>
-                          {goal.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
+            <div className="flex justify-between pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={prevStep}
+                disabled={step === 1}
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" /> Back
+              </Button>
+
+              {!isLastStep ? (
+                <Button type="button" onClick={nextStep}>
+                  Next <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              ) : (
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit'
+                  )}
+                </Button>
               )}
-            />
-
-            {selectedGoal === "other" && (
-              <FormField
-                control={form.control}
-                name="otherGoal"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Specify Goal</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter your main goal" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-
-            <FormField
-              control={form.control}
-              name="companyName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Company Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your company name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your email address" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Additional Information (Optional)</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Tell us more about your needs"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit" className="w-full">
-              Submit
-            </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>
