@@ -10,6 +10,7 @@ import { EnterpriseApps } from "@/pages/enterprise/EnterpriseApps";
 import { CRM } from "@/pages/enterprise/CRM";
 import { Sales } from "@/pages/enterprise/Sales";
 import { Purchase } from "@/pages/enterprise/Purchase";
+import { Inventory } from "@/pages/enterprise/Inventory";
 import { Manufacturing } from "@/pages/industries/Manufacturing";
 import { RealEstate } from "@/pages/industries/RealEstate";
 import { Retail } from "@/pages/industries/Retail";
@@ -38,6 +39,7 @@ function App() {
           <Route path="/enterprise/crm" component={CRM} />
           <Route path="/enterprise/sales" component={Sales} />
           <Route path="/enterprise/purchase" component={Purchase} />
+          <Route path="/enterprise/inventory" component={Inventory} />
           
           {/* Industry Routes */}
           <Route path="/industries" component={Industries} />
