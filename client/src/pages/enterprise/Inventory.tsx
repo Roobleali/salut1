@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Check, BarChart3, Box, RefreshCw, Scan, Boxes, Truck, History, Layout, Settings } from "lucide-react";
 import { Link } from "wouter";
+import { LearnAnimation } from "@/components/LearnAnimation";
 
 const FEATURES = [
   {
@@ -60,8 +61,8 @@ export function Inventory() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5">
       {/* Hero Section */}
-      <section className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-primary/10">
-        <div className="container mx-auto px-4">
+      <section className="min-h-[90vh] flex flex-col items-center justify-center bg-gradient-to-br from-background via-primary/5 to-primary/10">
+        <div className="container mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -99,6 +100,10 @@ export function Inventory() {
               </div>
             </motion.div>
           </div>
+        </div>
+
+        <div className="w-full">
+          <LearnAnimation />
         </div>
       </section>
 
