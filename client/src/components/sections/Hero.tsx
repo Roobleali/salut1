@@ -17,9 +17,9 @@ export function Hero() {
             <div className="space-y-10">
               <h1 className="text-5xl lg:text-6xl font-bold tracking-tight animate-slide-in mb-8">
                 <span className="block mb-4">
-                  Ku baro{" "}
+                  Cloud Based ERP for
                   <span className="relative">
-                    sameyn
+                    SME's
                     <svg
                       className="absolute -bottom-1 left-0 w-full"
                       viewBox="0 0 100 10"

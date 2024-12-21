@@ -63,14 +63,50 @@ export function Inventory() {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-primary/10">
+          {/* Primary animated background */}
           <motion.div
             className="absolute inset-0 opacity-20"
+            initial={{ scale: 1, opacity: 0.1 }}
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.2, 0.1]
+            }}
+            transition={{ 
+              duration: 15, 
+              repeat: Infinity,
+              repeatType: "reverse"
+            }}
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 20% 30%, rgba(151, 71, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(151, 71, 255, 0.1) 0%, transparent 50%)
+              `,
+              backgroundSize: "100% 100%",
+            }}
+          />
+          {/* Secondary geometric patterns */}
+          <motion.div
+            className="absolute inset-0 opacity-10"
             initial={{ backgroundPosition: "0% 0%" }}
             animate={{ backgroundPosition: "100% 100%" }}
-            transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
+            transition={{ duration: 30, repeat: Infinity, repeatType: "reverse" }}
             style={{
-              backgroundImage: "radial-gradient(circle at 50% 50%, rgba(151, 71, 255, 0.1) 0%, transparent 50%)",
-              backgroundSize: "100% 100%",
+              backgroundImage: `
+                linear-gradient(45deg, transparent 45%, rgba(151, 71, 255, 0.05) 45%, rgba(151, 71, 255, 0.05) 55%, transparent 55%),
+                linear-gradient(-45deg, transparent 45%, rgba(151, 71, 255, 0.05) 45%, rgba(151, 71, 255, 0.05) 55%, transparent 55%)
+              `,
+              backgroundSize: "60px 60px",
+            }}
+          />
+          {/* Floating network dots suggestion enterprise connectivity */}
+          <motion.div
+            className="absolute inset-0 opacity-20"
+            initial={{ y: 0 }}
+            animate={{ y: [-10, 10, -10] }}
+            transition={{ duration: 8, repeat: Infinity }}
+            style={{
+              backgroundImage: `radial-gradient(circle at 50% 50%, rgba(151, 71, 255, 0.1) 0%, transparent 10%)`,
+              backgroundSize: "30px 30px",
             }}
           />
         </div>
@@ -164,25 +200,30 @@ export function Inventory() {
                 </motion.div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center mt-12"
+              >
                 <Link href="/contact">
                   <Button 
                     size="lg" 
-                    className="w-full sm:w-auto bg-[#9747FF] hover:bg-[#8A43E6] text-white px-8 h-12 text-lg shadow-lg shadow-primary/20"
+                    className="w-full sm:w-auto bg-[#9747FF] hover:bg-[#8A43E6] text-white px-12 h-14 text-lg font-semibold shadow-lg shadow-primary/20 rounded-full transition-all duration-300 hover:scale-105"
                   >
-                    Start Free Trial
+                    Get Started
                   </Button>
                 </Link>
                 <Link href="/contact">
                   <Button 
                     variant="outline" 
                     size="lg"
-                    className="w-full sm:w-auto px-8 h-12 text-lg border-primary/20 hover:bg-primary/5"
+                    className="w-full sm:w-auto px-12 h-14 text-lg font-semibold border-2 border-primary/20 hover:bg-primary/5 rounded-full transition-all duration-300 hover:border-primary/40"
                   >
-                    Schedule Demo
+                    Watch Demo
                   </Button>
                 </Link>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
