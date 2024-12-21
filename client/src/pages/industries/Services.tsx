@@ -106,13 +106,12 @@ export function Services() {
               </Link>
             </div>
           </div>
-          <div className="relative lg:mt-0 mt-8">
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-2xl"></div>
-            <img
-              src="/Brown Modern Visit Our Website Video Instagram Post.png"
-              alt="Professional Services Platform"
-              className="rounded-2xl shadow-2xl relative z-10 w-full object-cover"
-            />
+          <div className="relative lg:mt-0 mt-8 p-8 bg-gradient-to-tr from-primary/5 to-transparent rounded-2xl">
+            <article className="prose prose-lg">
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Transform your professional services firm with our comprehensive management platform. From project planning to client management, our integrated solutions streamline operations and enhance service delivery. Experience the power of intelligent automation and data-driven insights tailored for service businesses.
+              </p>
+            </article>
           </div>
         </div>
 
