@@ -25,7 +25,6 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <OnboardingTour />
       <main className="flex-1">
         <Switch>
           <Route path="/" component={Home} />
