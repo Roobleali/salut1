@@ -128,12 +128,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
   const nextStep = () => {
     const currentFields = {
-      1: ["name", "email"],
-      2: ["cui", "company"],
-      3: ["industry"],
-      4: ["currentSoftware"],
-      5: ["painPoints"],
-    }[step as keyof typeof currentFields];
+      1: ["name", "email"] as const,
+      2: ["cui", "company"] as const,
+      3: ["industry"] as const,
+      4: ["currentSoftware"] as const,
+      5: ["painPoints"] as const,
+    }[step] as readonly string[];
 
     const isValid = currentFields?.every((field) => {
       const value = form.getValues(field as keyof FormData);
