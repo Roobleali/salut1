@@ -111,34 +111,25 @@ export function RealEstate() {
       className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 pt-32 pb-24"
     >
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <div className="text-left">
-            <Badge className="mb-4">Real Estate Solutions</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
-              Advanced Real Estate Management
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              Comprehensive real estate solutions with full integration of modern property management tools and analytics.
-            </p>
-          <div className="flex gap-4">
-              <Link href="/contact">
-                <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                  Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="outline" size="lg">
-                  Contact Sales
-                </Button>
-              </Link>
-            </div>
-          </div>
-          <div className="relative lg:mt-0 mt-8 p-8 bg-gradient-to-tr from-primary/5 to-transparent rounded-2xl">
-            <article className="prose prose-lg">
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Our comprehensive real estate management platform empowers property managers and owners with advanced tools for portfolio management, tenant relations, and property maintenance. Experience seamless integration of modern property management solutions designed for the digital age.
-              </p>
-            </article>
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <Badge className="mb-4">Real Estate Solutions</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
+            Advanced Real Estate Management
+          </h1>
+          <p className="text-xl text-gray-600 mb-8">
+            Comprehensive real estate solutions with full integration of modern property management tools and analytics.
+          </p>
+          <div className="flex gap-4 justify-center mb-12">
+            <Link href="/contact">
+              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+                Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button variant="outline" size="lg">
+                Contact Sales
+              </Button>
+            </Link>
           </div>
         </div>
 

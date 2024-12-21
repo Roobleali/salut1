@@ -84,34 +84,25 @@ export function Services() {
       className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 pt-32 pb-24"
     >
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <div className="text-left">
-            <Badge className="mb-4">Professional Services</Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
-              Transform Your Service Business
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              Empower your professional services firm with comprehensive tools designed for efficient service delivery, client management, and business growth.
-            </p>
-            <div className="flex gap-4">
-              <Link href="/contact">
-                <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                  Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="outline" size="lg">
-                  Contact Sales
-                </Button>
-              </Link>
-            </div>
-          </div>
-          <div className="relative lg:mt-0 mt-8 p-8 bg-gradient-to-tr from-primary/5 to-transparent rounded-2xl">
-            <article className="prose prose-lg">
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Transform your professional services firm with our comprehensive management platform. From project planning to client management, our integrated solutions streamline operations and enhance service delivery. Experience the power of intelligent automation and data-driven insights tailored for service businesses.
-              </p>
-            </article>
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <Badge className="mb-4">Professional Services</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
+            Transform Your Service Business
+          </h1>
+          <p className="text-xl text-gray-600 mb-8">
+            Empower your professional services firm with comprehensive tools designed for efficient service delivery, client management, and business growth.
+          </p>
+          <div className="flex gap-4 justify-center mb-12">
+            <Link href="/contact">
+              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+                Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button variant="outline" size="lg">
+                Contact Sales
+              </Button>
+            </Link>
           </div>
         </div>
 
