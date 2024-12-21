@@ -89,49 +89,78 @@ export function Inventory() {
                 transition={{ duration: 0.5 }}
                 className="inline-block"
               >
-                <Badge variant="secondary" className="mb-4 px-4 py-1 text-sm bg-primary/10 text-primary">
-                  Smart Inventory Solutions for SMEs
+                <Badge variant="secondary" className="mb-4 px-4 py-1.5 text-sm bg-primary/10 text-primary border border-primary/20">
+                  Cloud-Based Enterprise Solutions
                 </Badge>
               </motion.div>
 
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                Salut Enterprise
-                <span className="block mt-4 text-4xl md:text-5xl bg-gradient-to-r from-[#9747FF] via-[#8A43E6] to-[#6E35B9] bg-clip-text text-transparent">
-                  Inventory Management
-                </span>
-              </h1>
+              <div className="space-y-4">
+                <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+                  Salut Enterprise
+                  <span className="block mt-4 text-4xl md:text-5xl bg-gradient-to-r from-[#9747FF] via-[#8A43E6] to-[#6E35B9] bg-clip-text text-transparent">
+                    Smart Inventory Suite
+                  </span>
+                </h1>
 
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Transform your inventory management with our comprehensive suite of features designed for modern businesses. Perfect for SMEs looking to scale.
-              </p>
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-2xl font-medium text-foreground/80"
+                >
+                  Empowering Businesses of Every Size
+                </motion.p>
+
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+                >
+                  Experience the power of cloud-based ERP designed for modern enterprises. 
+                  Our comprehensive inventory management solution scales seamlessly from small businesses to large corporations.
+                </motion.p>
+              </div>
 
               <div className="grid md:grid-cols-3 gap-6 mt-12 mb-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-primary/10"
+                  className="relative p-8 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 overflow-hidden group hover:border-primary/20 transition-colors"
                 >
-                  <h3 className="font-semibold text-primary">30% Cost Reduction</h3>
-                  <p className="text-sm text-muted-foreground">Average inventory carrying cost savings</p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative">
+                    <h3 className="text-3xl font-bold text-primary mb-2">30%</h3>
+                    <h4 className="font-semibold text-lg mb-2">Cost Reduction</h4>
+                    <p className="text-sm text-muted-foreground">Average inventory carrying cost savings across our enterprise clients</p>
+                  </div>
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-primary/10"
+                  className="relative p-8 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 overflow-hidden group hover:border-primary/20 transition-colors"
                 >
-                  <h3 className="font-semibold text-primary">99.9% Accuracy</h3>
-                  <p className="text-sm text-muted-foreground">Real-time inventory tracking precision</p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative">
+                    <h3 className="text-3xl font-bold text-primary mb-2">99.9%</h3>
+                    <h4 className="font-semibold text-lg mb-2">Accuracy Rate</h4>
+                    <p className="text-sm text-muted-foreground">Real-time inventory tracking with enterprise-grade precision</p>
+                  </div>
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-primary/10"
+                  className="relative p-8 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 overflow-hidden group hover:border-primary/20 transition-colors"
                 >
-                  <h3 className="font-semibold text-primary">24/7 Support</h3>
-                  <p className="text-sm text-muted-foreground">Enterprise-grade assistance</p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative">
+                    <h3 className="text-3xl font-bold text-primary mb-2">24/7</h3>
+                    <h4 className="font-semibold text-lg mb-2">Expert Support</h4>
+                    <p className="text-sm text-muted-foreground">Dedicated enterprise-grade assistance whenever you need it</p>
+                  </div>
                 </motion.div>
               </div>
 
