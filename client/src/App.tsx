@@ -17,6 +17,7 @@ import { Education } from "@/pages/industries/Education";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { Glossary } from "@/pages/Glossary";
 import { GradientCustomizerPage } from "@/pages/GradientCustomizer";
+import { Industries } from "@/pages/Industries";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/enterprise/purchase" component={Purchase} />
           
           {/* Industry Routes */}
+          <Route path="/industries" component={Industries} />
           <Route path="/industries/manufacturing" component={Manufacturing} />
           <Route path="/industries/real-estate" component={RealEstate} />
           <Route path="/industries/retail" component={Retail} />
