@@ -1,5 +1,6 @@
 import { Switch, Route } from "wouter";
 import { Navbar } from "@/components/layout/Navbar";
+import { ScrollToTop } from "@/components/utils/ScrollToTop";
 import { Footer } from "@/components/layout/Footer";
 import { Home } from "@/pages/Home";
 import { Services } from "@/pages/Services";
@@ -25,6 +26,7 @@ import { Industries } from "@/pages/Industries";
 function App() {
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       <Navbar />
       <main className="flex-1">
         <Switch>
