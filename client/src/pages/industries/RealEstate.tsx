@@ -133,13 +133,12 @@ export function RealEstate() {
               </Link>
             </div>
           </div>
-          <div className="relative lg:mt-0 mt-8">
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-2xl"></div>
-            <img
-              src="/Brown Modern Visit Our Website Video Instagram Post.png"
-              alt="Real Estate Management Platform"
-              className="rounded-2xl shadow-2xl relative z-10 w-full object-cover"
-            />
+          <div className="relative lg:mt-0 mt-8 p-8 bg-gradient-to-tr from-primary/5 to-transparent rounded-2xl">
+            <article className="prose prose-lg">
+              <p className="text-lg text-gray-700 leading-relaxed">
+                Our comprehensive real estate management platform empowers property managers and owners with advanced tools for portfolio management, tenant relations, and property maintenance. Experience seamless integration of modern property management solutions designed for the digital age.
+              </p>
+            </article>
           </div>
         </div>
 
