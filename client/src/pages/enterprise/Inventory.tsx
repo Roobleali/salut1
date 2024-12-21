@@ -60,30 +60,40 @@ export function Inventory() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5">
       {/* Hero Section */}
-      <section className="pt-32 pb-16">
+      <section className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-background via-primary/5 to-primary/10">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
+              className="space-y-6"
             >
-              <Badge className="mb-4">Enterprise Inventory</Badge>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
-                Advanced Inventory Management Solution
+              <h1 className="text-5xl md:text-6xl font-bold mb-6">
+                Salut Enterprise
+                <span className="block mt-2 text-4xl md:text-5xl bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
+                  Inventory Management
+                </span>
               </h1>
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                 Transform your inventory management with our comprehensive suite of features designed for modern businesses.
               </p>
-              <div className="flex gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                 <Link href="/contact">
-                  <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                    Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                  <Button 
+                    size="lg" 
+                    className="w-full sm:w-auto bg-[#9747FF] hover:bg-[#8A43E6] text-white px-8"
+                  >
+                    Start Now
                   </Button>
                 </Link>
                 <Link href="/contact">
-                  <Button variant="outline" size="lg">
-                    Request Demo
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    className="w-full sm:w-auto px-8"
+                  >
+                    Learn More
                   </Button>
                 </Link>
               </div>
