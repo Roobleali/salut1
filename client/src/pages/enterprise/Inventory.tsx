@@ -61,40 +61,96 @@ export function Inventory() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5">
       {/* Hero Section */}
-      <section className="min-h-[90vh] flex flex-col items-center justify-center bg-gradient-to-br from-background via-primary/5 to-primary/10">
-        <div className="container mx-auto px-4 py-12">
+      <section className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-primary/10">
+          <motion.div
+            className="absolute inset-0 opacity-20"
+            initial={{ backgroundPosition: "0% 0%" }}
+            animate={{ backgroundPosition: "100% 100%" }}
+            transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
+            style={{
+              backgroundImage: "radial-gradient(circle at 50% 50%, rgba(151, 71, 255, 0.1) 0%, transparent 50%)",
+              backgroundSize: "100% 100%",
+            }}
+          />
+        </div>
+        
+        <div className="container relative mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="space-y-6"
+              className="space-y-8"
             >
-              <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              <motion.div
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.5 }}
+                className="inline-block"
+              >
+                <Badge variant="secondary" className="mb-4 px-4 py-1 text-sm bg-primary/10 text-primary">
+                  Smart Inventory Solutions for SMEs
+                </Badge>
+              </motion.div>
+
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
                 Salut Enterprise
-                <span className="block mt-2 text-4xl md:text-5xl bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
+                <span className="block mt-4 text-4xl md:text-5xl bg-gradient-to-r from-[#9747FF] via-[#8A43E6] to-[#6E35B9] bg-clip-text text-transparent">
                   Inventory Management
                 </span>
               </h1>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Transform your inventory management with our comprehensive suite of features designed for modern businesses.
+
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Transform your inventory management with our comprehensive suite of features designed for modern businesses. Perfect for SMEs looking to scale.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+
+              <div className="grid md:grid-cols-3 gap-6 mt-12 mb-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-primary/10"
+                >
+                  <h3 className="font-semibold text-primary">30% Cost Reduction</h3>
+                  <p className="text-sm text-muted-foreground">Average inventory carrying cost savings</p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-primary/10"
+                >
+                  <h3 className="font-semibold text-primary">99.9% Accuracy</h3>
+                  <p className="text-sm text-muted-foreground">Real-time inventory tracking precision</p>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="p-6 rounded-lg bg-white/5 backdrop-blur-sm border border-primary/10"
+                >
+                  <h3 className="font-semibold text-primary">24/7 Support</h3>
+                  <p className="text-sm text-muted-foreground">Enterprise-grade assistance</p>
+                </motion.div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
                 <Link href="/contact">
                   <Button 
                     size="lg" 
-                    className="w-full sm:w-auto bg-[#9747FF] hover:bg-[#8A43E6] text-white px-8"
+                    className="w-full sm:w-auto bg-[#9747FF] hover:bg-[#8A43E6] text-white px-8 h-12 text-lg shadow-lg shadow-primary/20"
                   >
-                    Start Now
+                    Start Free Trial
                   </Button>
                 </Link>
                 <Link href="/contact">
                   <Button 
                     variant="outline" 
                     size="lg"
-                    className="w-full sm:w-auto px-8"
+                    className="w-full sm:w-auto px-8 h-12 text-lg border-primary/20 hover:bg-primary/5"
                   >
-                    Learn More
+                    Schedule Demo
                   </Button>
                 </Link>
               </div>
@@ -102,9 +158,16 @@ export function Inventory() {
           </div>
         </div>
 
-        <div className="w-full">
+        <div className="w-full mt-12">
           <LearnAnimation />
         </div>
+
+        <motion.div 
+          className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        />
       </section>
 
       {/* Features Grid */}

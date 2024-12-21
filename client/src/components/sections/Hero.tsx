@@ -1,4 +1,5 @@
-import { Link } from "wouter";
+import { Button } from "@/components/ui/button";
+import { LearnAnimation } from "@/components/LearnAnimation";
 
 export function Hero() {
   return (
