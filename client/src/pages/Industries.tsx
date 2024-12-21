@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowRight, Check } from "lucide-react";
 import { ServiceFeature } from "@/components/sections/ServiceFeature";
-import { LearnAnimation } from "@/components/LearnAnimation";
 
 const FEATURES = [
   {
@@ -71,10 +70,10 @@ export function Industries() {
             >
               <Badge className="mb-4">Industry Solutions</Badge>
               <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
-                Transform Your Business with Salut Enterprise
+                Transform Your Industry with Salut Enterprise
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Unlock your potential with our comprehensive suite of features designed to drive efficiency, growth, and exceptional customer experiences.
+                Unlock your potential with our comprehensive suite of features designed to drive efficiency, growth, and exceptional customer experiences across various industries.
               </p>
               <div className="flex gap-4 justify-center">
                 <Link href="/contact">
