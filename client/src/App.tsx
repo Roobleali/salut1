@@ -15,6 +15,7 @@ import { RealEstate } from "@/pages/industries/RealEstate";
 import { Retail } from "@/pages/industries/Retail";
 import { Education } from "@/pages/industries/Education";
 import { Services as IndustryServices } from "@/pages/industries/Services";
+import { Hospitality } from "@/pages/industries/Hospitality";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { Glossary } from "@/pages/Glossary";
 import { GradientCustomizerPage } from "@/pages/GradientCustomizer";
@@ -46,6 +47,7 @@ function App() {
           <Route path="/industries/retail" component={Retail} />
           <Route path="/industries/education" component={Education} />
           <Route path="/industries/services" component={IndustryServices} />
+          <Route path="/industries/hospitality" component={Hospitality} />
           
           {/* Glossary Route */}
           <Route path="/glossary" component={Glossary} />
