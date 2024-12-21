@@ -14,6 +14,7 @@ import { Manufacturing } from "@/pages/industries/Manufacturing";
 import { RealEstate } from "@/pages/industries/RealEstate";
 import { Retail } from "@/pages/industries/Retail";
 import { Education } from "@/pages/industries/Education";
+import { Services as IndustryServices } from "@/pages/industries/Services";
 import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { Glossary } from "@/pages/Glossary";
 import { GradientCustomizerPage } from "@/pages/GradientCustomizer";
@@ -44,6 +45,7 @@ function App() {
           <Route path="/industries/real-estate" component={RealEstate} />
           <Route path="/industries/retail" component={Retail} />
           <Route path="/industries/education" component={Education} />
+          <Route path="/industries/services" component={IndustryServices} />
           
           {/* Glossary Route */}
           <Route path="/glossary" component={Glossary} />
