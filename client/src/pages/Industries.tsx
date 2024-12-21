@@ -93,9 +93,42 @@ export function Industries() {
         </div>
       </section>
 
-      {/* Learning Animation Section */}
-      <section className="py-16">
-        <LearnAnimation />
+      {/* Industry Solutions Grid */}
+      <section className="py-16 bg-gradient-to-tr from-primary/5 via-background to-primary/10">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-16"
+          >
+            <h2 className="text-3xl font-bold mb-4">Industry Solutions</h2>
+            <p className="text-gray-600">
+              Tailored solutions that drive innovation and growth across various industries.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {["Manufacturing", "Real Estate", "Healthcare", "Retail", "Education", "Hospitality"].map((industry, index) => (
+              <motion.div
+                key={industry}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                className="relative group"
+              >
+                <Link href={`/industries/${industry.toLowerCase()}`}>
+                  <div className="p-6 rounded-xl bg-white shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <h3 className="text-lg font-semibold mb-3">{industry}</h3>
+                    <p className="text-gray-600">Comprehensive solutions tailored for the {industry.toLowerCase()} sector.</p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Features Section */}
