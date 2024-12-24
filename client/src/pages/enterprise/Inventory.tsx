@@ -110,7 +110,7 @@ export function Inventory() {
             }}
           />
         </div>
-        
+
         <div className="container relative mx-auto px-4 py-12">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
@@ -156,6 +156,48 @@ export function Inventory() {
                   Experience the power of cloud-based ERP designed for modern enterprises. 
                   Our comprehensive inventory management solution scales seamlessly from small businesses to large corporations.
                 </motion.p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-6 mt-12 mb-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="relative group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl blur-xl transition-opacity opacity-0 group-hover:opacity-100" />
+                  <div className="relative p-8 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 h-full transition-all duration-300 group-hover:border-primary/20 group-hover:translate-y-[-2px]">
+                    <div className="flex flex-col h-full">
+                      <h3 className="text-2xl font-bold text-primary mb-2">Traditional Software</h3>
+                      <p className="text-muted-foreground mb-4">Seamlessly migrate from legacy systems with our comprehensive migration tools and expert support.</p>
+                      <div className="mt-auto">
+                        <Button variant="ghost" className="group-hover:text-primary transition-colors">
+                          Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="relative group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl blur-xl transition-opacity opacity-0 group-hover:opacity-100" />
+                  <div className="relative p-8 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/10 h-full transition-all duration-300 group-hover:border-primary/20 group-hover:translate-y-[-2px]">
+                    <div className="flex flex-col h-full">
+                      <h3 className="text-2xl font-bold text-primary mb-2">AI-Powered Solutions</h3>
+                      <p className="text-muted-foreground mb-4">Leverage cutting-edge AI technology to automate inventory forecasting and optimize stock levels.</p>
+                      <div className="mt-auto">
+                        <Button variant="ghost" className="group-hover:text-primary transition-colors">
+                          Explore AI Features <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 mt-12 mb-8">
