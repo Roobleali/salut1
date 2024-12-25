@@ -6,16 +6,23 @@ export class OdooService {
 
   constructor() {
     this.client = createClient({
-      baseURL: process.env.ODOO_URL || 'http://localhost:8069',
-      db: process.env.ODOO_DB || 'odoo',
-      username: process.env.ODOO_ADMIN_USER || 'admin',
-      password: process.env.ODOO_ADMIN_PASSWORD || 'admin',
+      baseURL: 'https://franchisetech.ro',
+      db: 'franchisetech',
+      username: 'admin',
+      password: 'ZD1hjj8dCXbbUPrU',
+      timeout: 60000, // 60 second timeout
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      }
     });
   }
 
   async createCustomerDatabase(company: string, email: string) {
     try {
-      const dbName = `${company.toLowerCase().replace(/\s/g, '_')}_${Date.now()}`;
+      const safeCompany = company.toLowerCase().replace(/[^a-z0-9]/g, '_');
+      const dbName = `${safeCompany}_${Date.now()}`;
+      console.log(`Creating database: ${dbName}`);
       
       // Create new database
       await this.client.createDatabase({
@@ -47,7 +54,8 @@ export class OdooService {
       return dbName;
     } catch (error) {
       console.error('Database creation failed:', error);
-      throw error;
+      console.error('Failed to create database:', dbName);
+      throw new Error(`Failed to create database: ${error.message || 'Unknown error'}`);
     }
   }
 
