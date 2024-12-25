@@ -24,6 +24,8 @@ import { Progress } from "@/components/ui/progress"; // Added import
 import { Loader2, ArrowRight, ArrowLeft, Building2, Search, Factory, Building, Store, GraduationCap, Briefcase, UtensilsCrossed, CheckCircle2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from 'framer-motion'; // Added import
+
 
 const formSchema = z.object({
   industry: z.string().min(1, "Please select an industry"),
@@ -175,8 +177,13 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader className="space-y-4">
-          <div className="space-y-2">
-            <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-2"
+          >
+            <DialogTitle className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#9747FF] via-[#8A43E6] to-[#6E35B9] bg-clip-text text-transparent pb-1">
               Get Started with Salut Enterprise
             </DialogTitle>
             {step < 4 && (
@@ -192,7 +199,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 </div>
               </>
             )}
-          </div>
+          </motion.div>
         </DialogHeader>
 
         {step === 4 ? (
