@@ -24,7 +24,41 @@ import { GradientCustomizerPage } from "@/pages/GradientCustomizer";
 import { Industries } from "@/pages/Industries";
 
 function App() {
+  const { i18n } = useTranslation();
+
+  // Update document language for SEO
+  React.useEffect(() => {
+    const lang = i18n.language;
+    document.documentElement.lang = lang;
+    
+    // Update meta tags for SEO
+    const metaDescription = document.querySelector('meta[name="description"]');
+    const metaLocale = document.querySelector('meta[property="og:locale"]');
+    
+    if (!metaDescription) {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      document.head.appendChild(meta);
+    }
+    
+    if (!metaLocale) {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:locale');
+      document.head.appendChild(meta);
+    }
+    
+    // Update content based on language
+    metaDescription?.setAttribute('content', 
+      lang === 'de' ? 'Enterprise-Lösungen für moderne Unternehmen' :
+      lang === 'ro' ? 'Soluții enterprise pentru afaceri moderne' :
+      'Enterprise solutions for modern businesses'
+    );
+    
+    metaLocale?.setAttribute('content', lang);
+  }, [i18n.language]);
+
   return (
+    <RTLProvider>
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
       <Navbar />
