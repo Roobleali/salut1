@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import * as sgMail from "@sendgrid/mail";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -43,40 +42,20 @@ export function ContactForm() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      // Configure SendGrid with API key
-      sgMail.setApiKey(import.meta.env.VITE_SENDGRID_API_KEY);
-
-      const emailTemplate = `
-Company Information:
-------------------
-Name: Salut Enterprise
-Type: Cloud-based ERP Platform
-Location: Romania
-Industry Focus: Romanian Businesses
-
-Contact Form Submission Details:
------------------------------
-Submitted By: ${data.name}
-Email Address: ${data.email}
-
-Message Content:
--------------
-${data.message}
-
-Submission Timestamp: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
-`;
-
-      const msg = {
-        to: import.meta.env.VITE_SENDGRID_TO_EMAIL,
-        from: {
-          email: import.meta.env.VITE_SENDGRID_FROM_EMAIL,
-          name: "Salut Enterprise Contact System"
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        subject: "New Business Inquiry - Salut Enterprise ERP",
-        text: emailTemplate,
-      };
+        body: JSON.stringify(data)
+      });
 
-      await sgMail.send(msg);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to send message');
+      }
+
+      const result = await response.json();
 
       toast({
         title: t("contact.success_title"),
@@ -84,7 +63,7 @@ Submission Timestamp: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/B
       });
       form.reset();
     } catch (error: any) {
-      console.error('Email sending error:', error);
+      console.error('Contact form submission error:', error);
       toast({
         variant: "destructive",
         title: t("contact.error_title"),

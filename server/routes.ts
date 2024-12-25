@@ -100,39 +100,29 @@ export function registerRoutes(app: Express): Server {
   // Contact form submission endpoint
   app.post("/api/contact", async (req, res) => {
     try {
-      const { name, email, company, industry, currentSoftware, painPoints, cui, address, county, phone } = req.body;
+      const { name, email, message } = req.body;
 
       // Log the form submission first for backup
-      console.log('New Implementation Request:', {
+      console.log('New Contact Form Submission:', {
         name,
         email,
-        company,
-        cui,
-        address,
-        county,
-        phone,
-        industry,
-        currentSoftware,
-        painPoints,
+        message,
         timestamp: new Date().toISOString()
       });
 
-      // Attempt to send email but don't fail if it doesn't work
+      // Attempt to send email
       try {
         const emailResult = await sendOnboardingEmail({
-          industry,
-          cui,
-          companyName: company,
+          companyName: name,
           email,
-          address,
-          county,
-          phone
+          message,
+          industry: 'Not Specified' // Default value since we don't collect it in the basic form
         });
 
         // Send success response with email status
         res.json({ 
           success: true,
-          message: emailResult.message || "Your request has been received successfully.",
+          message: emailResult.message || "Your message has been received successfully.",
           emailStatus: emailResult.success ? "sent" : "not_sent",
           details: emailResult.error
         });
@@ -142,12 +132,12 @@ export function registerRoutes(app: Express): Server {
         // Even if email fails, we still want to acknowledge the form submission
         res.json({ 
           success: true,
-          message: "Your request has been received successfully.",
+          message: "Your message has been received successfully.",
           emailStatus: "failed",
           details: "We encountered an issue sending the confirmation email, but your request has been recorded."
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Contact form submission error:", error);
       res.status(500).json({ 
         success: false,
