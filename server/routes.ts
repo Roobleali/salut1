@@ -102,18 +102,7 @@ export function registerRoutes(app: Express): Server {
     try {
       const { name, email, company, industry, currentSoftware, painPoints, cui, address, county, phone } = req.body;
 
-      // Send email
-      await sendOnboardingEmail({
-        industry,
-        cui,
-        companyName: company,
-        email,
-        address,
-        county,
-        phone
-      });
-
-      // Log the form submission for backup
+      // Log the form submission first for backup
       console.log('New Implementation Request:', {
         name,
         email,
@@ -127,10 +116,31 @@ export function registerRoutes(app: Express): Server {
         painPoints
       });
 
-      res.json({ message: "Request received successfully" });
+      // Attempt to send email but don't fail if it doesn't work
+      const emailResult = await sendOnboardingEmail({
+        industry,
+        cui,
+        companyName: company,
+        email,
+        address,
+        county,
+        phone
+      });
+
+      // Always return success to the client, but include any email sending issues
+      res.json({ 
+        message: "Request received successfully",
+        emailStatus: emailResult.success ? "sent" : "not_sent",
+        note: emailResult.error
+      });
     } catch (error) {
       console.error("Contact form submission error:", error);
-      res.status(500).json({ error: "Failed to process request" });
+      // Even if there's an error, we logged the submission, so we can still tell the user it was received
+      res.json({ 
+        message: "Request received successfully",
+        emailStatus: "not_sent",
+        note: "Your request has been logged but we encountered an issue sending the notification email."
+      });
     }
   });
 
