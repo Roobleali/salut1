@@ -9,7 +9,7 @@ import {
 import { FaFlag, FaFlagUsa } from "react-icons/fa";
 
 export function LanguageSelector() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <Select
@@ -24,12 +24,12 @@ export function LanguageSelector() {
             {i18n.language === 'en' ? (
               <>
                 <FaFlagUsa className="h-4 w-4" />
-                <span>English</span>
+                <span>{t('language.english')}</span>
               </>
             ) : (
               <>
                 <FaFlag className="h-4 w-4 text-blue-600" />
-                <span>Română</span>
+                <span>{t('language.romanian')}</span>
               </>
             )}
           </div>
@@ -39,13 +39,13 @@ export function LanguageSelector() {
         <SelectItem value="en">
           <div className="flex items-center gap-2">
             <FaFlagUsa className="h-4 w-4" />
-            <span>English</span>
+            <span>{t('language.english')}</span>
           </div>
         </SelectItem>
         <SelectItem value="ro">
           <div className="flex items-center gap-2">
             <FaFlag className="h-4 w-4 text-blue-600" />
-            <span>Română</span>
+            <span>{t('language.romanian')}</span>
           </div>
         </SelectItem>
       </SelectContent>

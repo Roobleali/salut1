@@ -1,4 +1,4 @@
-import sgMail from '@sendgrid/mail';
+import nodemailer from 'nodemailer';
 
 interface OnboardingData {
   industry: string;
@@ -10,11 +10,36 @@ interface OnboardingData {
   phone?: string;
 }
 
-if (!process.env.SENDGRID_API_KEY) {
-  console.warn('SendGrid API key not found. Email functionality will not work.');
-}
+// Create transporter once and reuse
+const createTransporter = () => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    throw new Error('Email credentials are not properly configured');
+  }
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
+  return nodemailer.createTransport({
+    host: 'smtp.office365.com', // Changed to Office 365 since you mentioned using a business email
+    port: 587,
+    secure: false, // Use STARTTLS
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
+    },
+    tls: {
+      ciphers: 'SSLv3',
+      rejectUnauthorized: false // Only for development
+    }
+  });
+};
+
+let transporter: nodemailer.Transporter;
+
+try {
+  transporter = createTransporter();
+  console.log('Email transporter created successfully');
+} catch (error) {
+  console.error('Failed to create email transporter:', error);
+  throw error;
+}
 
 export async function sendOnboardingEmail(data: OnboardingData) {
   // Validate required fields
@@ -26,6 +51,7 @@ export async function sendOnboardingEmail(data: OnboardingData) {
     <!DOCTYPE html>
     <html>
       <head>
+        <meta charset="utf-8">
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -103,29 +129,39 @@ export async function sendOnboardingEmail(data: OnboardingData) {
             font-size: 12px;
             text-align: center;
           }
+          .company-info {
+            background-color: #f8fafc;
+            border-left: 4px solid #0066cc;
+            padding: 16px;
+            margin-bottom: 24px;
+          }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
-            <h2>New Enterprise Implementation Request</h2>
+            <h2>New Implementation Request</h2>
           </div>
 
           <div class="content">
-            <div class="section">
-              <div class="section-title">Company Information</div>
+            <div class="company-info">
+              <div class="section-title">Requesting Company</div>
               <div class="field">
-                <span class="label">Company:</span>
+                <span class="label">Name:</span>
                 <span class="value highlight">${data.companyName}</span>
-              </div>
-              <div class="field">
-                <span class="label">Industry:</span>
-                <span class="value">${data.industry}</span>
               </div>
               <div class="field">
                 <span class="label">CUI:</span>
                 <span class="value">${data.cui || 'Not provided'}</span>
               </div>
+              <div class="field">
+                <span class="label">Industry:</span>
+                <span class="value">${data.industry}</span>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section-title">Location Details</div>
               <div class="field">
                 <span class="label">Address:</span>
                 <span class="value">${data.address || 'Not provided'}</span>
@@ -137,7 +173,7 @@ export async function sendOnboardingEmail(data: OnboardingData) {
             </div>
 
             <div class="section">
-              <div class="section-title">Contact Details</div>
+              <div class="section-title">Contact Information</div>
               <div class="field">
                 <span class="label">Email:</span>
                 <span class="value highlight">${data.email}</span>
@@ -163,22 +199,34 @@ export async function sendOnboardingEmail(data: OnboardingData) {
 
           <div class="footer">
             This is an automated message from SalutTech Platform. Please do not reply directly to this email.
-            For inquiries, contact the sender at ${data.email}
+            For inquiries, contact our sales team at ${process.env.EMAIL_USER}
           </div>
         </div>
       </body>
     </html>
   `;
 
-  const msg = {
-    to: 'info@saluttech.ro',
-    from: {
-      email: process.env.SENDGRID_FROM_EMAIL || 'noreply@saluttech.ro',
-      name: 'SalutTech Platform'
-    },
-    replyTo: data.email, // Add reply-to as the customer's email
-    subject: `New Implementation Request - ${data.companyName}`,
-    text: `
+  try {
+    // Log attempt with redacted credentials
+    console.log('Attempting to send email with Nodemailer...', {
+      to: 'info@saluttech.ro',
+      from: process.env.EMAIL_USER,
+      subject: `New Implementation Request - ${data.companyName}`
+    });
+
+    // Verify transporter
+    await transporter.verify();
+    console.log('Transporter verified successfully');
+
+    const info = await transporter.sendMail({
+      from: {
+        name: 'SalutTech Platform',
+        address: process.env.EMAIL_USER || ''
+      },
+      to: 'info@saluttech.ro',
+      replyTo: data.email,
+      subject: `New Implementation Request - ${data.companyName}`,
+      text: `
 New Implementation Request from SalutTech Platform
 
 Company Information:
@@ -199,44 +247,29 @@ Submission Time: ${new Date().toLocaleString('ro-RO', {
   dateStyle: 'full',
   timeStyle: 'long'
 })}
-    `.trim(),
-    html: htmlContent,
-  };
-
-  try {
-    console.log('Attempting to send email with SendGrid...', {
-      to: msg.to,
-      from: msg.from.email,
-      subject: msg.subject
+      `.trim(),
+      html: htmlContent,
     });
 
-    const [response] = await sgMail.send(msg);
-    console.log('SendGrid API Response:', {
-      statusCode: response.statusCode,
-      headers: response.headers,
-      body: response.body
-    });
+    console.log('Email sent successfully:', info);
 
-    if (response?.statusCode === 202) {
-      return { 
-        success: true,
-        message: 'Your request has been received and our team will contact you shortly.'
-      };
-    }
-
-    throw new Error(`Unexpected response code: ${response?.statusCode}`);
+    return { 
+      success: true,
+      message: 'Your request has been received and our team will contact you shortly.'
+    };
   } catch (error: any) {
     console.error('Email sending failed:', error);
-    if (error.response) {
-      console.error('SendGrid API error details:', {
-        status: error.response.status,
-        body: error.response.body,
-        headers: error.response.headers
-      });
+
+    // Detailed error logging
+    if (error.code === 'EAUTH') {
+      console.error('Authentication error - please check email credentials');
+    } else if (error.code === 'ESOCKET') {
+      console.error('Socket error - please check network connectivity');
     }
+
     return { 
       success: false,
-      error: error.response?.body?.errors?.[0]?.message || 
+      error: error.message || 
             'Your request has been recorded but we encountered an issue with the email notification. Our team will still process your request.'
     };
   }
