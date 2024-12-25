@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { scoreTranslation, analyzeTranslationQuality } from "../client/src/lib/translationScoring";
+import { sendOnboardingEmail } from "./services/email";
 
 export function registerRoutes(app: Express): Server {
   // Translation scoring endpoints
@@ -101,7 +102,18 @@ export function registerRoutes(app: Express): Server {
     try {
       const { name, email, company, industry, currentSoftware, painPoints, cui, address, county, phone } = req.body;
 
-      // Log the form submission for now
+      // Send email
+      await sendOnboardingEmail({
+        industry,
+        cui,
+        companyName: company,
+        email,
+        address,
+        county,
+        phone
+      });
+
+      // Log the form submission for backup
       console.log('New Implementation Request:', {
         name,
         email,
