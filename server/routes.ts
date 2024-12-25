@@ -2,7 +2,39 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { scoreTranslation, analyzeTranslationQuality } from "../client/src/lib/translationScoring";
 
+import { odooService } from './services/odooService';
+
 export function registerRoutes(app: Express): Server {
+  // Odoo database management routes
+  app.post('/api/odoo/database', async (req, res) => {
+    try {
+      const { dbName } = req.body;
+      const result = await odooService.createDatabase(dbName);
+      
+      if (result) {
+        res.json({ success: true, message: 'Database created successfully' });
+      } else {
+        res.status(500).json({ success: false, message: 'Failed to create database' });
+      }
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Database creation failed' });
+    }
+  });
+
+  app.post('/api/odoo/auth', async (req, res) => {
+    try {
+      const { database, username, password } = req.body;
+      const uid = await odooService.authenticate(database, username, password);
+      
+      if (uid) {
+        res.json({ success: true, uid });
+      } else {
+        res.status(401).json({ success: false, message: 'Authentication failed' });
+      }
+    } catch (error) {
+      res.status(500).json({ success: false, message: 'Authentication failed' });
+    }
+  });
   // Translation scoring endpoints
   app.post("/api/translation/score", async (req, res) => {
     try {
