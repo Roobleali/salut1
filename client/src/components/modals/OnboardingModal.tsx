@@ -37,7 +37,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import sgMail from '@sendgrid/mail';
+import emailjs from '@emailjs/browser';
 
 const formSchema = z.object({
   industry: z.string().min(1, "Please select an industry"),
@@ -103,6 +103,9 @@ interface OnboardingModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+// Initialize EmailJS
+emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '');
 
 export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   const [step, setStep] = useState<StepType>("SELECT_INDUSTRY");
@@ -193,45 +196,32 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   };
 
   const sendEmail = async (data: FormData) => {
-    if (!import.meta.env.VITE_SENDGRID_API_KEY) {
-      throw new Error('SendGrid API key is not configured');
-    }
-
-    sgMail.setApiKey(import.meta.env.VITE_SENDGRID_API_KEY);
-
-    const emailTemplate = `
-New Implementation Request
-
-Company Details:
----------------
-Company Name: ${data.company}
-Industry: ${data.industry}
-Current Software: ${data.currentSoftware || 'Not specified'}
-Email: ${data.email}
-Address: ${data.address || 'Not provided'}
-County: ${data.county || 'Not provided'}
-Phone: ${data.phone || 'Not provided'}
-CUI: ${data.cui || 'Not provided'}
-
-Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
-    `.trim();
-
-    const msg = {
-      to: 'info@saluttech.ro',
-      from: {
-        email: import.meta.env.VITE_SENDGRID_FROM_EMAIL || '',
-        name: 'Salut Enterprise Contact System'
-      },
-      replyTo: data.email,
-      subject: `New Implementation Request - ${data.company}`,
-      text: emailTemplate,
+    const templateParams = {
+      company_name: data.company,
+      industry: data.industry,
+      current_software: data.currentSoftware || 'Not specified',
+      email: data.email,
+      address: data.address || 'Not provided',
+      county: data.county || 'Not provided',
+      phone: data.phone || 'Not provided',
+      cui: data.cui || 'Not provided',
+      submission_time: new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })
     };
 
     try {
-      await sgMail.send(msg);
+      const result = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID || '',
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || '',
+        templateParams,
+      );
+
+      if (result.status !== 200) {
+        throw new Error('Failed to send email');
+      }
+
       return true;
     } catch (error) {
-      console.error('SendGrid email error:', error);
+      console.error('EmailJS error:', error);
       throw new Error('Failed to send email. Please try again later.');
     }
   };
