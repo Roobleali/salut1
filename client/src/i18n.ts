@@ -410,46 +410,6 @@ const resources = {
         no_results: 'Nu s-au găsit termeni'
       }
     }
-  },
-  de: {
-    translation: {
-      nav: {
-        industries: 'Branchen',
-        modules: 'Module',
-        resources: 'Ressourcen',
-        solutions: 'Unsere Lösungen',
-        about: 'Über Uns',
-        manufacturing: 'Fertigung',
-        real_estate: 'Immobilien',
-        retail: 'Einzelhandel & E-Commerce',
-        services: 'Professionelle Dienstleistungen',
-        hospitality: 'Gastgewerbe',
-        education: 'Bildung'
-      },
-      common: {
-        company_name: 'SalutTech',
-        learn_more: 'Mehr Erfahren',
-        features: 'Funktionen',
-        why_choose: 'Warum Wählen',
-        market_features: 'Marktfunktionen',
-        schedule_demo: 'Demo Vereinbaren',
-        contact_sales: 'Vertrieb Kontaktieren',
-        get_started: 'Jetzt Starten'
-      },
-      home: {
-        hero: {
-          title: 'Enterprise-Lösungen für Moderne Unternehmen',
-          subtitle: 'Umfassende Softwarelösungen für Ihre Branche'
-        }
-      },
-      button: {
-        demo: 'Demo Planen',
-        learn_more: 'Mehr Erfahren',
-        contact_sales: 'Vertrieb Kontaktieren',
-        get_started: 'Jetzt Starten',
-        submit: 'Absenden'
-      }
-    }
   }
 };
 

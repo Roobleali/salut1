@@ -48,24 +48,6 @@ export function LanguageSelector() {
             <span>Română</span>
           </div>
         </SelectItem>
-        <SelectItem value="de">
-          <div className="flex items-center gap-2">
-            <FaFlag className="h-4 w-4 text-yellow-600" />
-            <span>Deutsch</span>
-          </div>
-        </SelectItem>
-        <SelectItem value="es">
-          <div className="flex items-center gap-2">
-            <FaFlag className="h-4 w-4 text-yellow-600" />
-            <span>Español</span>
-          </div>
-        </SelectItem>
-        <SelectItem value="ar" dir="rtl">
-          <div className="flex items-center gap-2">
-            <FaFlag className="h-4 w-4 text-green-600" />
-            <span>العربية</span>
-          </div>
-        </SelectItem>
       </SelectContent>
     </Select>
   );
