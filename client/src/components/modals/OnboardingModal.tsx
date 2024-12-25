@@ -25,6 +25,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
+  currentSoftware: z.string().min(1, "Please describe your current software"),
+  painPoints: z.string().min(1, "Please describe your requirements"),
+  industry: z.string().min(1, "Please select an industry"),
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
   company: z.string().min(2, "Company name must be at least 2 characters"),
@@ -32,9 +35,6 @@ const formSchema = z.object({
   address: z.string().optional(),
   county: z.string().optional(),
   phone: z.string().optional(),
-  industry: z.string().min(1, "Please select an industry"),
-  currentSoftware: z.string(),
-  painPoints: z.string(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -49,6 +49,14 @@ const INDUSTRIES = [
   "Hospitality",
 ];
 
+const STEPS = {
+  1: "Current Software Solutions",
+  2: "Business Requirements",
+  3: "Your Industry",
+  4: "Company Information",
+  5: "Contact Details",
+} as const;
+
 interface OnboardingModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -62,6 +70,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      currentSoftware: "",
+      painPoints: "",
+      industry: "",
       name: "",
       email: "",
       company: "",
@@ -69,9 +80,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       address: "",
       county: "",
       phone: "",
-      industry: "",
-      currentSoftware: "",
-      painPoints: "",
     },
   });
 
@@ -156,11 +164,11 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
   const validateCurrentStep = () => {
     const currentFields = {
-      1: ["name", "email"],
-      2: ["cui", "company"],
+      1: ["currentSoftware"],
+      2: ["painPoints"],
       3: ["industry"],
-      4: ["currentSoftware"],
-      5: ["painPoints"],
+      4: ["cui", "company"],
+      5: ["name", "email"],
     }[step as keyof typeof STEPS];
 
     if (!currentFields) return true;
@@ -179,14 +187,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     return isValid;
   };
 
-  const STEPS = {
-    1: "Let's get to know you",
-    2: "Company Information",
-    3: "Your Industry",
-    4: "Current Solutions",
-    5: "Requirements",
-  } as const;
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
@@ -200,37 +200,73 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {step === 1 && (
-              <div className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Full Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="John Doe" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email Address</FormLabel>
-                      <FormControl>
-                        <Input type="email" placeholder="john@company.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="currentSoftware"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What software solutions are you currently using?</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="e.g., Excel, SAP, Custom solutions..."
+                        className="min-h-[100px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
 
             {step === 2 && (
+              <FormField
+                control={form.control}
+                name="painPoints"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What are your main challenges or requirements?</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Tell us about your business needs and pain points..."
+                        className="min-h-[100px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            {step === 3 && (
+              <FormField
+                control={form.control}
+                name="industry"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Select Your Industry</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an industry" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {INDUSTRIES.map((industry) => (
+                          <SelectItem key={industry} value={industry.toLowerCase()}>
+                            {industry}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            {step === 4 && (
               <div className="space-y-4">
                 <FormField
                   control={form.control}
@@ -327,71 +363,35 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
               </div>
             )}
 
-            {step === 3 && (
-              <FormField
-                control={form.control}
-                name="industry"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Select Your Industry</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select an industry" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {INDUSTRIES.map((industry) => (
-                          <SelectItem key={industry} value={industry.toLowerCase()}>
-                            {industry}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-
-            {step === 4 && (
-              <FormField
-                control={form.control}
-                name="currentSoftware"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>What software solutions are you currently using?</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="e.g., Excel, SAP, Custom solutions..."
-                        className="min-h-[100px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-
             {step === 5 && (
-              <FormField
-                control={form.control}
-                name="painPoints"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>What are your main challenges or requirements?</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Tell us about your business needs and pain points..."
-                        className="min-h-[100px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="john@company.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             )}
 
             <div className="flex justify-between pt-4">
