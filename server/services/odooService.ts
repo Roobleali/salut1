@@ -1,20 +1,18 @@
 
-import * as xmlrpc from 'xmlrpc';
-import { Client } from 'pg';
+const xmlrpc = require('xmlrpc');
+const { Client } = require('pg');
 
-export class OdooService {
-  private client: xmlrpc.Client;
-  private dbClient: Client;
+class OdooService {
+  private client;
+  private dbClient;
 
   constructor() {
-    // Odoo XML-RPC client
     this.client = xmlrpc.createClient({
       host: process.env.ODOO_HOST || '0.0.0.0',
       port: parseInt(process.env.ODOO_PORT || '8069'),
       path: '/xmlrpc/2/common'
     });
 
-    // Postgres client for direct DB operations
     this.dbClient = new Client({
       connectionString: process.env.DATABASE_URL,
     });
@@ -25,7 +23,6 @@ export class OdooService {
       await this.dbClient.connect();
       await this.dbClient.query(`CREATE DATABASE ${dbName}`);
       
-      // Initialize Odoo schema
       const object = xmlrpc.createClient({
         host: process.env.ODOO_HOST || '0.0.0.0',
         port: parseInt(process.env.ODOO_PORT || '8069'),
@@ -43,7 +40,7 @@ export class OdooService {
 
   async authenticate(db: string, username: string, password: string): Promise<number | false> {
     return new Promise((resolve) => {
-      this.client.methodCall('authenticate', [db, username, password, {}], (error, uid) => {
+      this.client.methodCall('authenticate', [db, username, password, {}], (error: any, uid: number) => {
         if (error) {
           console.error('Authentication failed:', error);
           resolve(false);
@@ -54,4 +51,4 @@ export class OdooService {
   }
 }
 
-export const odooService = new OdooService();
+module.exports = { OdooService };
