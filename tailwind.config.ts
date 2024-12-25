@@ -1,4 +1,5 @@
-import type { Config } from "tailwindcss";
+import { type Config } from "tailwindcss";
+import rtl from 'tailwindcss-rtl';
 
 export default {
   darkMode: ["class"],
@@ -86,5 +87,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography"), rtl],
 } satisfies Config;
