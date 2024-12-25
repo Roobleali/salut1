@@ -82,7 +82,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/onboard", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -93,11 +93,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       if (!response.ok) {
         throw new Error(await response.text());
       }
-
-      const { dbName, credentials } = await response.json();
-      
-      // Store credentials securely
-      localStorage.setItem('dbCredentials', JSON.stringify(credentials));
 
       setStep(4);
     } catch (error) {
