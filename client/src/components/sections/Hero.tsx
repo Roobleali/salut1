@@ -18,7 +18,7 @@ export function Hero() {
               <h1 className="text-5xl lg:text-6xl font-bold tracking-tight animate-slide-in mb-8">
                 <span className="block mb-4">
                   Cloud Based ERP for
-                  <span className="relative">
+                  <span className="relative ml-2">
                     SME's
                     <svg
                       className="absolute -bottom-1 left-0 w-full"
@@ -44,9 +44,16 @@ export function Hero() {
                 <Button
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                  
+                >
+                  Get Started
+                </Button>
+                <Button
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={() => navigate("/services")}
                 >
-                  Bilow Maanta
+                 Learn more
                 </Button>
               </div>
               <div className="container max-w-4xl mx-auto px-4">
