@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,11 +16,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2, ArrowRight, ArrowLeft, Building2, Search, Factory, Building, Store, GraduationCap, Briefcase, UtensilsCrossed } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
@@ -28,7 +28,7 @@ const formSchema = z.object({
   industry: z.string().min(1, "Please select an industry"),
   currentSoftware: z.string().min(1, "Please describe your current software"),
   company: z.string().min(2, "Company name must be at least 2 characters"),
-  cui: z.string().min(1, "CUI is required"),
+  cui: z.string().optional(),
   email: z.string().email("Please enter a valid email"),
   address: z.string().optional(),
   county: z.string().optional(),
@@ -58,8 +58,8 @@ interface OnboardingModalProps {
 }
 
 export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
-  const [step, setStep] = React.useState(1);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<FormData>({
@@ -74,6 +74,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       county: "",
       phone: "",
     },
+    mode: "onTouched", // Only show errors after fields are touched
   });
 
   const onSubmit = async (data: FormData) => {
@@ -159,7 +160,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const currentFields = {
       1: ["industry"],
       2: ["currentSoftware"],
-      3: ["cui", "company", "email"],
+      3: ["company", "email"],
     }[step as keyof typeof STEPS];
 
     if (!currentFields) return true;
@@ -253,7 +254,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                   name="cui"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company CUI</FormLabel>
+                      <FormLabel>Company CUI (Optional)</FormLabel>
+                      <FormDescription>
+                        Enter your CUI to automatically fill company details
+                      </FormDescription>
                       <div className="flex gap-2">
                         <FormControl>
                           <div className="relative">
@@ -263,17 +267,17 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                         </FormControl>
                         <Button
                           type="button"
-                          variant="secondary"
+                          variant="outline"
                           onClick={() => lookupCompany(field.value)}
                           disabled={isLoading || !field.value}
-                          className="min-w-[100px]"
+                          className="min-w-[120px] bg-primary/5 hover:bg-primary/10 border-primary/20 hover:border-primary/30"
                         >
                           {isLoading ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
                           ) : (
                             <>
                               <Search className="mr-2 h-4 w-4" />
-                              Lookup
+                              Lookup Info
                             </>
                           )}
                         </Button>
