@@ -54,7 +54,6 @@ interface OnboardingModalProps {
 export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   const [step, setStep] = React.useState(1);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [anafData, setAnafData] = React.useState<any>(null);
   const { toast } = useToast();
 
   const form = useForm<FormData>({
@@ -78,7 +77,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...data, anafData }),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
@@ -94,6 +93,41 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       toast({
         title: "Error",
         description: "Failed to submit the form. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const lookupCompany = async (cui: string) => {
+    if (!cui) return;
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/anaf-lookup?cui=${cui}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch company data");
+      }
+
+      const data = await response.json();
+      if (data && data.found) {
+        form.setValue("company", data.denumire || "");
+        toast({
+          title: "Company Found",
+          description: "Company information has been automatically filled.",
+        });
+      } else {
+        toast({
+          title: "Company Not Found",
+          description: "Please enter company details manually.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to fetch company data. Please enter details manually.",
         variant: "destructive",
       });
     } finally {
@@ -167,10 +201,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                         <Button 
                           type="button" 
                           variant="outline"
-                          onClick={() => {
-                            const cuiValue = field.value;
-                            // Add your CUI lookup logic here if needed.  This example omits it for brevity.
-                          }}
+                          onClick={() => lookupCompany(field.value)}
                           disabled={isLoading || !field.value}
                         >
                           {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Lookup"}
