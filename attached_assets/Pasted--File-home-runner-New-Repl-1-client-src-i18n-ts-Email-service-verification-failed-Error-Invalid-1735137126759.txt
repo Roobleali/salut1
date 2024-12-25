@@ -1,0 +1,49 @@
+  File: /home/runner/New-Repl-1/client/src/i18n.ts
+Email service verification failed: Error: Invalid login: 535 5.7.3 Authentication unsuccessful [BLAPR03CA0133.namprd03.prod.outlook.com 2024-12-25T14:27:09.808Z 08DD23DD20E4D57A]
+    at SMTPConnection._formatError (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:807:19)
+    at SMTPConnection._actionAUTHComplete (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:1586:34)
+    at SMTPConnection.<anonymous> (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:1540:18)
+    at SMTPConnection._processResponse (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:991:20)
+    at SMTPConnection._onData (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:772:14)
+    at SMTPConnection._onSocketData (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:195:44)
+    at TLSSocket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  code: 'EAUTH',
+  response: '535 5.7.3 Authentication unsuccessful [BLAPR03CA0133.namprd03.prod.outlook.com 2024-12-25T14:27:09.808Z 08DD23DD20E4D57A]',
+  responseCode: 535,
+  command: 'AUTH LOGIN'
+}
+New Implementation Request: {
+  name: undefined,
+  email: 'info@saluttech.ro',
+  company: 'SALUT TECH SRL',
+  cui: '',
+  address: 'Sat Dobroesti',
+  county: 'Ilfov',
+  phone: '0729917823',
+  industry: 'manufacturing',
+  currentSoftware: 'kkj',
+  painPoints: undefined,
+  timestamp: '2024-12-25T14:31:26.216Z'
+}
+Email sending failed: Error: Invalid login: 535 5.7.3 Authentication unsuccessful [BL0PR1501CA0003.namprd15.prod.outlook.com 2024-12-25T14:31:31.666Z 08DD227C7AB7F7F2]
+    at SMTPConnection._formatError (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:807:19)
+    at SMTPConnection._actionAUTHComplete (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:1586:34)
+    at SMTPConnection.<anonymous> (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:1540:18)
+    at SMTPConnection._processResponse (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:991:20)
+    at SMTPConnection._onData (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:772:14)
+    at SMTPConnection._onSocketData (/home/runner/New-Repl-1/node_modules/nodemailer/lib/smtp-connection/index.js:195:44)
+    at TLSSocket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:191:23) {
+  code: 'EAUTH',
+  response: '535 5.7.3 Authentication unsuccessful [BL0PR1501CA0003.namprd15.prod.outlook.com 2024-12-25T14:31:31.666Z 08DD227C7AB7F7F2]',
+  responseCode: 535,
+  command: 'AUTH LOGIN'
+}
+2:31:31 PM [express] POST /api/contact 200 in 5459ms :: {"success":true,"message":"Your request has …
