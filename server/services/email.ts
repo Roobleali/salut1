@@ -10,20 +10,19 @@ interface OnboardingData {
   phone?: string;
 }
 
+// Create reusable transporter object using SMTP transport
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+  service: 'gmail', // Using Gmail service instead of manual SMTP config
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
+    pass: process.env.EMAIL_PASSWORD, // This should be an App Password for Gmail
   },
 });
 
 export async function sendOnboardingEmail(data: OnboardingData) {
   const emailContent = `
     New Onboarding Request:
-    
+
     Industry: ${data.industry}
     CUI: ${data.cui || 'Not provided'}
     Company Name: ${data.companyName}
@@ -31,7 +30,7 @@ export async function sendOnboardingEmail(data: OnboardingData) {
     Address: ${data.address || 'Not provided'}
     County: ${data.county || 'Not provided'}
     Phone: ${data.phone || 'Not provided'}
-    
+
     Date: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
   `;
 
@@ -47,6 +46,10 @@ export async function sendOnboardingEmail(data: OnboardingData) {
     return { success: true };
   } catch (error) {
     console.error('Email sending failed:', error);
-    throw new Error('Failed to send onboarding email');
+    // Instead of throwing error, return failure status
+    return { 
+      success: false, 
+      error: 'Unable to send email notification, but your request has been recorded.' 
+    };
   }
 }
