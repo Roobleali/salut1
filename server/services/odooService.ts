@@ -51,4 +51,4 @@ class OdooService {
   }
 }
 
-module.exports = { OdooService };
+export const odooService = new OdooService();
