@@ -36,7 +36,6 @@ import {
 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import sgMail from '@sendgrid/mail';
 
 const formSchema = z.object({
   industry: z.string().min(1, "Please select an industry"),
@@ -90,12 +89,13 @@ const INDUSTRIES = [
   },
 ];
 
-const STEPS = {
-  1: "Select Your Industry",
-  2: "Current Software & Needs",
-  3: "Company Details",
-  4: "Request Submitted",
-} as const;
+type StepType = "SELECT_INDUSTRY" | "CURRENT_SOFTWARE" | "COMPANY_DETAILS" | "COMPLETED";
+const STEPS: Record<StepType, string> = {
+  SELECT_INDUSTRY: "Select Your Industry",
+  CURRENT_SOFTWARE: "Current Software & Needs",
+  COMPANY_DETAILS: "Company Details",
+  COMPLETED: "Request Submitted"
+};
 
 interface OnboardingModalProps {
   open: boolean;
@@ -103,7 +103,7 @@ interface OnboardingModalProps {
 }
 
 export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState<StepType>("SELECT_INDUSTRY");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -118,7 +118,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       county: "",
       phone: "",
     },
-    mode: "onSubmit",
   });
 
   const handleApiError = (error: any) => {
@@ -134,7 +133,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     });
   };
 
-  const lookupCompany = async (cui: string) => {
+  const lookupCompany = async (cui: string | undefined) => {
     if (!cui) {
       toast({
         title: "Error",
@@ -146,7 +145,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
     setIsLoading(true);
     try {
-      // Remove any spaces or special characters from CUI
       const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, "");
 
       const response = await fetch(
@@ -161,22 +159,16 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       );
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error(`OpenAPI.ro API error (${response.status}):`, errorText);
-
         if (response.status === 403) {
           throw new Error("Invalid API key or authorization error");
         }
-
         if (response.status === 404) {
           throw new Error("Company not found");
         }
-
         throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
-
       if (!data || !data.denumire) {
         throw new Error("Company data not available");
       }
@@ -197,57 +189,36 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     }
   };
 
-  const sendEmail = async (data: FormData) => {
-    try {
-      if (!import.meta.env.VITE_SENDGRID_API_KEY) {
-        throw new Error('SendGrid API key is not configured');
-      }
-
-      sgMail.setApiKey(import.meta.env.VITE_SENDGRID_API_KEY);
-
-      const emailTemplate = `
-Contact Form Submission Details:
------------------------------
-Company: ${data.company}
-Industry: ${data.industry}
-Current Software: ${data.currentSoftware}
-Email: ${data.email}
-Address: ${data.address || 'Not provided'}
-County: ${data.county || 'Not provided'}
-Phone: ${data.phone || 'Not provided'}
-CUI: ${data.cui || 'Not provided'}
-
-Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
-      `.trim();
-
-      const msg = {
-        to: 'info@saluttech.ro',
-        from: {
-          email: import.meta.env.VITE_SENDGRID_FROM_EMAIL || '',
-          name: 'Salut Enterprise Contact System'
-        },
-        replyTo: data.email,
-        subject: `New Implementation Request - ${data.company}`,
-        text: emailTemplate,
-      };
-
-      await sgMail.send(msg);
-      return true;
-    } catch (error: any) {
-      console.error('SendGrid email error:', error);
-      throw new Error('Failed to send email. Please try again later.');
-    }
-  };
-
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      await sendEmail(data);
+      // Send email using fetch to avoid client-side SendGrid issues
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          company: data.company,
+          industry: data.industry,
+          currentSoftware: data.currentSoftware,
+          email: data.email,
+          address: data.address,
+          county: data.county,
+          phone: data.phone,
+          cui: data.cui,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
       toast({
         title: "Success",
         description: "Your request has been submitted successfully. We'll be in touch shortly.",
       });
-      setStep(4);
+      setStep("COMPLETED");
     } catch (error) {
       handleApiError(error);
     } finally {
@@ -257,22 +228,41 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
 
   const validateCurrentStep = () => {
     const currentFields = {
-      1: ["industry"],
-      2: ["currentSoftware"],
-      3: ["company", "email"],
-    }[step as keyof typeof STEPS];
-
-    if (!currentFields) return true;
+      SELECT_INDUSTRY: ["industry"],
+      CURRENT_SOFTWARE: ["currentSoftware"],
+      COMPANY_DETAILS: ["company", "email"],
+      COMPLETED: [],
+    }[step];
 
     return currentFields.every((field) => {
       const value = form.getValues(field as keyof FormData);
-      return !formSchema.shape[field as keyof FormData].isOptional()
-        ? value && value.length > 0
-        : true;
+      return value && value.length > 0;
     });
   };
 
-  const progress = ((step - 1) / (Object.keys(STEPS).length - 2)) * 100;
+  const progress = (() => {
+    const stepValues: StepType[] = ["SELECT_INDUSTRY", "CURRENT_SOFTWARE", "COMPANY_DETAILS", "COMPLETED"];
+    const currentIndex = stepValues.indexOf(step);
+    return ((currentIndex) / (stepValues.length - 2)) * 100;
+  })();
+
+  const goToNextStep = () => {
+    if (validateCurrentStep()) {
+      const stepOrder: StepType[] = ["SELECT_INDUSTRY", "CURRENT_SOFTWARE", "COMPANY_DETAILS", "COMPLETED"];
+      const currentIndex = stepOrder.indexOf(step);
+      if (currentIndex < stepOrder.length - 1) {
+        setStep(stepOrder[currentIndex + 1]);
+      }
+    }
+  };
+
+  const goToPreviousStep = () => {
+    const stepOrder: StepType[] = ["SELECT_INDUSTRY", "CURRENT_SOFTWARE", "COMPANY_DETAILS", "COMPLETED"];
+    const currentIndex = stepOrder.indexOf(step);
+    if (currentIndex > 0) {
+      setStep(stepOrder[currentIndex - 1]);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -282,15 +272,15 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
             <DialogTitle className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#9747FF] via-[#8A43E6] to-[#6E35B9] bg-clip-text text-transparent pb-1">
               Get Started with Salut Enterprise
             </DialogTitle>
-            {step < 4 && (
+            {step !== "COMPLETED" && (
               <>
                 <DialogDescription className="text-base font-medium text-foreground/80">
-                  {STEPS[step as keyof typeof STEPS]}
+                  {STEPS[step]}
                 </DialogDescription>
                 <div className="space-y-2">
                   <Progress value={progress} className="h-2" />
                   <p className="text-sm text-muted-foreground">
-                    Step {step} of {Object.keys(STEPS).length - 1}
+                    Step {Object.keys(STEPS).indexOf(step) + 1} of {Object.keys(STEPS).length - 1}
                   </p>
                 </div>
               </>
@@ -298,7 +288,7 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
           </div>
         </DialogHeader>
 
-        {step === 4 ? (
+        {step === "COMPLETED" ? (
           <div className="py-8 text-center space-y-4">
             <div className="flex justify-center">
               <CheckCircle2 className="h-16 w-16 text-primary" />
@@ -314,7 +304,7 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {step === 1 && (
+              {step === "SELECT_INDUSTRY" && (
                 <FormField
                   control={form.control}
                   name="industry"
@@ -322,31 +312,29 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
                     <FormItem>
                       <FormLabel>Select Your Industry</FormLabel>
                       <div className="grid grid-cols-2 gap-4">
-                        {INDUSTRIES.map(
-                          ({ value, label, icon: Icon, description }) => (
-                            <div
-                              key={value}
-                              className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
-                                field.value === value
-                                  ? "border-primary bg-primary/5"
-                                  : "border-border hover:border-primary/50"
-                              }`}
-                              onClick={() => field.onChange(value)}
-                            >
-                              <div className="flex items-center gap-3">
-                                <div className="p-2 rounded-md bg-primary/10">
-                                  <Icon className="w-5 h-5 text-primary" />
-                                </div>
-                                <div>
-                                  <div className="font-medium">{label}</div>
-                                  <div className="text-sm text-muted-foreground">
-                                    {description}
-                                  </div>
+                        {INDUSTRIES.map(({ value, label, icon: Icon, description }) => (
+                          <div
+                            key={value}
+                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+                              field.value === value
+                                ? "border-primary bg-primary/5"
+                                : "border-border hover:border-primary/50"
+                            }`}
+                            onClick={() => field.onChange(value)}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="p-2 rounded-md bg-primary/10">
+                                <Icon className="w-5 h-5 text-primary" />
+                              </div>
+                              <div>
+                                <div className="font-medium">{label}</div>
+                                <div className="text-sm text-muted-foreground">
+                                  {description}
                                 </div>
                               </div>
                             </div>
-                          )
-                        )}
+                          </div>
+                        ))}
                       </div>
                       <FormMessage />
                     </FormItem>
@@ -354,7 +342,7 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
                 />
               )}
 
-              {step === 2 && (
+              {step === "CURRENT_SOFTWARE" && (
                 <FormField
                   control={form.control}
                   name="currentSoftware"
@@ -377,7 +365,7 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
                 />
               )}
 
-              {step === 3 && (
+              {step === "COMPANY_DETAILS" && (
                 <div className="space-y-4">
                   <FormField
                     control={form.control}
@@ -428,7 +416,7 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
                         <FormControl>
                           <Input placeholder="Company Name" {...field} />
                         </FormControl>
-                        {form.formState.isSubmitted && <FormMessage />}
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -446,7 +434,7 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
                             {...field}
                           />
                         </FormControl>
-                        {form.formState.isSubmitted && <FormMessage />}
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -495,25 +483,21 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
               )}
 
               <div className="flex justify-between pt-4">
-                {step < 4 && (
+                {step !== "COMPLETED" && (
                   <>
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => setStep((s) => Math.max(s - 1, 1))}
-                      disabled={step === 1 || isLoading}
+                      onClick={goToPreviousStep}
+                      disabled={step === "SELECT_INDUSTRY" || isLoading}
                     >
                       <ArrowLeft className="mr-2 h-4 w-4" /> Back
                     </Button>
 
-                    {step < 3 ? (
+                    {step !== "COMPANY_DETAILS" ? (
                       <Button
                         type="button"
-                        onClick={() => {
-                          if (validateCurrentStep()) {
-                            setStep((s) => Math.min(s + 1, 3));
-                          }
-                        }}
+                        onClick={goToNextStep}
                         disabled={isLoading}
                       >
                         Next <ArrowRight className="ml-2 h-4 w-4" />
