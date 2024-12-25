@@ -71,37 +71,6 @@ const resources = {
           submit: 'Send Message'
         }
       },
-      industries: {
-        manufacturing: {
-          title: 'Enterprise Manufacturing Suite',
-          subtitle: 'Advanced manufacturing solutions tailored for modern industries',
-          description: 'Complete manufacturing management system with integrated MRP, real-time planning, and quality control',
-          badge: 'Manufacturing Excellence',
-          features: {
-            planning: {
-              title: 'Production Planning',
-              description: 'Advanced MRP system with real-time production scheduling'
-            },
-            quality: {
-              title: 'Quality Control',
-              description: 'Comprehensive quality management and testing protocols'
-            }
-          },
-          romania_specific: {
-            title: 'Romanian Market Features',
-            features: {
-              efactura: 'E-Factura Compliance and Integration',
-              fiscal: 'Romanian Fiscal Code Management',
-              supply_chain: 'Local Supply Chain Optimization'
-            }
-          }
-        },
-        education: {
-          title: 'Education Management System',
-          subtitle: 'Manage student information, resources, and curriculum effectively',
-          description: 'Our education management system helps streamline administrative tasks, improve communication, and enhance the learning experience'
-        }
-      },
       language: {
         select: 'Select Language',
         english: 'English',
@@ -176,37 +145,6 @@ const resources = {
           submit: 'Trimite Mesaj'
         }
       },
-      industries: {
-        manufacturing: {
-          title: 'Suită Enterprise pentru Producție',
-          subtitle: 'Soluții avansate de producție adaptate industriilor moderne',
-          description: 'Sistem complet de management al producției cu MRP integrat, planificare în timp real și control al calității',
-          badge: 'Excelență în Producție',
-          features: {
-            planning: {
-              title: 'Planificarea Producției',
-              description: 'Sistem MRP avansat cu programare în timp real'
-            },
-            quality: {
-              title: 'Controlul Calității',
-              description: 'Management comprehensiv al calității și protocoale de testare'
-            }
-          },
-          romania_specific: {
-            title: 'Funcționalități pentru Piața Românească',
-            features: {
-              efactura: 'Conformitate și Integrare e-Factura',
-              fiscal: 'Gestionarea Codului Fiscal Românesc',
-              supply_chain: 'Optimizare Lanț de Aprovizionare Local'
-            }
-          }
-        },
-        education: {
-          title: 'Sistem de Management Educațional',
-          subtitle: 'Gestionează informațiile studenților, resursele și programa eficient',
-          description: 'Sistemul nostru de management educațional ajută la optimizarea sarcinilor administrative, îmbunătățirea comunicării și la îmbunătățirea experienței de învățare'
-        }
-      },
       language: {
         select: 'Selectează Limba',
         english: 'Engleză',
@@ -223,10 +161,14 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false,
-    }
+    },
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
+    },
   });
 
 export default i18n;
