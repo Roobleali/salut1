@@ -37,6 +37,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import sgMail from '@sendgrid/mail';
 
 const formSchema = z.object({
   industry: z.string().min(1, "Please select an industry"),
@@ -189,27 +190,51 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     }
   };
 
+  const sendEmail = async (data: FormData) => {
+    if (!import.meta.env.VITE_SENDGRID_API_KEY) {
+      throw new Error('SendGrid API key is not configured');
+    }
+
+    sgMail.setApiKey(import.meta.env.VITE_SENDGRID_API_KEY);
+
+    const emailTemplate = `
+New Implementation Request
+
+Company Details:
+---------------
+Company Name: ${data.company}
+Industry: ${data.industry}
+Current Software: ${data.currentSoftware || 'Not specified'}
+Email: ${data.email}
+Address: ${data.address || 'Not provided'}
+County: ${data.county || 'Not provided'}
+Phone: ${data.phone || 'Not provided'}
+CUI: ${data.cui || 'Not provided'}
+
+Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
+    `.trim();
+
+    const msg = {
+      to: 'info@saluttech.ro',
+      from: {
+        email: import.meta.env.VITE_SENDGRID_FROM_EMAIL || '',
+        name: 'Salut Enterprise Contact System'
+      },
+      replyTo: data.email,
+      subject: `New Implementation Request - ${data.company}`,
+      text: emailTemplate,
+    };
+
+    await sgMail.send(msg);
+  };
+
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to submit form");
-      }
-
-      const result = await response.json();
-
+      await sendEmail(data);
       toast({
         title: "Success",
-        description: result.message || "Your request has been submitted successfully. We'll be in touch shortly.",
+        description: "Your request has been submitted successfully. We'll be in touch shortly.",
       });
       setStep("COMPLETED");
     } catch (error) {
@@ -266,7 +291,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader className="space-y-4">
+        <DialogHeader>
           <div className="space-y-2">
             <DialogTitle className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#9747FF] via-[#8A43E6] to-[#6E35B9] bg-clip-text text-transparent pb-1">
               Get Started with Salut Enterprise
