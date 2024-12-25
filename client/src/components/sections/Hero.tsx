@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { LearnAnimation } from "@/components/LearnAnimation";
 import { Link } from "wouter";
-import { GetStartedModal } from "@/components/modals/GetStartedModal";
+import { OnboardingModal } from "@/components/modals/OnboardingModal";
 import { useState } from "react";
 
 export function Hero() {
-  const [showGetStarted, setShowGetStarted] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   return (
     <div className="relative overflow-hidden bg-gradient-to-b from-primary/5 to-transparent pt-32 pb-24">
@@ -49,7 +49,7 @@ export function Hero() {
                 <Button
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={() => setShowGetStarted(true)}
+                  onClick={() => setShowOnboarding(true)}
                 >
                   Get Started
                 </Button>
@@ -70,10 +70,10 @@ export function Hero() {
         </div>
       </div>
 
-      {/* GetStarted Modal */}
-      <GetStartedModal 
-        open={showGetStarted} 
-        onOpenChange={setShowGetStarted}
+      {/* Onboarding Modal */}
+      <OnboardingModal 
+        open={showOnboarding} 
+        onOpenChange={setShowOnboarding}
       />
     </div>
   );
