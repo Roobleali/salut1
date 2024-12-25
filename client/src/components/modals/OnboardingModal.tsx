@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, ArrowRight, ArrowLeft, Building2, Search, Factory, Building, Store, GraduationCap, Briefcase, UtensilsCrossed } from "lucide-react";
+import { Loader2, ArrowRight, ArrowLeft, Building2, Search, Factory, Building, Store, GraduationCap, Briefcase, UtensilsCrossed, CheckCircle2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
@@ -50,6 +50,7 @@ const STEPS = {
   1: "Select Your Industry",
   2: "Current Software & Needs",
   3: "Company Details",
+  4: "Request Submitted",
 } as const;
 
 interface OnboardingModalProps {
@@ -74,7 +75,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       county: "",
       phone: "",
     },
-    mode: "onTouched", // Only show errors after fields are touched
+    mode: "onSubmit", // Only show errors when form is submitted
   });
 
   const onSubmit = async (data: FormData) => {
@@ -92,11 +93,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         throw new Error(await response.text());
       }
 
-      toast({
-        title: "Success!",
-        description: "Your information has been submitted. We'll be in touch soon.",
-      });
-      onOpenChange(false);
+      setStep(4); // Move to success state
     } catch (error) {
       toast({
         title: "Error",
@@ -165,18 +162,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
     if (!currentFields) return true;
 
-    const isValid = currentFields.every((field) => {
+    return currentFields.every((field) => {
       const value = form.getValues(field as keyof FormData);
       return !formSchema.shape[field as keyof FormData].isOptional() ? value && value.length > 0 : true;
     });
-
-    if (!isValid) {
-      currentFields.forEach((field) => {
-        form.trigger(field as keyof FormData);
-      });
-    }
-
-    return isValid;
   };
 
   return (
@@ -185,145 +174,127 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         <DialogHeader>
           <DialogTitle>Get Started with Salut Enterprise</DialogTitle>
           <DialogDescription>
-            Step {step} of {Object.keys(STEPS).length}: {STEPS[step as keyof typeof STEPS]}
+            Step {step} of {Object.keys(STEPS).length - 1}: {STEPS[step as keyof typeof STEPS]}
           </DialogDescription>
         </DialogHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {step === 1 && (
-              <FormField
-                control={form.control}
-                name="industry"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Select Your Industry</FormLabel>
-                    <div className="grid grid-cols-2 gap-4">
-                      {INDUSTRIES.map(({ value, label, icon: Icon, description }) => (
-                        <div
-                          key={value}
-                          className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
-                            field.value === value
-                              ? "border-primary bg-primary/5"
-                              : "border-border hover:border-primary/50"
-                          }`}
-                          onClick={() => field.onChange(value)}
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 rounded-md bg-primary/10">
-                              <Icon className="w-5 h-5 text-primary" />
-                            </div>
-                            <div>
-                              <div className="font-medium">{label}</div>
-                              <div className="text-sm text-muted-foreground">{description}</div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-
-            {step === 2 && (
-              <FormField
-                control={form.control}
-                name="currentSoftware"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>What software solutions are you currently using and what are your main requirements?</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="e.g., Currently using Excel for inventory, looking for an automated solution with real-time tracking..."
-                        className="min-h-[100px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-
-            {step === 3 && (
-              <div className="space-y-4">
+        {step === 4 ? (
+          <div className="py-8 text-center space-y-4">
+            <div className="flex justify-center">
+              <CheckCircle2 className="h-16 w-16 text-primary" />
+            </div>
+            <h3 className="text-2xl font-semibold text-primary">Thank You for Your Interest!</h3>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              Our team will review your requirements and get back to you within the next hour with a personalized solution tailored to your needs.
+            </p>
+          </div>
+        ) : (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {step === 1 && (
                 <FormField
                   control={form.control}
-                  name="cui"
+                  name="industry"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company CUI (Optional)</FormLabel>
-                      <FormDescription>
-                        Enter your CUI to automatically fill company details
-                      </FormDescription>
-                      <div className="flex gap-2">
-                        <FormControl>
-                          <div className="relative">
-                            <Building2 className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                            <Input placeholder="Enter CUI" className="pl-10" {...field} />
+                      <FormLabel>Select Your Industry</FormLabel>
+                      <div className="grid grid-cols-2 gap-4">
+                        {INDUSTRIES.map(({ value, label, icon: Icon, description }) => (
+                          <div
+                            key={value}
+                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+                              field.value === value
+                                ? "border-primary bg-primary/5"
+                                : "border-border hover:border-primary/50"
+                            }`}
+                            onClick={() => field.onChange(value)}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="p-2 rounded-md bg-primary/10">
+                                <Icon className="w-5 h-5 text-primary" />
+                              </div>
+                              <div>
+                                <div className="font-medium">{label}</div>
+                                <div className="text-sm text-muted-foreground">{description}</div>
+                              </div>
+                            </div>
                           </div>
-                        </FormControl>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() => lookupCompany(field.value)}
-                          disabled={isLoading || !field.value}
-                          className="min-w-[120px] bg-primary/5 hover:bg-primary/10 border-primary/20 hover:border-primary/30"
-                        >
-                          {isLoading ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <>
-                              <Search className="mr-2 h-4 w-4" />
-                              Lookup Info
-                            </>
-                          )}
-                        </Button>
+                        ))}
                       </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+              )}
 
+              {step === 2 && (
                 <FormField
                   control={form.control}
-                  name="company"
+                  name="currentSoftware"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company Name</FormLabel>
+                      <FormLabel>What software solutions are you currently using and what are your main requirements?</FormLabel>
                       <FormControl>
-                        <Input placeholder="Company Name" {...field} />
+                        <Textarea
+                          placeholder="e.g., Currently using Excel for inventory, looking for an automated solution with real-time tracking..."
+                          className="min-h-[100px]"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+              )}
 
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Business Email</FormLabel>
-                      <FormControl>
-                        <Input type="email" placeholder="contact@company.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="grid grid-cols-2 gap-4">
+              {step === 3 && (
+                <div className="space-y-4">
                   <FormField
                     control={form.control}
-                    name="address"
+                    name="cui"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Address</FormLabel>
+                        <FormLabel>Company CUI (Optional)</FormLabel>
+                        <FormDescription>
+                          Enter your CUI to automatically fill company details
+                        </FormDescription>
+                        <div className="flex gap-2">
+                          <FormControl>
+                            <div className="relative">
+                              <Building2 className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                              <Input placeholder="Enter CUI" className="pl-10" {...field} />
+                            </div>
+                          </FormControl>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => lookupCompany(field.value)}
+                            disabled={isLoading || !field.value}
+                            className="min-w-[120px] bg-primary/5 hover:bg-primary/10 border-primary/20 hover:border-primary/30"
+                          >
+                            {isLoading ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <>
+                                <Search className="mr-2 h-4 w-4" />
+                                Lookup Info
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Company Address" {...field} />
+                          <Input placeholder="Company Name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -332,72 +303,106 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
                   <FormField
                     control={form.control}
-                    name="county"
+                    name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>County</FormLabel>
+                        <FormLabel>Business Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="County" {...field} />
+                          <Input type="email" placeholder="contact@company.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="address"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Address</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Company Address" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="county"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>County</FormLabel>
+                          <FormControl>
+                            <Input placeholder="County" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Phone Number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Phone Number" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            )}
-
-            <div className="flex justify-between pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setStep((s) => Math.max(s - 1, 1))}
-                disabled={step === 1 || isLoading}
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" /> Back
-              </Button>
-
-              {step < 3 ? (
-                <Button
-                  type="button"
-                  onClick={() => {
-                    if (validateCurrentStep()) {
-                      setStep((s) => Math.min(s + 1, 3));
-                    }
-                  }}
-                  disabled={isLoading}
-                >
-                  Next <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              ) : (
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Submitting...
-                    </>
-                  ) : (
-                    "Submit"
-                  )}
-                </Button>
               )}
-            </div>
-          </form>
-        </Form>
+
+              <div className="flex justify-between pt-4">
+                {step < 4 && (
+                  <>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setStep((s) => Math.max(s - 1, 1))}
+                      disabled={step === 1 || isLoading}
+                    >
+                      <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                    </Button>
+
+                    {step < 3 ? (
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          if (validateCurrentStep()) {
+                            setStep((s) => Math.min(s + 1, 3));
+                          }
+                        }}
+                        disabled={isLoading}
+                      >
+                        Next <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    ) : (
+                      <Button type="submit" disabled={isLoading}>
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Submitting...
+                          </>
+                        ) : (
+                          "Submit"
+                        )}
+                      </Button>
+                    )}
+                  </>
+                )}
+              </div>
+            </form>
+          </Form>
+        )}
       </DialogContent>
     </Dialog>
   );
