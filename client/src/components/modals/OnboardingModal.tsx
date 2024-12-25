@@ -12,7 +12,6 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
     FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -40,11 +39,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import emailjs from '@emailjs/browser';
 
 const formSchema = z.object({
-    industry: z.string().min(1, "Please select an industry"),
-    currentSoftware: z.string().min(1, "Please describe your current software"),
-    company: z.string().min(2, "Company name must be at least 2 characters"),
-    cui: z.string().optional(),
-    email: z.string().email("Please enter a valid email"),
+    industry: z.string(),
+    currentSoftware: z.string(),
+    company: z.string(),
+    cui: z.string(),
+    email: z.string().email(),
     address: z.string().optional(),
     county: z.string().optional(),
     phone: z.string().optional(),
@@ -113,15 +112,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
     useEffect(() => {
         try {
-            emailjs.init("Zf4lxizbewKMs2_SJ");
+            emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
         } catch (error) {
             console.error("Failed to initialize EmailJS:", error);
-            toast({
-                title: "Error",
-                description:
-                    "Failed to initialize email service. Please try again later.",
-                variant: "destructive",
-            });
         }
     }, []);
 
@@ -139,51 +132,23 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         },
     });
 
-    const handleApiError = (error: any) => {
-        console.error("API Error:", error);
-        const errorMessage = error.message || "An unexpected error occurred";
-        toast({
-            title: "Error",
-            description: errorMessage,
-            variant: "destructive",
-        });
-    };
-
-    const lookupCompany = async (cui: string | undefined) => {
-        if (!cui) {
-            toast({
-                title: "Error",
-                description: "Please enter a CUI number",
-                variant: "destructive",
-            });
-            return;
-        }
+    const lookupCompany = async (cui: string) => {
+        if (!cui) return;
 
         setIsLookingUp(true);
         try {
             const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, "");
             const response = await fetch(`/api/anaf-lookup?cui=${sanitizedCui}`);
-
-            if (!response.ok) {
-                throw new Error(await response.text());
-            }
-
             const data = await response.json();
-            if (!data || !data.found) {
-                throw new Error(data.error || "Company not found");
+
+            if (data?.found) {
+                form.setValue("company", data.denumire);
+                form.setValue("address", data.adresa || "");
+                form.setValue("county", data.judet || "");
+                form.setValue("phone", data.telefon || "");
             }
-
-            form.setValue("company", data.denumire);
-            form.setValue("address", data.adresa || "");
-            form.setValue("county", data.judet || "");
-            form.setValue("phone", data.telefon || "");
-
-            toast({
-                title: "Success",
-                description: "Company information has been automatically filled.",
-            });
-        } catch (error: any) {
-            handleApiError(error);
+        } catch (error) {
+            console.error("Company lookup error:", error);
         } finally {
             setIsLookingUp(false);
         }
@@ -192,47 +157,33 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const sendEmail = async (data: FormData) => {
         try {
             const result = await emailjs.send(
-                "service_lnippfb",
-                "template_ck1avc9",
+                import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
                 {
                     to_name: "Salut Enterprise Team",
                     company: data.company,
                     industry: INDUSTRIES.find(ind => ind.value === data.industry)?.label || data.industry,
                     email: data.email,
-                    phone: data.phone,
-                    address: data.address,
-                    county: data.county,
-                    cui: data.cui,
-                    currentSoftware: data.currentSoftware
+                    phone: data.phone || "N/A",
+                    address: data.address || "N/A",
+                    county: data.county || "N/A",
+                    cui: data.cui || "N/A",
+                    currentSoftware: data.currentSoftware || "N/A"
                 },
             );
 
-            if (result.status !== 200) {
-                throw new Error("Failed to send email");
+            if (result.status === 200) {
+                setStep("COMPLETED");
             }
-
-            return true;
         } catch (error) {
             console.error("EmailJS error:", error);
-            throw new Error("Failed to send email. Please try again later.");
         }
     };
 
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
-        try {
-            await sendEmail(data);
-            toast({
-                title: "Success",
-                description:
-                    "Your request has been submitted successfully. We'll be in touch shortly.",
-            });
-            setStep("COMPLETED");
-        } catch (error) {
-            handleApiError(error);
-        } finally {
-            setIsLoading(false);
-        }
+        await sendEmail(data);
+        setIsLoading(false);
     };
 
     const validateCurrentStep = () => {
@@ -241,7 +192,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         const currentFields = {
             SELECT_INDUSTRY: ["industry"],
             CURRENT_SOFTWARE: ["currentSoftware"],
-            COMPANY_DETAILS: ["company", "email"],
+            COMPANY_DETAILS: ["company", "email", "cui"], // Added cui to validation
         }[step];
 
         return currentFields.every((field) => {
@@ -258,7 +209,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             "COMPLETED",
         ];
         const currentIndex = stepValues.indexOf(step);
-        return (currentIndex / (stepValues.length - 2)) * 100;
+        return (currentIndex / (stepValues.length - 1)) * 100; // Adjusted calculation
     })();
 
     const goToNextStep = () => {
@@ -273,12 +224,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             if (currentIndex < stepOrder.length - 1) {
                 setStep(stepOrder[currentIndex + 1]);
             }
-        } else {
-            toast({
-                title: "Validation Error",
-                description: "Please fill in all required fields before proceeding.",
-                variant: "destructive",
-            });
         }
     };
 
@@ -369,7 +314,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                     ),
                                                 )}
                                             </div>
-                                            <FormMessage />
                                         </FormItem>
                                     )}
                                 />
@@ -396,7 +340,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                     {...field}
                                                 />
                                             </FormControl>
-                                            <FormMessage />
                                         </FormItem>
                                     )}
                                 />
@@ -409,9 +352,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                         name="cui"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormDescription className="text-xs md:text-sm">
-                                                    Enter your CUI to automatically fill company details
-                                                </FormDescription>
+                                                <FormLabel>CUI Number</FormLabel>
                                                 <div className="flex gap-2">
                                                     <FormControl>
                                                         <div className="relative flex-1">
@@ -420,6 +361,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                                 placeholder="Enter CUI"
                                                                 className="pl-10 text-sm md:text-base"
                                                                 {...field}
+                                                                autoFocus
                                                             />
                                                         </div>
                                                     </FormControl>
@@ -440,7 +382,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                         )}
                                                     </Button>
                                                 </div>
-                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
@@ -458,7 +399,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                         {...field} 
                                                     />
                                                 </FormControl>
-                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
@@ -477,7 +417,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                         {...field}
                                                     />
                                                 </FormControl>
-                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
@@ -496,7 +435,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                             {...field} 
                                                         />
                                                     </FormControl>
-                                                    <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
@@ -514,7 +452,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                             {...field} 
                                                         />
                                                     </FormControl>
-                                                    <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
@@ -533,7 +470,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                         {...field} 
                                                     />
                                                 </FormControl>
-                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
