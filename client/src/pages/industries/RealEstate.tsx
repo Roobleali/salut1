@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Check, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
+import { Helmet } from "react-helmet";
 
 const FEATURES = [
   {
@@ -103,70 +104,91 @@ export function RealEstate() {
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 pt-32 pb-24"
-    >
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <Badge className="mb-4">Real Estate Solutions</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
-            Advanced Real Estate Management
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Comprehensive real estate solutions with full integration of modern property management tools and analytics.
-          </p>
-          <div className="flex gap-4 justify-center mb-12">
-            <Link href="/contact">
-              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button variant="outline" size="lg">
-                Contact Sales
-              </Button>
-            </Link>
+    <>
+      <Helmet>
+        <title>Real Estate Enterprise Solutions | Salut Enterprise</title>
+        <meta name="description" content="Transform your real estate operations with our comprehensive enterprise software. Streamline property management, tenant relationships, and financial operations across Romania and Europe." />
+        <meta name="keywords" content="real estate software, property management system, tenant management, real estate enterprise solutions, imobiliare software, real estate ERP Romania, property management Romania" />
+        <meta property="og:title" content="Real Estate Enterprise Solutions | Salut Enterprise" />
+        <meta property="og:description" content="Comprehensive real estate management solutions for Romanian and European enterprises. Automate operations, enhance tenant satisfaction, and optimize property performance." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://saluttech.ro/industries/real-estate" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://saluttech.ro/industries/real-estate" />
+
+        {/* European Market Specific Meta Tags */}
+        <meta name="geo.region" content="RO" />
+        <meta name="geo.position" content="46.00;25.00" />
+        <meta name="geo.placename" content="Romania" />
+        <meta property="og:locale" content="ro_RO" />
+        <meta property="og:locale:alternate" content="en_GB" />
+      </Helmet>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5 }}
+        className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5 pt-32 pb-24"
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <Badge className="mb-4">Real Estate Solutions</Badge>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent">
+              Advanced Real Estate Management
+            </h1>
+            <p className="text-xl text-gray-600 mb-8">
+              Comprehensive real estate solutions with full integration of modern property management tools and analytics.
+            </p>
+            <div className="flex gap-4 justify-center mb-12">
+              <Link href="/contact">
+                <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+                  Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="/contact">
+                <Button variant="outline" size="lg">
+                  Contact Sales
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
-          {FEATURES.map((feature) => (
-            <Card key={feature.title} className="h-full">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-gray-600 mb-4">{feature.description}</p>
-                <div className="space-y-2">
-                  {feature.features.map((subFeature, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{subFeature}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="max-w-3xl mx-auto mb-24">
-          <h2 className="text-3xl font-bold text-center mb-12">Romanian Market Features</h2>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {ROMANIA_SPECIFIC.map((feature) => (
-              <div key={feature.en} className="flex items-center gap-2">
-                <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                <div>
-                  <span className="block">{feature.en}</span>
-                  <span className="block text-sm text-gray-600">{feature.ro}</span>
-                </div>
-              </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+            {FEATURES.map((feature) => (
+              <Card key={feature.title} className="h-full">
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-gray-600 mb-4">{feature.description}</p>
+                  <div className="space-y-2">
+                    {feature.features.map((subFeature, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                        <span className="text-sm text-gray-700">{subFeature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
+
+          <div className="max-w-3xl mx-auto mb-24">
+            <h2 className="text-3xl font-bold text-center mb-12">Romanian Market Features</h2>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {ROMANIA_SPECIFIC.map((feature) => (
+                <div key={feature.en} className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                  <div>
+                    <span className="block">{feature.en}</span>
+                    <span className="block text-sm text-gray-600">{feature.ro}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </>
   );
 }
