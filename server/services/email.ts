@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 
 interface OnboardingData {
   industry: string;
@@ -10,17 +10,81 @@ interface OnboardingData {
   phone?: string;
 }
 
-// Create reusable transporter object using SMTP transport
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+if (!process.env.SENDGRID_API_KEY) {
+  console.warn('SendGrid API key not found. Email functionality will not work.');
+}
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
 export async function sendOnboardingEmail(data: OnboardingData) {
-  const emailContent = `
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background-color: #f8f9fa; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+          .section { margin-bottom: 20px; }
+          .section-title { color: #0066cc; font-size: 18px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+          .field { margin-bottom: 10px; }
+          .label { font-weight: bold; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h2>New Onboarding Request from SalutTech Platform</h2>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Company Information</div>
+            <div class="field">
+              <span class="label">Company Name:</span> ${data.companyName}
+            </div>
+            <div class="field">
+              <span class="label">Industry:</span> ${data.industry}
+            </div>
+            <div class="field">
+              <span class="label">CUI:</span> ${data.cui || 'Not provided'}
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Contact Details</div>
+            <div class="field">
+              <span class="label">Email:</span> ${data.email}
+            </div>
+            <div class="field">
+              <span class="label">Phone:</span> ${data.phone || 'Not provided'}
+            </div>
+            <div class="field">
+              <span class="label">Address:</span> ${data.address || 'Not provided'}
+            </div>
+            <div class="field">
+              <span class="label">County:</span> ${data.county || 'Not provided'}
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Submission Details</div>
+            <div class="field">
+              <span class="label">Time:</span> ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
+
+  const msg = {
+    to: 'info@saluttech.ro',
+    from: {
+      email: process.env.SENDGRID_FROM_EMAIL || 'noreply@saluttech.ro',
+      name: 'SalutTech Platform'
+    },
+    subject: `New Onboarding Request - ${data.companyName}`,
+    text: `
 New Onboarding Request from SalutTech Platform
 
 Company Information:
@@ -37,17 +101,12 @@ Address: ${data.address || 'Not provided'}
 County: ${data.county || 'Not provided'}
 
 Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
-  `.trim();
-
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: 'info@saluttech.ro',
-    subject: `New Onboarding Request - ${data.companyName}`,
-    text: emailContent,
+    `.trim(),
+    html: htmlContent,
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await sgMail.send(msg);
     return { 
       success: true,
       message: 'Your request has been received and our team will contact you shortly.'
