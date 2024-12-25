@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { LearnAnimation } from "@/components/LearnAnimation";
+import { Link } from "wouter";
+import { GetStartedModal } from "@/components/modals/GetStartedModal";
+import { useState } from "react";
 
 export function Hero() {
+  const [showGetStarted, setShowGetStarted] = useState(false);
+
   return (
     <div className="relative overflow-hidden bg-gradient-to-b from-primary/5 to-transparent pt-32 pb-24">
       {/* Decorative Elements */}
@@ -44,17 +49,18 @@ export function Hero() {
                 <Button
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-                  
+                  onClick={() => setShowGetStarted(true)}
                 >
                   Get Started
                 </Button>
-                <Button
-                  size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={() => navigate("/services")}
-                >
-                 Learn more
-                </Button>
+                <Link href="/services">
+                  <Button
+                    size="lg"
+                    className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    Learn More
+                  </Button>
+                </Link>
               </div>
               <div className="container max-w-4xl mx-auto px-4">
                 <LearnAnimation />
@@ -63,6 +69,12 @@ export function Hero() {
           </div>
         </div>
       </div>
+
+      {/* GetStarted Modal */}
+      <GetStartedModal 
+        open={showGetStarted} 
+        onOpenChange={setShowGetStarted}
+      />
     </div>
   );
 }
