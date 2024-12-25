@@ -26,6 +26,48 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+  // Company lookup endpoint using OpenAPI.ro
+  app.get("/api/anaf-lookup", async (req, res) => {
+    try {
+      const { cui } = req.query;
+      if (!cui) {
+        return res.status(400).json({ error: "CUI parameter is required" });
+      }
+
+      const apiKey = process.env.OPENAPI_RO_KEY;
+      if (!apiKey) {
+        return res.status(500).json({ error: "API key not configured" });
+      }
+
+      const response = await fetch(`https://api.openapi.ro/api/companies/${cui}`, {
+        headers: {
+          'x-api-key': apiKey
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`OpenAPI.ro API error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      res.json({
+        found: true,
+        denumire: data.denumire,
+        cui: data.cui,
+        adresa: data.adresa,
+        judet: data.judet,
+        telefon: data.telefon,
+        cod_postal: data.cod_postal
+      });
+    } catch (error) {
+      console.error("Company lookup error:", error);
+      res.status(500).json({ 
+        found: false,
+        error: "Failed to lookup company" 
+      });
+    }
+  });
+
   // Contact form submission endpoint
   app.post("/api/contact", async (req, res) => {
     try {
