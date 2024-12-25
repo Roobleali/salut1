@@ -37,6 +37,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import sgMail from '@sendgrid/mail';
 
 const formSchema = z.object({
   industry: z.string().min(1, "Please select an industry"),
@@ -146,16 +147,30 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     setIsLookingUp(true);
     try {
       const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, "");
-      const response = await fetch(`/api/anaf-lookup?cui=${sanitizedCui}`);
+
+      const response = await fetch(
+        `https://api.openapi.ro/api/companies/${sanitizedCui}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "x-api-key": import.meta.env.VITE_OPENAPI_RO_KEY || "",
+          },
+        }
+      );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to lookup company');
+        if (response.status === 403) {
+          throw new Error("Invalid API key or authorization error");
+        }
+        if (response.status === 404) {
+          throw new Error("Company not found");
+        }
+        throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
-
-      if (!data.found || !data.denumire) {
+      if (!data || !data.denumire) {
         throw new Error("Company data not available");
       }
 
@@ -175,31 +190,57 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     }
   };
 
+  const sendEmail = async (data: FormData) => {
+    if (!import.meta.env.VITE_SENDGRID_API_KEY) {
+      throw new Error('SendGrid API key is not configured');
+    }
+
+    sgMail.setApiKey(import.meta.env.VITE_SENDGRID_API_KEY);
+
+    const emailTemplate = `
+New Implementation Request
+
+Company Details:
+---------------
+Company Name: ${data.company}
+Industry: ${data.industry}
+Current Software: ${data.currentSoftware || 'Not specified'}
+Email: ${data.email}
+Address: ${data.address || 'Not provided'}
+County: ${data.county || 'Not provided'}
+Phone: ${data.phone || 'Not provided'}
+CUI: ${data.cui || 'Not provided'}
+
+Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
+    `.trim();
+
+    const msg = {
+      to: 'info@saluttech.ro',
+      from: {
+        email: import.meta.env.VITE_SENDGRID_FROM_EMAIL || '',
+        name: 'Salut Enterprise Contact System'
+      },
+      replyTo: data.email,
+      subject: `New Implementation Request - ${data.company}`,
+      text: emailTemplate,
+    };
+
+    try {
+      await sgMail.send(msg);
+      return true;
+    } catch (error) {
+      console.error('SendGrid email error:', error);
+      throw new Error('Failed to send email. Please try again later.');
+    }
+  };
+
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to submit form");
-      }
-
-      const result = await response.json();
-
-      if (!result.success) {
-        throw new Error(result.message || "Failed to process request");
-      }
-
+      await sendEmail(data);
       toast({
         title: "Success",
-        description: result.message || "Your request has been submitted successfully. We'll be in touch shortly.",
+        description: "Your request has been submitted successfully. We'll be in touch shortly.",
       });
       setStep("COMPLETED");
     } catch (error) {
