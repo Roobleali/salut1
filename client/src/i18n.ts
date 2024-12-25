@@ -60,6 +60,17 @@ const resources = {
         case_studies: 'Case Studies',
         about_us: 'About Us'
       },
+      contact: {
+        sales: 'Contact Sales',
+        title: 'Contact Us',
+        subtitle: 'Get in touch with our team',
+        form: {
+          name: 'Your Name',
+          email: 'Email Address',
+          message: 'Message',
+          submit: 'Send Message'
+        }
+      },
       industries: {
         manufacturing: {
           title: 'Enterprise Manufacturing Suite',
@@ -153,6 +164,17 @@ const resources = {
         testimonials: 'Testimoniale',
         case_studies: 'Studii de Caz',
         about_us: 'Despre Noi'
+      },
+      contact: {
+        sales: 'Contactează Vânzări',
+        title: 'Contactează-ne',
+        subtitle: 'Intră în legătură cu echipa noastră',
+        form: {
+          name: 'Numele Tău',
+          email: 'Adresa de Email',
+          message: 'Mesaj',
+          submit: 'Trimite Mesaj'
+        }
       },
       industries: {
         manufacturing: {
