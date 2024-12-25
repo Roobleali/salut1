@@ -18,7 +18,7 @@ export function LanguageSelector() {
         i18n.changeLanguage(value);
       }}
     >
-      <SelectTrigger className="w-[140px]">
+      <SelectTrigger className="w-[140px] bg-transparent border-none hover:bg-accent/50">
         <SelectValue>
           <div className="flex items-center gap-2">
             {i18n.language === 'en' ? (
