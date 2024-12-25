@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import sgMail from '@sendgrid/mail';
 import { scoreTranslation, analyzeTranslationQuality } from "../client/src/lib/translationScoring";
-import { sendOnboardingEmail } from "./services/email";
 
 export function registerRoutes(app: Express): Server {
   // Translation scoring endpoints
@@ -100,49 +100,67 @@ export function registerRoutes(app: Express): Server {
   // Contact form submission endpoint
   app.post("/api/contact", async (req, res) => {
     try {
-      const { name, email, message } = req.body;
-
-      // Log the form submission first for backup
-      console.log('New Contact Form Submission:', {
-        name,
+      const {
+        company,
+        industry,
+        currentSoftware,
         email,
-        message,
-        timestamp: new Date().toISOString()
-      });
+        address,
+        county,
+        phone,
+        cui
+      } = req.body;
 
-      // Attempt to send email
-      try {
-        const emailResult = await sendOnboardingEmail({
-          companyName: name,
-          email,
-          message,
-          industry: 'Not Specified' // Default value since we don't collect it in the basic form
-        });
-
-        // Send success response with email status
-        res.json({ 
-          success: true,
-          message: emailResult.message || "Your message has been received successfully.",
-          emailStatus: emailResult.success ? "sent" : "not_sent",
-          details: emailResult.error
-        });
-      } catch (emailError) {
-        console.error("Email sending error details:", emailError);
-
-        // Even if email fails, we still want to acknowledge the form submission
-        res.json({ 
-          success: true,
-          message: "Your message has been received successfully.",
-          emailStatus: "failed",
-          details: "We encountered an issue sending the confirmation email, but your request has been recorded."
+      if (!company || !email || !industry) {
+        return res.status(400).json({
+          success: false,
+          message: "Missing required fields"
         });
       }
+
+      // Configure SendGrid
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
+
+      const emailTemplate = `
+New Implementation Request
+
+Company Details:
+---------------
+Company Name: ${company}
+Industry: ${industry}
+Current Software: ${currentSoftware || 'Not specified'}
+Email: ${email}
+Address: ${address || 'Not provided'}
+County: ${county || 'Not provided'}
+Phone: ${phone || 'Not provided'}
+CUI: ${cui || 'Not provided'}
+
+Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
+      `.trim();
+
+      const msg = {
+        to: 'info@saluttech.ro',
+        from: {
+          email: process.env.SENDGRID_FROM_EMAIL || '',
+          name: 'Salut Enterprise Contact System'
+        },
+        replyTo: email,
+        subject: `New Implementation Request - ${company}`,
+        text: emailTemplate,
+      };
+
+      await sgMail.send(msg);
+
+      res.json({
+        success: true,
+        message: "Your request has been submitted successfully. We'll be in touch shortly."
+      });
     } catch (error: any) {
       console.error("Contact form submission error:", error);
-      res.status(500).json({ 
+      res.status(500).json({
         success: false,
-        message: "Failed to process your request. Please try again.",
-        error: error.message 
+        message: "Failed to process your request. Please try again later.",
+        error: error.message
       });
     }
   });

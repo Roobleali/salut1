@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Dialog,
   DialogContent,
@@ -36,6 +34,9 @@ import {
 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
   industry: z.string().min(1, "Please select an industry"),
@@ -105,9 +106,11 @@ interface OnboardingModalProps {
 export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   const [step, setStep] = useState<StepType>("SELECT_INDUSTRY");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLookingUp, setIsLookingUp] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       industry: "",
       currentSoftware: "",
@@ -122,10 +125,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
   const handleApiError = (error: any) => {
     console.error("API Error:", error);
-    const errorMessage =
-      error.response?.data?.error ||
-      error.message ||
-      "An unexpected error occurred";
+    const errorMessage = error.message || "An unexpected error occurred";
     toast({
       title: "Error",
       description: errorMessage,
@@ -143,7 +143,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       return;
     }
 
-    setIsLoading(true);
+    setIsLookingUp(true);
     try {
       const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, "");
 
@@ -185,38 +185,31 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     } catch (error: any) {
       handleApiError(error);
     } finally {
-      setIsLoading(false);
+      setIsLookingUp(false);
     }
   };
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     try {
-      // Send email using fetch to avoid client-side SendGrid issues
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          company: data.company,
-          industry: data.industry,
-          currentSoftware: data.currentSoftware,
-          email: data.email,
-          address: data.address,
-          county: data.county,
-          phone: data.phone,
-          cui: data.cui,
-        }),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit form");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to submit form");
       }
+
+      const result = await response.json();
 
       toast({
         title: "Success",
-        description: "Your request has been submitted successfully. We'll be in touch shortly.",
+        description: result.message || "Your request has been submitted successfully. We'll be in touch shortly.",
       });
       setStep("COMPLETED");
     } catch (error) {
@@ -253,6 +246,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       if (currentIndex < stepOrder.length - 1) {
         setStep(stepOrder[currentIndex + 1]);
       }
+    } else {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields before proceeding.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -352,6 +351,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                         What software solutions are you currently using and what
                         are your main requirements?
                       </FormLabel>
+                      <FormDescription>
+                        Tell us about your current software setup and what improvements you're looking for.
+                      </FormDescription>
                       <FormControl>
                         <Textarea
                           placeholder="e.g., Currently using Excel for inventory, looking for an automated solution with real-time tracking..."
@@ -372,6 +374,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                     name="cui"
                     render={({ field }) => (
                       <FormItem>
+                        <FormLabel>Company CUI</FormLabel>
                         <FormDescription>
                           Enter your CUI to automatically fill company details
                         </FormDescription>
@@ -390,10 +393,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                             type="button"
                             variant="outline"
                             onClick={() => lookupCompany(field.value)}
-                            disabled={isLoading || !field.value}
+                            disabled={isLookingUp || !field.value}
                             className="min-w-[120px] bg-primary/5 hover:bg-primary/10 border-primary/20 hover:border-primary/30"
                           >
-                            {isLoading ? (
+                            {isLookingUp ? (
                               <Loader2 className="h-4 w-4 animate-spin" />
                             ) : (
                               <>
@@ -403,6 +406,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                             )}
                           </Button>
                         </div>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -449,6 +453,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                           <FormControl>
                             <Input placeholder="Company Address" {...field} />
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -462,6 +467,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                           <FormControl>
                             <Input placeholder="County" {...field} />
                           </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -476,6 +482,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                         <FormControl>
                           <Input placeholder="Phone Number" {...field} />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
