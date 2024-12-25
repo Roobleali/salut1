@@ -256,9 +256,9 @@ export function Inventory() {
                 className="flex flex-col sm:flex-row gap-4 justify-center mt-12"
               >
                 <Button 
+                  onClick={() => setShowOnboarding(true)}
                   size="lg" 
                   className="w-full sm:w-auto bg-[#9747FF] hover:bg-[#8A43E6] text-white px-12 h-14 text-lg font-semibold shadow-lg shadow-primary/20 rounded-full transition-all duration-300 hover:scale-105"
-                  onClick={() => setShowOnboarding(true)}
                 >
                   Get Started
                 </Button>
