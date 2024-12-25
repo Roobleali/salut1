@@ -217,12 +217,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const templateParams = {
       company: data.company,
       industry: data.industry,
-      cui: data.cui || "Not provided",
+      cui: data.cui,
       email: data.email,
-      address: data.address || "Not provided",
-      county: data.county || "Not provided",
-      phone: data.phone || "Not provided",
-      currentSoftware: data.currentSoftware || "Not specified"
+      address: data.address,
+      county: data.county,
+      phone: data.phone,
+      currentSoftware: data.currentSoftware
     };
 
     try {
