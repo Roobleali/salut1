@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Check, BarChart3, Box, RefreshCw, Scan, Boxes, Truck, History, Layout, Settings } from "lucide-react";
 import { Link } from "wouter";
 import { LearnAnimation } from "@/components/LearnAnimation";
+import { OnboardingModal } from "@/components/modals/OnboardingModal";
+import { useState } from "react";
 
 const FEATURES = [
   {
@@ -58,12 +60,19 @@ const ADVANTAGES = [
 ];
 
 export function Inventory() {
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5">
+      {/* OnboardingModal */}
+      <OnboardingModal 
+        open={showOnboarding} 
+        onOpenChange={setShowOnboarding} 
+      />
+
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-primary/10">
-          {/* Primary animated background */}
           <motion.div
             className="absolute inset-0 opacity-20"
             initial={{ scale: 1, opacity: 0.1 }}
@@ -84,7 +93,6 @@ export function Inventory() {
               backgroundSize: "100% 100%",
             }}
           />
-          {/* Secondary geometric patterns */}
           <motion.div
             className="absolute inset-0 opacity-10"
             initial={{ backgroundPosition: "0% 0%" }}
@@ -98,7 +106,6 @@ export function Inventory() {
               backgroundSize: "60px 60px",
             }}
           />
-          {/* Floating network dots suggestion enterprise connectivity */}
           <motion.div
             className="absolute inset-0 opacity-20"
             initial={{ y: 0 }}
@@ -248,14 +255,13 @@ export function Inventory() {
                 transition={{ delay: 0.5 }}
                 className="flex flex-col sm:flex-row gap-4 justify-center mt-12"
               >
-                <Link href="/contact">
-                  <Button 
-                    size="lg" 
-                    className="w-full sm:w-auto bg-[#9747FF] hover:bg-[#8A43E6] text-white px-12 h-14 text-lg font-semibold shadow-lg shadow-primary/20 rounded-full transition-all duration-300 hover:scale-105"
-                  >
-                    Get Started
-                  </Button>
-                </Link>
+                <Button 
+                  size="lg" 
+                  className="w-full sm:w-auto bg-[#9747FF] hover:bg-[#8A43E6] text-white px-12 h-14 text-lg font-semibold shadow-lg shadow-primary/20 rounded-full transition-all duration-300 hover:scale-105"
+                  onClick={() => setShowOnboarding(true)}
+                >
+                  Get Started
+                </Button>
                 <Link href="/contact">
                   <Button 
                     variant="outline" 
