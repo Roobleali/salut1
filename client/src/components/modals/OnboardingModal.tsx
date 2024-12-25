@@ -148,16 +148,18 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     try {
       const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, "");
 
-      const response = await fetch(
-        `https://api.openapi.ro/api/companies/${sanitizedCui}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "x-api-key": import.meta.env.VITE_OPENAPI_RO_KEY || "",
-          },
-        }
-      );
+      // Use a CORS proxy service or your own proxy
+      const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+      const apiUrl = `https://api.openapi.ro/api/companies/${sanitizedCui}`;
+
+      const response = await fetch(corsProxy + apiUrl, {
+        method: "GET",
+        headers: {
+          'Accept': 'application/json',
+          'x-api-key': import.meta.env.VITE_OPENAPI_RO_KEY || '',
+          'Origin': window.location.origin,
+        },
+      });
 
       if (!response.ok) {
         if (response.status === 403) {
