@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress"; // Added import
 import { Loader2, ArrowRight, ArrowLeft, Building2, Search, Factory, Building, Store, GraduationCap, Briefcase, UtensilsCrossed, CheckCircle2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -75,7 +76,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       county: "",
       phone: "",
     },
-    mode: "onSubmit", // Only show errors when form is submitted
+    mode: "onSubmit",
   });
 
   const onSubmit = async (data: FormData) => {
@@ -93,7 +94,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         throw new Error(await response.text());
       }
 
-      setStep(4); // Move to success state
+      setStep(4);
     } catch (error) {
       toast({
         title: "Error",
@@ -168,14 +169,30 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     });
   };
 
+  const progress = ((step - 1) / (Object.keys(STEPS).length - 2)) * 100;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Get Started with Salut Enterprise</DialogTitle>
-          <DialogDescription>
-            Step {step} of {Object.keys(STEPS).length - 1}: {STEPS[step as keyof typeof STEPS]}
-          </DialogDescription>
+        <DialogHeader className="space-y-4">
+          <div className="space-y-2">
+            <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+              Get Started with Salut Enterprise
+            </DialogTitle>
+            {step < 4 && (
+              <>
+                <DialogDescription className="text-base font-medium text-foreground/80">
+                  {STEPS[step as keyof typeof STEPS]}
+                </DialogDescription>
+                <div className="space-y-2">
+                  <Progress value={progress} className="h-2" />
+                  <p className="text-sm text-muted-foreground">
+                    Step {step} of {Object.keys(STEPS).length - 1}
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
         </DialogHeader>
 
         {step === 4 ? (
