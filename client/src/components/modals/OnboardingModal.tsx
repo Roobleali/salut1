@@ -214,22 +214,21 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   };
 
   const sendEmail = async (data: FormData) => {
-    const templateParams = {
-      company: data.company,
-      industry: data.industry,
-      cui: data.cui,
-      email: data.email,
-      address: data.address,
-      county: data.county,
-      phone: data.phone,
-      currentSoftware: data.currentSoftware
-    };
-
     try {
       const result = await emailjs.send(
         "service_lnippfb",
         "template_ck1avc9",
-        templateParams,
+        {
+          to_name: "Salut Enterprise Team",
+          company: data.company,
+          industry: INDUSTRIES.find(ind => ind.value === data.industry)?.label || data.industry,
+          email: data.email,
+          phone: data.phone,
+          address: data.address,
+          county: data.county,
+          cui: data.cui,
+          currentSoftware: data.currentSoftware
+        },
       );
 
       if (result.status !== 200) {
