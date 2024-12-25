@@ -86,8 +86,8 @@ export function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/">
-            <a className="font-bold text-2xl text-primary">Salut Enterprise</a>
+          <Link href="/" className="font-bold text-2xl text-primary">
+            Salut Enterprise
           </Link>
 
           {/* Mobile Menu Toggle */}
@@ -157,10 +157,8 @@ export function Navbar() {
           {/* Desktop Contact Button and Language Selector */}
           <div className="hidden lg:flex items-center gap-4">
             <LanguageSelector />
-            <Link href="/contact">
-              <a className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-                {t("contact.sales")}
-              </a>
+            <Link href="/contact" className="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+              {t("contact.sales")}
             </Link>
           </div>
         </div>
