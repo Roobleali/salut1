@@ -1,4 +1,4 @@
-import sgMail from '@sendgrid/mail';
+import nodemailer from 'nodemailer';
 
 interface OnboardingData {
   industry: string;
@@ -10,13 +10,24 @@ interface OnboardingData {
   phone?: string;
 }
 
-if (!process.env.SENDGRID_API_KEY) {
-  console.warn('SendGrid API key not found. Email functionality will not work.');
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+  console.warn('Email credentials not found. Email functionality will not work.');
 }
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD
+  }
+});
 
 export async function sendOnboardingEmail(data: OnboardingData) {
+  // Validate required fields
+  if (!data.companyName || !data.email || !data.industry) {
+    throw new Error('Missing required fields: company name, email, and industry are required');
+  }
+
   const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -77,12 +88,10 @@ export async function sendOnboardingEmail(data: OnboardingData) {
     </html>
   `;
 
-  const msg = {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
     to: 'info@saluttech.ro',
-    from: {
-      email: process.env.SENDGRID_FROM_EMAIL || 'noreply@saluttech.ro',
-      name: 'SalutTech Platform'
-    },
+    replyTo: data.email,
     subject: `New Onboarding Request - ${data.companyName}`,
     text: `
 New Onboarding Request from SalutTech Platform
@@ -106,15 +115,18 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
   };
 
   try {
-    await sgMail.send(msg);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully:', info.messageId);
+
     return { 
       success: true,
       message: 'Your request has been received and our team will contact you shortly.'
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Email sending failed:', error);
+
     return { 
-      success: false, 
+      success: false,
       error: 'Your request has been recorded but we encountered an issue with the email notification. Our team will still process your request.'
     };
   }

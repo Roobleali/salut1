@@ -113,33 +113,46 @@ export function registerRoutes(app: Express): Server {
         phone,
         industry,
         currentSoftware,
-        painPoints
+        painPoints,
+        timestamp: new Date().toISOString()
       });
 
       // Attempt to send email but don't fail if it doesn't work
-      const emailResult = await sendOnboardingEmail({
-        industry,
-        cui,
-        companyName: company,
-        email,
-        address,
-        county,
-        phone
-      });
+      try {
+        const emailResult = await sendOnboardingEmail({
+          industry,
+          cui,
+          companyName: company,
+          email,
+          address,
+          county,
+          phone
+        });
 
-      // Always return success to the client, but include any email sending issues
-      res.json({ 
-        message: "Request received successfully",
-        emailStatus: emailResult.success ? "sent" : "not_sent",
-        note: emailResult.error
-      });
+        // Send success response with email status
+        res.json({ 
+          success: true,
+          message: emailResult.message || "Your request has been received successfully.",
+          emailStatus: emailResult.success ? "sent" : "not_sent",
+          details: emailResult.error
+        });
+      } catch (emailError) {
+        console.error("Email sending error details:", emailError);
+
+        // Even if email fails, we still want to acknowledge the form submission
+        res.json({ 
+          success: true,
+          message: "Your request has been received successfully.",
+          emailStatus: "failed",
+          details: "We encountered an issue sending the confirmation email, but your request has been recorded."
+        });
+      }
     } catch (error) {
       console.error("Contact form submission error:", error);
-      // Even if there's an error, we logged the submission, so we can still tell the user it was received
-      res.json({ 
-        message: "Request received successfully",
-        emailStatus: "not_sent",
-        note: "Your request has been logged but we encountered an issue sending the notification email."
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to process your request. Please try again.",
+        error: error.message 
       });
     }
   });
