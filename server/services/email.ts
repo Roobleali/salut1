@@ -22,6 +22,15 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Verify connection configuration
+transporter.verify(function(error, success) {
+  if (error) {
+    console.error('Email service verification failed:', error);
+  } else {
+    console.log('Email service is ready to send messages');
+  }
+});
+
 export async function sendOnboardingEmail(data: OnboardingData) {
   // Validate required fields
   if (!data.companyName || !data.email || !data.industry) {
