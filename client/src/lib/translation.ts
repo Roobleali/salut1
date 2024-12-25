@@ -1,4 +1,4 @@
 // This file only contains type definitions
 // All translations are handled by i18next
 
-export type SupportedLanguages = 'en' | 'ro' | 'es' | 'ar';
+export type SupportedLanguages = 'en' | 'ro' | 'de' | 'es' | 'ar';

@@ -28,8 +28,33 @@ function App() {
 
   // Update document language for SEO
   React.useEffect(() => {
-    document.documentElement.lang = i18n.language;
-    document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+    const lang = i18n.language;
+    document.documentElement.lang = lang;
+    
+    // Update meta tags for SEO
+    const metaDescription = document.querySelector('meta[name="description"]');
+    const metaLocale = document.querySelector('meta[property="og:locale"]');
+    
+    if (!metaDescription) {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      document.head.appendChild(meta);
+    }
+    
+    if (!metaLocale) {
+      const meta = document.createElement('meta');
+      meta.setAttribute('property', 'og:locale');
+      document.head.appendChild(meta);
+    }
+    
+    // Update content based on language
+    metaDescription?.setAttribute('content', 
+      lang === 'de' ? 'Enterprise-Lösungen für moderne Unternehmen' :
+      lang === 'ro' ? 'Soluții enterprise pentru afaceri moderne' :
+      'Enterprise solutions for modern businesses'
+    );
+    
+    metaLocale?.setAttribute('content', lang);
   }, [i18n.language]);
 
   return (
