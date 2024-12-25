@@ -1,0 +1,44 @@
+The **Odoo SaaS Kit** is a comprehensive solution designed to help businesses set up and manage Odoo as a Software as a Service (SaaS) offering. Here are the main features and functionalities of the Odoo SaaS Kit:
+
+## Key Features of Odoo SaaS Kit
+
+### 1. **Standalone Solution**
+- The Odoo SaaS Kit operates as a standalone module that enables users to sell Odoo as a SaaS service, allowing clients to create their own Odoo instances.
+
+### 2. **Subscription-Based Service Model**
+- It facilitates a subscription model where customers can purchase different plans that include specific modules and features tailored to their business needs.
+
+### 3. **Multiple Subscription Plans**
+- Admins can create and manage various subscription plans, each with different features and modules, which can be published on the Odoo website for customers to view and purchase.
+
+### 4. **Automatic Instance Creation**
+- Upon purchasing a plan, customers receive an automatically created Odoo instance with all the selected modules installed, streamlining the onboarding process.
+
+### 5. **User Management**
+- Customers are provided with login details sent directly to their registered email addresses, allowing easy access to their Odoo instance.
+
+### 6. **Contract Management**
+- Customers can view and manage their subscription contracts through their Odoo website account, enhancing transparency and user experience.
+
+### 7. **Server Configuration Options**
+- The kit allows for flexible server configurations, enabling users to choose between hosting client instances on the same server or on remote servers.
+
+### 8. **Version Control**
+- Admins can configure SaaS plans for different versions of Odoo, ensuring compatibility and flexibility for clients using various versions of the software.
+
+### 9. **Free Installation Support**
+- Webkul provides a one-time free installation setup with the purchase of the module, assisting users in getting started without additional costs.
+
+### 10. **Comprehensive Documentation**
+- The kit includes detailed user manuals and technical FAQs to guide users through setup and operational processes effectively.
+
+These features make the Odoo SaaS Kit an attractive option for businesses looking to offer Odoo as a subscription-based service, simplifying management while providing clients with tailored solutions for their operational needs.
+
+Citations:
+[1] https://webkul.com/blog/odoo-saas-kit-user-manual-how-to-use/
+[2] https://dealhub.io/glossary/saas-product/
+[3] https://www.techtarget.com/searchcloudcomputing/definition/Software-as-a-Service
+[4] https://aws.amazon.com/what-is/saas/
+[5] https://www.investopedia.com/terms/s/software-as-a-service-saas.asp
+[6] https://www.salesforce.com/uk/saas/?bc=OTH
+[7] https://en.wikipedia.org/wiki/Software_as_a_Service
