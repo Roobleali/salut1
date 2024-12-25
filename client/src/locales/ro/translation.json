@@ -1,0 +1,55 @@
+{
+  "common": {
+    "learnMore": "Află Mai Multe",
+    "contactUs": "Contactează-ne",
+    "scheduleDemoBtn": "Programează Demo",
+    "contactSalesBtn": "Contactează Vânzări",
+    "startJourneyBtn": "Începe Călătoria",
+    "readyToTransform": "Ești Pregătit să-ți Transformi Afacerea?",
+    "experienceTransformativePower": "Experimentează puterea transformatoare a Salut Enterprise astăzi."
+  },
+  "navigation": {
+    "home": "Acasă",
+    "services": "Servicii",
+    "industries": "Industrii",
+    "contact": "Contact",
+    "about": "Despre"
+  },
+  "industries": {
+    "manufacturing": {
+      "title": "Soluții Inteligente de Producție pentru Industria Modernă",
+      "subtitle": "Transformă-ți operațiunile de producție cu platforma noastră bazată pe AI, concepută pentru excelență în fabricație în era digitală.",
+      "features": {
+        "realTimeMonitoring": {
+          "title": "Monitorizare Producție în Timp Real",
+          "description": "Actualizări live pentru fiecare etapă a procesului de producție.",
+          "benefit": "Transparență și eficiență operațională îmbunătățită"
+        },
+        "automatedOrders": {
+          "title": "Comenzi de Lucru Automatizate",
+          "description": "Programare inteligentă și prioritizare a sarcinilor de producție.",
+          "benefit": "Flux de lucru îmbunătățit și timp de nefuncționare redus"
+        }
+      }
+    },
+    "education": {
+      "title": "Transformă Excelența Educațională",
+      "subtitle": "Împuternicește-ți instituția de învățământ cu soluția noastră completă de management. Optimizează administrarea, îmbunătățește experiențele de învățare și stimulează succesul studenților."
+    },
+    "realEstate": {
+      "title": "Management Avansat Imobiliar",
+      "subtitle": "Soluții imobiliare complete cu integrare completă a instrumentelor moderne de gestionare a proprietăților și analiză."
+    }
+  },
+  "services": {
+    "title": "Transformă-ți Afacerea cu Salut Enterprise",
+    "subtitle": "La Salut Enterprise, înțelegem că companiile de servicii sunt motivate de dorința de eficiență, creștere și experiențe excepționale pentru clienți.",
+    "features": {
+      "projectManagement": {
+        "title": "Management de Proiect",
+        "desire": "Obține execuție perfectă a proiectelor",
+        "outcome": "Utilizează grafice Gantt și vizualizări Kanban pentru o vizualizare clară a sarcinilor și urmărirea progresului"
+      }
+    }
+  }
+}

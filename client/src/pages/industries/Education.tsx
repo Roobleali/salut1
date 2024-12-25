@@ -6,6 +6,7 @@ import { Check, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 
 const FEATURES = [
   {
@@ -44,6 +45,8 @@ const BENEFITS = [
 ];
 
 export function Education() {
+  const { t } = useTranslation();
+
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -51,11 +54,11 @@ export function Education() {
   return (
     <>
       <Helmet>
-        <title>Education Management Solutions | SalutTech</title>
-        <meta name="description" content="Modernize your educational institution with SalutTech's comprehensive education management system. Streamline administration and enhance learning experiences." />
+        <title>{t('industries.education.title')} | SalutTech</title>
+        <meta name="description" content={t('industries.education.description')} />
         <meta name="keywords" content="education software, student information system, learning management system, school administration, educational technology, academic management" />
-        <meta property="og:title" content="Education Management Solutions | SalutTech" />
-        <meta property="og:description" content="Modernize your educational institution with SalutTech's comprehensive education management system." />
+        <meta property="og:title" content={`${t('industries.education.title')} | SalutTech`} />
+        <meta property="og:description" content={t('industries.education.description')} />
         <link rel="canonical" href="https://saluttech.ro/industries/education" />
       </Helmet>
 
@@ -68,22 +71,22 @@ export function Education() {
       >
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <Badge className="mb-4">Education Solutions</Badge>
+            <Badge className="mb-4">{t('industries.education.title')}</Badge>
             <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-              Transform Educational Excellence
+              {t('industries.education.title')}
             </h1>
             <p className="text-xl text-gray-600 mb-8">
-              Empower your educational institution with our comprehensive management solution. Streamline administration, enhance learning experiences, and drive student success.
+              {t('industries.education.description')}
             </p>
             <div className="flex gap-4 justify-center">
               <Link href="/contact">
                 <Button size="lg" className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary">
-                  Schedule Demo <ArrowRight className="ml-2 h-4 w-4" />
+                  {t('common.schedule_demo')} <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/contact">
                 <Button variant="outline" size="lg">
-                  Contact Sales
+                  {t('common.contact_sales')}
                 </Button>
               </Link>
             </div>
@@ -109,7 +112,7 @@ export function Education() {
           </div>
 
           <div className="max-w-3xl mx-auto mb-24">
-            <h2 className="text-3xl font-bold text-center mb-12">Key Benefits</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">{t('common.benefits')}</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {BENEFITS.map((benefit, index) => (
                 <motion.div

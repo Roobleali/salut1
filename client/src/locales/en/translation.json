@@ -1,0 +1,55 @@
+{
+  "common": {
+    "learnMore": "Learn More",
+    "contactUs": "Contact Us",
+    "scheduleDemoBtn": "Schedule Demo",
+    "contactSalesBtn": "Contact Sales",
+    "startJourneyBtn": "Start Your Journey",
+    "readyToTransform": "Ready to Transform Your Business?",
+    "experienceTransformativePower": "Experience the transformative power of Salut Enterprise today."
+  },
+  "navigation": {
+    "home": "Home",
+    "services": "Services",
+    "industries": "Industries",
+    "contact": "Contact",
+    "about": "About"
+  },
+  "industries": {
+    "manufacturing": {
+      "title": "Intelligent Manufacturing Solutions for Modern Industry",
+      "subtitle": "Transform your production operations with our AI-powered platform designed for manufacturing excellence in the digital age.",
+      "features": {
+        "realTimeMonitoring": {
+          "title": "Real-Time Production Monitoring",
+          "description": "Live updates on every stage of the manufacturing process.",
+          "benefit": "Enhanced transparency and operational efficiency"
+        },
+        "automatedOrders": {
+          "title": "Automated Work Orders",
+          "description": "Smart scheduling and prioritization of production tasks.",
+          "benefit": "Improved workflow and reduced downtime"
+        }
+      }
+    },
+    "education": {
+      "title": "Transform Educational Excellence",
+      "subtitle": "Empower your educational institution with our comprehensive management solution. Streamline administration, enhance learning experiences, and drive student success."
+    },
+    "realEstate": {
+      "title": "Advanced Real Estate Management",
+      "subtitle": "Comprehensive real estate solutions with full integration of modern property management tools and analytics."
+    }
+  },
+  "services": {
+    "title": "Transform Your Business with Salut Enterprise",
+    "subtitle": "At Salut Enterprise, we understand that service companies are driven by the desire for efficiency, growth, and exceptional customer experiences.",
+    "features": {
+      "projectManagement": {
+        "title": "Project Management",
+        "desire": "Achieve seamless project execution",
+        "outcome": "Utilize Gantt charts and Kanban views for clear task visualization and progress tracking"
+      }
+    }
+  }
+}
