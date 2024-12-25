@@ -11,23 +11,7 @@ const resources = {
         modules: 'Modules',
         resources: 'Resources',
         solutions: 'Our Solutions',
-        about: 'About Us',
-        industry_list: {
-          manufacturing: 'Manufacturing',
-          real_estate: 'Real Estate',
-          retail: 'Retail & E-commerce',
-          services: 'Professional Services',
-          hospitality: 'Hospitality',
-          education: 'Education'
-        },
-        descriptions: {
-          manufacturing: 'End-to-end manufacturing management with MRP, production planning and quality control',
-          real_estate: 'Complete property management solution for leasing, maintenance, and tenant portals',
-          retail: 'Integrated POS, inventory and e-commerce solutions for modern retail',
-          services: 'Project management and service tracking for consulting firms',
-          hospitality: 'Reservation systems and guest experience management solutions',
-          education: 'Student information and educational resource management'
-        }
+        about: 'About Us'
       },
       menu: {
         crm: 'CRM',
@@ -64,11 +48,16 @@ const resources = {
         sales: 'Contact Sales',
         title: 'Contact Us',
         subtitle: 'Get in touch with our team',
+        success_title: 'Message Sent',
+        success_message: 'Thank you for your message. We will get back to you soon.',
+        error_title: 'Error',
+        error_message: 'Failed to send message. Please try again later.',
         form: {
           name: 'Your Name',
           email: 'Email Address',
           message: 'Message',
-          submit: 'Send Message'
+          submit: 'Send Message',
+          sending: 'Sending...'
         }
       },
       language: {
@@ -85,23 +74,7 @@ const resources = {
         modules: 'Module',
         resources: 'Resurse',
         solutions: 'Soluțiile Noastre',
-        about: 'Despre Noi',
-        industry_list: {
-          manufacturing: 'Producție',
-          real_estate: 'Imobiliare',
-          retail: 'Retail și E-commerce',
-          services: 'Servicii Profesionale',
-          hospitality: 'Ospitalitate',
-          education: 'Educație'
-        },
-        descriptions: {
-          manufacturing: 'Management complet al producției cu MRP, planificare și control al calității',
-          real_estate: 'Soluție completă de administrare imobiliară pentru închiriere, întreținere și portaluri pentru chiriași',
-          retail: 'Soluții integrate POS, inventar și e-commerce pentru retail modern',
-          services: 'Management de proiect și urmărirea serviciilor pentru firme de consultanță',
-          hospitality: 'Sisteme de rezervări și management al experienței oaspeților',
-          education: 'Managementul informațiilor studenților și al resurselor educaționale'
-        }
+        about: 'Despre Noi'
       },
       menu: {
         crm: 'CRM',
@@ -138,11 +111,16 @@ const resources = {
         sales: 'Contactează Vânzări',
         title: 'Contactează-ne',
         subtitle: 'Intră în legătură cu echipa noastră',
+        success_title: 'Mesaj Trimis',
+        success_message: 'Mulțumim pentru mesaj. Vă vom contacta în curând.',
+        error_title: 'Eroare',
+        error_message: 'Nu s-a putut trimite mesajul. Vă rugăm să încercați din nou.',
         form: {
           name: 'Numele Tău',
           email: 'Adresa de Email',
           message: 'Mesaj',
-          submit: 'Trimite Mesaj'
+          submit: 'Trimite Mesaj',
+          sending: 'Se trimite...'
         }
       },
       language: {
