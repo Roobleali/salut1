@@ -91,12 +91,16 @@ const INDUSTRIES = [
   },
 ];
 
-type StepType = "SELECT_INDUSTRY" | "CURRENT_SOFTWARE" | "COMPANY_DETAILS" | "COMPLETED";
+type StepType =
+  | "SELECT_INDUSTRY"
+  | "CURRENT_SOFTWARE"
+  | "COMPANY_DETAILS"
+  | "COMPLETED";
 const STEPS: Record<StepType, string> = {
   SELECT_INDUSTRY: "Select Your Industry",
   CURRENT_SOFTWARE: "Current Software & Needs",
   COMPANY_DETAILS: "Company Details",
-  COMPLETED: "Request Submitted"
+  COMPLETED: "Request Submitted",
 };
 
 interface OnboardingModalProps {
@@ -112,12 +116,13 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
   useEffect(() => {
     try {
-      emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY || '');
+      emailjs.init("Zf4lxizbewKMs2_SJ");
     } catch (error) {
-      console.error('Failed to initialize EmailJS:', error);
+      console.error("Failed to initialize EmailJS:", error);
       toast({
         title: "Error",
-        description: "Failed to initialize email service. Please try again later.",
+        description:
+          "Failed to initialize email service. Please try again later.",
         variant: "destructive",
       });
     }
@@ -159,18 +164,21 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
     setIsLookingUp(true);
     try {
-      const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, "");
+      const sanitizedCui = cui
+        .toString()
+        .trim()
+        .replace(/[^0-9]/g, "");
 
       // Use a CORS proxy service or your own proxy
-      const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+      const corsProxy = "https://cors-anywhere.herokuapp.com/";
       const apiUrl = `https://api.openapi.ro/api/companies/${sanitizedCui}`;
 
       const response = await fetch(corsProxy + apiUrl, {
         method: "GET",
         headers: {
-          'Accept': 'application/json',
-          'x-api-key': import.meta.env.VITE_OPENAPI_RO_KEY || '',
-          'Origin': window.location.origin,
+          Accept: "application/json",
+          "x-api-key": import.meta.env.VITE_OPENAPI_RO_KEY || "",
+          Origin: window.location.origin,
         },
       });
 
@@ -206,41 +214,32 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   };
 
   const sendEmail = async (data: FormData) => {
-    if (!import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
-      throw new Error('EmailJS public key is not configured');
-    }
-
-    if (!import.meta.env.VITE_EMAILJS_SERVICE_ID || !import.meta.env.VITE_EMAILJS_TEMPLATE_ID) {
-      throw new Error('EmailJS service ID or template ID is not configured');
-    }
-
     const templateParams = {
-      company_name: data.company,
+      company: data.company,
       industry: data.industry,
-      current_software: data.currentSoftware || 'Not specified',
+      cui: data.cui || "Not provided",
       email: data.email,
-      address: data.address || 'Not provided',
-      county: data.county || 'Not provided',
-      phone: data.phone || 'Not provided',
-      cui: data.cui || 'Not provided',
-      submission_time: new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })
+      address: data.address || "Not provided",
+      county: data.county || "Not provided",
+      phone: data.phone || "Not provided",
+      currentSoftware: data.currentSoftware || "Not specified"
     };
 
     try {
       const result = await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        templateParams
+        "service_lnippfb",
+        "template_ck1avc9",
+        templateParams,
       );
 
       if (result.status !== 200) {
-        throw new Error('Failed to send email');
+        throw new Error("Failed to send email");
       }
 
       return true;
     } catch (error) {
-      console.error('EmailJS error:', error);
-      throw new Error('Failed to send email. Please try again later.');
+      console.error("EmailJS error:", error);
+      throw new Error("Failed to send email. Please try again later.");
     }
   };
 
@@ -250,7 +249,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       await sendEmail(data);
       toast({
         title: "Success",
-        description: "Your request has been submitted successfully. We'll be in touch shortly.",
+        description:
+          "Your request has been submitted successfully. We'll be in touch shortly.",
       });
       setStep("COMPLETED");
     } catch (error) {
@@ -275,14 +275,24 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   };
 
   const progress = (() => {
-    const stepValues: StepType[] = ["SELECT_INDUSTRY", "CURRENT_SOFTWARE", "COMPANY_DETAILS", "COMPLETED"];
+    const stepValues: StepType[] = [
+      "SELECT_INDUSTRY",
+      "CURRENT_SOFTWARE",
+      "COMPANY_DETAILS",
+      "COMPLETED",
+    ];
     const currentIndex = stepValues.indexOf(step);
-    return ((currentIndex) / (stepValues.length - 2)) * 100;
+    return (currentIndex / (stepValues.length - 2)) * 100;
   })();
 
   const goToNextStep = () => {
     if (validateCurrentStep()) {
-      const stepOrder: StepType[] = ["SELECT_INDUSTRY", "CURRENT_SOFTWARE", "COMPANY_DETAILS", "COMPLETED"];
+      const stepOrder: StepType[] = [
+        "SELECT_INDUSTRY",
+        "CURRENT_SOFTWARE",
+        "COMPANY_DETAILS",
+        "COMPLETED",
+      ];
       const currentIndex = stepOrder.indexOf(step);
       if (currentIndex < stepOrder.length - 1) {
         setStep(stepOrder[currentIndex + 1]);
@@ -297,7 +307,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   };
 
   const goToPreviousStep = () => {
-    const stepOrder: StepType[] = ["SELECT_INDUSTRY", "CURRENT_SOFTWARE", "COMPANY_DETAILS", "COMPLETED"];
+    const stepOrder: StepType[] = [
+      "SELECT_INDUSTRY",
+      "CURRENT_SOFTWARE",
+      "COMPANY_DETAILS",
+      "COMPLETED",
+    ];
     const currentIndex = stepOrder.indexOf(step);
     if (currentIndex > 0) {
       setStep(stepOrder[currentIndex - 1]);
@@ -320,7 +335,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 <div className="space-y-2">
                   <Progress value={progress} className="h-2" />
                   <p className="text-sm text-muted-foreground">
-                    Step {Object.keys(STEPS).indexOf(step) + 1} of {Object.keys(STEPS).length - 1}
+                    Step {Object.keys(STEPS).indexOf(step) + 1} of{" "}
+                    {Object.keys(STEPS).length - 1}
                   </p>
                 </div>
               </>
@@ -352,29 +368,31 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                     <FormItem>
                       <FormLabel>Select Your Industry</FormLabel>
                       <div className="grid grid-cols-2 gap-4">
-                        {INDUSTRIES.map(({ value, label, icon: Icon, description }) => (
-                          <div
-                            key={value}
-                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
-                              field.value === value
-                                ? "border-primary bg-primary/5"
-                                : "border-border hover:border-primary/50"
-                            }`}
-                            onClick={() => field.onChange(value)}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="p-2 rounded-md bg-primary/10">
-                                <Icon className="w-5 h-5 text-primary" />
-                              </div>
-                              <div>
-                                <div className="font-medium">{label}</div>
-                                <div className="text-sm text-muted-foreground">
-                                  {description}
+                        {INDUSTRIES.map(
+                          ({ value, label, icon: Icon, description }) => (
+                            <div
+                              key={value}
+                              className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+                                field.value === value
+                                  ? "border-primary bg-primary/5"
+                                  : "border-border hover:border-primary/50"
+                              }`}
+                              onClick={() => field.onChange(value)}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-md bg-primary/10">
+                                  <Icon className="w-5 h-5 text-primary" />
+                                </div>
+                                <div>
+                                  <div className="font-medium">{label}</div>
+                                  <div className="text-sm text-muted-foreground">
+                                    {description}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ),
+                        )}
                       </div>
                       <FormMessage />
                     </FormItem>
@@ -393,7 +411,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                         are your main requirements?
                       </FormLabel>
                       <FormDescription>
-                        Tell us about your current software setup and what improvements you're looking for.
+                        Tell us about your current software setup and what
+                        improvements you're looking for.
                       </FormDescription>
                       <FormControl>
                         <Textarea
