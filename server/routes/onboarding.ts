@@ -6,26 +6,34 @@ const router = Router();
 
 router.post('/onboard', async (req, res) => {
   try {
-    const { company, email, industry } = req.body;
+    const { company, email, industry, plan = 'starter' } = req.body;
 
-    // Create customer database
-    const dbName = await odooService.createCustomerDatabase(company, email);
+    if (!company || !email) {
+      return res.status(400).json({ 
+        error: 'Missing required fields',
+        details: 'Company name and email are required'
+      });
+    }
 
-    // Setup trial subscription
-    await odooService.setupTrialSubscription(dbName);
+    // Create customer database with subscription
+    const result = await odooService.createCustomerDatabase(company, email, plan);
 
-    // Return database credentials
+    // Return database credentials and subscription info
     res.json({
-      dbName,
-      credentials: {
-        url: process.env.ODOO_URL || 'http://localhost:8069',
-        database: dbName,
-        username: email,
+      success: true,
+      ...result,
+      subscription: {
+        plan,
+        trialDays: 14,
+        modules: odooService.getModulesForPlan(plan)
       }
     });
   } catch (error) {
     console.error('Onboarding failed:', error);
-    res.status(500).json({ error: 'Failed to setup customer environment' });
+    res.status(500).json({ 
+      error: 'Failed to setup customer environment',
+      details: error.message
+    });
   }
 });
 
