@@ -27,55 +27,143 @@ export async function sendOnboardingEmail(data: OnboardingData) {
     <html>
       <head>
         <style>
-          body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background-color: #f8f9fa; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
-          .section { margin-bottom: 20px; }
-          .section-title { color: #0066cc; font-size: 18px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-          .field { margin-bottom: 10px; }
-          .label { font-weight: bold; }
+          body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9fafb;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          }
+          .header {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            padding: 32px 24px;
+            text-align: center;
+          }
+          .header h2 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+          }
+          .content {
+            padding: 32px 24px;
+          }
+          .section {
+            margin-bottom: 32px;
+            padding: 24px;
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+          }
+          .section:last-child {
+            margin-bottom: 0;
+          }
+          .section-title {
+            color: #0066cc;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e5e7eb;
+          }
+          .field {
+            margin-bottom: 12px;
+          }
+          .field:last-child {
+            margin-bottom: 0;
+          }
+          .label {
+            font-weight: 600;
+            color: #374151;
+            display: inline-block;
+            width: 120px;
+          }
+          .value {
+            color: #4b5563;
+          }
+          .highlight {
+            background-color: #f3f4f6;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+          }
+          .footer {
+            padding: 16px 24px;
+            background-color: #f3f4f6;
+            color: #6b7280;
+            font-size: 12px;
+            text-align: center;
+          }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
-            <h2>New Onboarding Request from SalutTech Platform</h2>
+            <h2>New Enterprise Implementation Request</h2>
           </div>
 
-          <div class="section">
-            <div class="section-title">Company Information</div>
-            <div class="field">
-              <span class="label">Company Name:</span> ${data.companyName}
+          <div class="content">
+            <div class="section">
+              <div class="section-title">Company Information</div>
+              <div class="field">
+                <span class="label">Company:</span>
+                <span class="value highlight">${data.companyName}</span>
+              </div>
+              <div class="field">
+                <span class="label">Industry:</span>
+                <span class="value">${data.industry}</span>
+              </div>
+              <div class="field">
+                <span class="label">CUI:</span>
+                <span class="value">${data.cui || 'Not provided'}</span>
+              </div>
+              <div class="field">
+                <span class="label">Address:</span>
+                <span class="value">${data.address || 'Not provided'}</span>
+              </div>
+              <div class="field">
+                <span class="label">County:</span>
+                <span class="value">${data.county || 'Not provided'}</span>
+              </div>
             </div>
-            <div class="field">
-              <span class="label">Industry:</span> ${data.industry}
+
+            <div class="section">
+              <div class="section-title">Contact Details</div>
+              <div class="field">
+                <span class="label">Email:</span>
+                <span class="value highlight">${data.email}</span>
+              </div>
+              <div class="field">
+                <span class="label">Phone:</span>
+                <span class="value">${data.phone || 'Not provided'}</span>
+              </div>
             </div>
-            <div class="field">
-              <span class="label">CUI:</span> ${data.cui || 'Not provided'}
+
+            <div class="section">
+              <div class="section-title">Submission Details</div>
+              <div class="field">
+                <span class="label">Timestamp:</span>
+                <span class="value">${new Date().toLocaleString('ro-RO', { 
+                  timeZone: 'Europe/Bucharest',
+                  dateStyle: 'full',
+                  timeStyle: 'long'
+                })}</span>
+              </div>
             </div>
           </div>
 
-          <div class="section">
-            <div class="section-title">Contact Details</div>
-            <div class="field">
-              <span class="label">Email:</span> ${data.email}
-            </div>
-            <div class="field">
-              <span class="label">Phone:</span> ${data.phone || 'Not provided'}
-            </div>
-            <div class="field">
-              <span class="label">Address:</span> ${data.address || 'Not provided'}
-            </div>
-            <div class="field">
-              <span class="label">County:</span> ${data.county || 'Not provided'}
-            </div>
-          </div>
-
-          <div class="section">
-            <div class="section-title">Submission Details</div>
-            <div class="field">
-              <span class="label">Time:</span> ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
-            </div>
+          <div class="footer">
+            This is an automated message from SalutTech Platform. Please do not reply directly to this email.
+            For inquiries, contact the sender at ${data.email}
           </div>
         </div>
       </body>
@@ -89,24 +177,28 @@ export async function sendOnboardingEmail(data: OnboardingData) {
       name: 'SalutTech Platform'
     },
     replyTo: data.email, // Add reply-to as the customer's email
-    subject: `New Onboarding Request - ${data.companyName}`,
+    subject: `New Implementation Request - ${data.companyName}`,
     text: `
-New Onboarding Request from SalutTech Platform
+New Implementation Request from SalutTech Platform
 
 Company Information:
 -------------------
 Company Name: ${data.companyName}
 Industry: ${data.industry}
 CUI: ${data.cui || 'Not provided'}
+Address: ${data.address || 'Not provided'}
+County: ${data.county || 'Not provided'}
 
 Contact Details:
 ---------------
 Email: ${data.email}
 Phone: ${data.phone || 'Not provided'}
-Address: ${data.address || 'Not provided'}
-County: ${data.county || 'Not provided'}
 
-Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
+Submission Time: ${new Date().toLocaleString('ro-RO', { 
+  timeZone: 'Europe/Bucharest',
+  dateStyle: 'full',
+  timeStyle: 'long'
+})}
     `.trim(),
     html: htmlContent,
   };
