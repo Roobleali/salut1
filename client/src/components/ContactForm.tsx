@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import * as sgMail from "@sendgrid/mail";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -42,6 +43,9 @@ export function ContactForm() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
+      // Configure SendGrid with API key
+      sgMail.setApiKey(import.meta.env.VITE_SENDGRID_API_KEY);
+
       const emailTemplate = `
 Company Information:
 ------------------
@@ -62,41 +66,24 @@ ${data.message}
 Submission Timestamp: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
 `;
 
-      const response = await fetch("https://api.sendgrid.com/v3/mail/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SENDGRID_API_KEY}`,
+      const msg = {
+        to: import.meta.env.VITE_SENDGRID_TO_EMAIL,
+        from: {
+          email: import.meta.env.VITE_SENDGRID_FROM_EMAIL,
+          name: "Salut Enterprise Contact System"
         },
-        body: JSON.stringify({
-          personalizations: [
-            {
-              to: [{ email: import.meta.env.VITE_SENDGRID_TO_EMAIL }],
-              subject: "New Business Inquiry - Salut Enterprise ERP",
-            },
-          ],
-          from: { 
-            email: import.meta.env.VITE_SENDGRID_FROM_EMAIL,
-            name: "Salut Enterprise Contact System"
-          },
-          content: [{
-            type: "text/plain",
-            value: emailTemplate,
-          }],
-        }),
-      });
+        subject: "New Business Inquiry - Salut Enterprise ERP",
+        text: emailTemplate,
+      };
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText || 'Failed to send email');
-      }
+      await sgMail.send(msg);
 
       toast({
         title: t("contact.success_title"),
         description: t("contact.success_message"),
       });
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Email sending error:', error);
       toast({
         variant: "destructive",
