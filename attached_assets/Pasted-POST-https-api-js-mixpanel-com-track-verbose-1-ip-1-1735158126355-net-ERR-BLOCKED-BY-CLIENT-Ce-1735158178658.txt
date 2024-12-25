@@ -1,0 +1,62 @@
+POST https://api-js.mixpanel.com/track/?verbose=1&ip=1&_=1735158126355 net::ERR_BLOCKED_BY_CLIENT
+Ce._send_request @ overlays.js:1
+(anonymous) @ overlays.js:1
+ae.flush @ overlays.js:1
+setTimeout
+ae.scheduleFlush @ overlays.js:1
+ae.resetFlush @ overlays.js:1
+ae.flush @ overlays.js:1
+ae.start @ overlays.js:1
+(anonymous) @ overlays.js:1
+P.each @ overlays.js:1
+Ce.start_batch_senders @ overlays.js:1
+Ce.init_batchers @ overlays.js:1
+Ce._init @ overlays.js:1
+De @ overlays.js:1
+we.init @ overlays.js:1
+e @ overlays.js:1
+value @ overlays.js:1
+(anonymous) @ overlays.js:1
+c @ overlays.js:1
+(anonymous) @ overlays.js:1
+(anonymous) @ overlays.js:1
+u @ overlays.js:1
+o @ overlays.js:1
+(anonymous) @ overlays.js:1
+(anonymous) @ overlays.js:1
+(anonymous) @ overlays.js:1
+(anonymous) @ overlays.js:1
+is @ overlays.js:1
+yu @ overlays.js:1
+t.unstable_runWithPriority @ overlays.js:1
+Ui @ overlays.js:1
+mu @ overlays.js:1
+(anonymous) @ overlays.js:1
+B @ overlays.js:1
+w.port1.onmessage @ overlays.js:1
+OnboardingModal.tsx:224 EmailJS error: The public key is required. Visit https://dashboard.emailjs.com/admin/account
+overrideMethod @ hook.js:608
+sendEmail @ OnboardingModal.tsx:224
+await in sendEmail
+onSubmit @ OnboardingModal.tsx:232
+(anonymous) @ chunk-S3FVD4M2.js?v=ca1a9f28:1675
+await in (anonymous)
+callCallback2 @ chunk-UZOKQUDP.js?v=ca1a9f28:3674
+invokeGuardedCallbackDev @ chunk-UZOKQUDP.js?v=ca1a9f28:3699
+invokeGuardedCallback @ chunk-UZOKQUDP.js?v=ca1a9f28:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-UZOKQUDP.js?v=ca1a9f28:3736
+executeDispatch @ chunk-UZOKQUDP.js?v=ca1a9f28:7014
+processDispatchQueueItemsInOrder @ chunk-UZOKQUDP.js?v=ca1a9f28:7034
+processDispatchQueue @ chunk-UZOKQUDP.js?v=ca1a9f28:7043
+dispatchEventsForPlugins @ chunk-UZOKQUDP.js?v=ca1a9f28:7051
+(anonymous) @ chunk-UZOKQUDP.js?v=ca1a9f28:7174
+batchedUpdates$1 @ chunk-UZOKQUDP.js?v=ca1a9f28:18913
+batchedUpdates @ chunk-UZOKQUDP.js?v=ca1a9f28:3579
+dispatchEventForPluginEventSystem @ chunk-UZOKQUDP.js?v=ca1a9f28:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-UZOKQUDP.js?v=ca1a9f28:5478
+dispatchEvent @ chunk-UZOKQUDP.js?v=ca1a9f28:5472
+dispatchDiscreteEvent @ chunk-UZOKQUDP.js?v=ca1a9f28:5449
+OnboardingModal.tsx:131 API Error: Error: Failed to send email. Please try again later.
+    at sendEmail (OnboardingModal.tsx:225:13)
+    at async onSubmit (OnboardingModal.tsx:232:7)
+    at async chunk-S3FVD4M2.js?v=ca1a9f28:1675:9
