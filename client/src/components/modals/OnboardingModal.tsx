@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
   Dialog,
@@ -20,12 +19,24 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress"; // Added import
-import { Loader2, ArrowRight, ArrowLeft, Building2, Search, Factory, Building, Store, GraduationCap, Briefcase, UtensilsCrossed, CheckCircle2 } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import {
+  Loader2,
+  ArrowRight,
+  ArrowLeft,
+  Building2,
+  Search,
+  Factory,
+  Building,
+  Store,
+  GraduationCap,
+  Briefcase,
+  UtensilsCrossed,
+  CheckCircle2,
+} from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { motion } from 'framer-motion'; // Added import
-
+import sgMail from '@sendgrid/mail';
 
 const formSchema = z.object({
   industry: z.string().min(1, "Please select an industry"),
@@ -41,12 +52,42 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const INDUSTRIES = [
-  { value: "manufacturing", label: "Manufacturing", icon: Factory, description: "Production and assembly operations" },
-  { value: "real_estate", label: "Real Estate", icon: Building, description: "Property management and sales" },
-  { value: "retail", label: "Retail", icon: Store, description: "Retail and commerce" },
-  { value: "education", label: "Education", icon: GraduationCap, description: "Educational institutions" },
-  { value: "services", label: "Services", icon: Briefcase, description: "Professional services" },
-  { value: "hospitality", label: "Hospitality", icon: UtensilsCrossed, description: "Hotels and restaurants" },
+  {
+    value: "manufacturing",
+    label: "Manufacturing",
+    icon: Factory,
+    description: "Production and assembly operations",
+  },
+  {
+    value: "real_estate",
+    label: "Real Estate",
+    icon: Building,
+    description: "Property management and sales",
+  },
+  {
+    value: "retail",
+    label: "Retail",
+    icon: Store,
+    description: "Retail and commerce",
+  },
+  {
+    value: "education",
+    label: "Education",
+    icon: GraduationCap,
+    description: "Educational institutions",
+  },
+  {
+    value: "services",
+    label: "Services",
+    icon: Briefcase,
+    description: "Professional services",
+  },
+  {
+    value: "hospitality",
+    label: "Hospitality",
+    icon: UtensilsCrossed,
+    description: "Hotels and restaurants",
+  },
 ];
 
 const STEPS = {
@@ -67,7 +108,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   const { toast } = useToast();
 
   const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
     defaultValues: {
       industry: "",
       currentSoftware: "",
@@ -81,31 +121,17 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     mode: "onSubmit",
   });
 
-  const onSubmit = async (data: FormData) => {
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error(await response.text());
-      }
-
-      setStep(4);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to submit the form. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const handleApiError = (error: any) => {
+    console.error("API Error:", error);
+    const errorMessage =
+      error.response?.data?.error ||
+      error.message ||
+      "An unexpected error occurred";
+    toast({
+      title: "Error",
+      description: errorMessage,
+      variant: "destructive",
+    });
   };
 
   const lookupCompany = async (cui: string) => {
@@ -120,37 +146,110 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/anaf-lookup?cui=${cui}`);
-      const data = await response.json();
+      // Remove any spaces or special characters from CUI
+      const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, "");
+
+      const response = await fetch(
+        `https://api.openapi.ro/api/companies/${sanitizedCui}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "x-api-key": import.meta.env.VITE_OPENAPI_RO_KEY || "",
+          },
+        }
+      );
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to fetch company data");
+        const errorText = await response.text();
+        console.error(`OpenAPI.ro API error (${response.status}):`, errorText);
+
+        if (response.status === 403) {
+          throw new Error("Invalid API key or authorization error");
+        }
+
+        if (response.status === 404) {
+          throw new Error("Company not found");
+        }
+
+        throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
 
-      if (data.found) {
-        form.setValue("company", data.denumire || "");
-        form.setValue("address", data.adresa || "");
-        form.setValue("county", data.judet || "");
-        form.setValue("phone", data.telefon || "");
+      const data = await response.json();
 
-        toast({
-          title: "Company Found",
-          description: "Company information has been automatically filled.",
-        });
-      } else {
-        toast({
-          title: "Company Not Found",
-          description: data.error || "Please enter company details manually.",
-          variant: "destructive",
-        });
+      if (!data || !data.denumire) {
+        throw new Error("Company data not available");
       }
-    } catch (error) {
-      console.error("Company lookup error:", error);
+
+      form.setValue("company", data.denumire);
+      form.setValue("address", data.adresa || "");
+      form.setValue("county", data.judet || "");
+      form.setValue("phone", data.telefon || "");
+
       toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to fetch company data. Please try again or enter details manually.",
-        variant: "destructive",
+        title: "Success",
+        description: "Company information has been automatically filled.",
       });
+    } catch (error: any) {
+      handleApiError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const sendEmail = async (data: FormData) => {
+    try {
+      if (!import.meta.env.VITE_SENDGRID_API_KEY) {
+        throw new Error('SendGrid API key is not configured');
+      }
+
+      sgMail.setApiKey(import.meta.env.VITE_SENDGRID_API_KEY);
+
+      const emailTemplate = `
+Contact Form Submission Details:
+-----------------------------
+Company: ${data.company}
+Industry: ${data.industry}
+Current Software: ${data.currentSoftware}
+Email: ${data.email}
+Address: ${data.address || 'Not provided'}
+County: ${data.county || 'Not provided'}
+Phone: ${data.phone || 'Not provided'}
+CUI: ${data.cui || 'Not provided'}
+
+Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Bucharest' })}
+      `.trim();
+
+      const msg = {
+        to: 'info@saluttech.ro',
+        from: {
+          email: import.meta.env.VITE_SENDGRID_FROM_EMAIL || '',
+          name: 'Salut Enterprise Contact System'
+        },
+        replyTo: data.email,
+        subject: `New Implementation Request - ${data.company}`,
+        text: emailTemplate,
+      };
+
+      await sgMail.send(msg);
+      return true;
+    } catch (error: any) {
+      console.error('SendGrid email error:', error);
+      throw new Error('Failed to send email. Please try again later.');
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
+    try {
+      await sendEmail(data);
+      toast({
+        title: "Success",
+        description: "Your request has been submitted successfully. We'll be in touch shortly.",
+      });
+      setStep(4);
+    } catch (error) {
+      handleApiError(error);
     } finally {
       setIsLoading(false);
     }
@@ -167,7 +266,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
     return currentFields.every((field) => {
       const value = form.getValues(field as keyof FormData);
-      return !formSchema.shape[field as keyof FormData].isOptional() ? value && value.length > 0 : true;
+      return !formSchema.shape[field as keyof FormData].isOptional()
+        ? value && value.length > 0
+        : true;
     });
   };
 
@@ -177,12 +278,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader className="space-y-4">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-2"
-          >
+          <div className="space-y-2">
             <DialogTitle className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#9747FF] via-[#8A43E6] to-[#6E35B9] bg-clip-text text-transparent pb-1">
               Get Started with Salut Enterprise
             </DialogTitle>
@@ -199,7 +295,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 </div>
               </>
             )}
-          </motion.div>
+          </div>
         </DialogHeader>
 
         {step === 4 ? (
@@ -207,9 +303,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             <div className="flex justify-center">
               <CheckCircle2 className="h-16 w-16 text-primary" />
             </div>
-            <h3 className="text-2xl font-semibold text-primary">Thank You for Your Interest!</h3>
+            <h3 className="text-2xl font-semibold text-primary">
+              Thank You for Your Interest!
+            </h3>
             <p className="text-muted-foreground max-w-md mx-auto">
-              Our team will review your requirements and get back to you within the next hour with a personalized solution tailored to your needs.
+              Our team will review your requirements and get back to you within
+              the next hour with a personalized solution tailored to your needs.
             </p>
           </div>
         ) : (
@@ -223,27 +322,31 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                     <FormItem>
                       <FormLabel>Select Your Industry</FormLabel>
                       <div className="grid grid-cols-2 gap-4">
-                        {INDUSTRIES.map(({ value, label, icon: Icon, description }) => (
-                          <div
-                            key={value}
-                            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
-                              field.value === value
-                                ? "border-primary bg-primary/5"
-                                : "border-border hover:border-primary/50"
-                            }`}
-                            onClick={() => field.onChange(value)}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="p-2 rounded-md bg-primary/10">
-                                <Icon className="w-5 h-5 text-primary" />
-                              </div>
-                              <div>
-                                <div className="font-medium">{label}</div>
-                                <div className="text-sm text-muted-foreground">{description}</div>
+                        {INDUSTRIES.map(
+                          ({ value, label, icon: Icon, description }) => (
+                            <div
+                              key={value}
+                              className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+                                field.value === value
+                                  ? "border-primary bg-primary/5"
+                                  : "border-border hover:border-primary/50"
+                              }`}
+                              onClick={() => field.onChange(value)}
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="p-2 rounded-md bg-primary/10">
+                                  <Icon className="w-5 h-5 text-primary" />
+                                </div>
+                                <div>
+                                  <div className="font-medium">{label}</div>
+                                  <div className="text-sm text-muted-foreground">
+                                    {description}
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          )
+                        )}
                       </div>
                       <FormMessage />
                     </FormItem>
@@ -257,7 +360,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                   name="currentSoftware"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>What software solutions are you currently using and what are your main requirements?</FormLabel>
+                      <FormLabel>
+                        What software solutions are you currently using and what
+                        are your main requirements?
+                      </FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="e.g., Currently using Excel for inventory, looking for an automated solution with real-time tracking..."
@@ -278,7 +384,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                     name="cui"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Company CUI (Optional)</FormLabel>
                         <FormDescription>
                           Enter your CUI to automatically fill company details
                         </FormDescription>
@@ -286,7 +391,11 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                           <FormControl>
                             <div className="relative">
                               <Building2 className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                              <Input placeholder="Enter CUI" className="pl-10" {...field} />
+                              <Input
+                                placeholder="Enter CUI"
+                                className="pl-10"
+                                {...field}
+                              />
                             </div>
                           </FormControl>
                           <Button
@@ -331,7 +440,11 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                       <FormItem>
                         <FormLabel>Business Email</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="contact@company.com" {...field} />
+                          <Input
+                            type="email"
+                            placeholder="contact@company.com"
+                            {...field}
+                          />
                         </FormControl>
                         {form.formState.isSubmitted && <FormMessage />}
                       </FormItem>
