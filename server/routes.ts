@@ -31,17 +31,9 @@ export function registerRoutes(app: Express): Server {
     try {
       const { cui } = req.query;
       if (!cui) {
-        return res.status(400).json({ 
+        return res.status(400).json({
           found: false,
-          error: "CUI parameter is required" 
-        });
-      }
-
-      const apiKey = process.env.OPENAPI_RO_KEY;
-      if (!apiKey) {
-        return res.status(500).json({ 
-          found: false,
-          error: "API key not configured" 
+          error: "CUI parameter is required"
         });
       }
 
@@ -52,7 +44,7 @@ export function registerRoutes(app: Express): Server {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'x-api-key': apiKey
+          'x-api-key': process.env.OPENAPI_RO_KEY || ''
         }
       });
 
@@ -61,16 +53,16 @@ export function registerRoutes(app: Express): Server {
         console.error(`OpenAPI.ro API error (${response.status}):`, errorText);
 
         if (response.status === 403) {
-          return res.status(500).json({ 
+          return res.status(500).json({
             found: false,
-            error: "Invalid API key or authorization error" 
+            error: "Invalid API key or authorization error"
           });
         }
 
         if (response.status === 404) {
-          return res.status(404).json({ 
+          return res.status(404).json({
             found: false,
-            error: "Company not found" 
+            error: "Company not found"
           });
         }
 
@@ -80,9 +72,9 @@ export function registerRoutes(app: Express): Server {
       const data = await response.json();
 
       if (!data || !data.denumire) {
-        return res.status(404).json({ 
+        return res.status(404).json({
           found: false,
-          error: "Company data not available" 
+          error: "Company data not available"
         });
       }
 
@@ -97,9 +89,9 @@ export function registerRoutes(app: Express): Server {
       });
     } catch (error) {
       console.error("Company lookup error:", error);
-      res.status(500).json({ 
+      res.status(500).json({
         found: false,
-        error: "Failed to lookup company. Please try again later." 
+        error: "Failed to lookup company. Please try again later."
       });
     }
   });
