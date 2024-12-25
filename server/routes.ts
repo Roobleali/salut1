@@ -31,25 +31,61 @@ export function registerRoutes(app: Express): Server {
     try {
       const { cui } = req.query;
       if (!cui) {
-        return res.status(400).json({ error: "CUI parameter is required" });
+        return res.status(400).json({ 
+          found: false,
+          error: "CUI parameter is required" 
+        });
       }
 
       const apiKey = process.env.OPENAPI_RO_KEY;
       if (!apiKey) {
-        return res.status(500).json({ error: "API key not configured" });
+        return res.status(500).json({ 
+          found: false,
+          error: "API key not configured" 
+        });
       }
 
-      const response = await fetch(`https://api.openapi.ro/api/companies/${cui}`, {
+      // Remove any spaces or special characters from CUI
+      const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, '');
+
+      const response = await fetch(`https://api.openapi.ro/api/companies/${sanitizedCui}`, {
+        method: 'GET',
         headers: {
+          'Accept': 'application/json',
           'x-api-key': apiKey
         }
       });
 
       if (!response.ok) {
-        throw new Error(`OpenAPI.ro API error: ${response.statusText}`);
+        const errorText = await response.text();
+        console.error(`OpenAPI.ro API error (${response.status}):`, errorText);
+
+        if (response.status === 403) {
+          return res.status(500).json({ 
+            found: false,
+            error: "Invalid API key or authorization error" 
+          });
+        }
+
+        if (response.status === 404) {
+          return res.status(404).json({ 
+            found: false,
+            error: "Company not found" 
+          });
+        }
+
+        throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
+
+      if (!data || !data.denumire) {
+        return res.status(404).json({ 
+          found: false,
+          error: "Company data not available" 
+        });
+      }
+
       res.json({
         found: true,
         denumire: data.denumire,
@@ -63,7 +99,7 @@ export function registerRoutes(app: Express): Server {
       console.error("Company lookup error:", error);
       res.status(500).json({ 
         found: false,
-        error: "Failed to lookup company" 
+        error: "Failed to lookup company. Please try again later." 
       });
     }
   });
@@ -71,16 +107,20 @@ export function registerRoutes(app: Express): Server {
   // Contact form submission endpoint
   app.post("/api/contact", async (req, res) => {
     try {
-      const { name, email, company, industry, otherIndustry, goal, otherGoal, message } = req.body;
+      const { name, email, company, industry, currentSoftware, painPoints, cui, address, county, phone } = req.body;
 
-      // Log the form submission for now (we'll add email functionality later)
+      // Log the form submission for now
       console.log('New Implementation Request:', {
         name,
         email,
         company,
-        industry: industry === 'other' ? otherIndustry : industry,
-        goal: goal === 'other' ? otherGoal : goal,
-        message
+        cui,
+        address,
+        county,
+        phone,
+        industry,
+        currentSoftware,
+        painPoints
       });
 
       res.json({ message: "Request received successfully" });

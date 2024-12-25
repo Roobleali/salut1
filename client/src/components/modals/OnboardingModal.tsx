@@ -107,17 +107,25 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
   };
 
   const lookupCompany = async (cui: string) => {
-    if (!cui) return;
+    if (!cui) {
+      toast({
+        title: "Error",
+        description: "Please enter a CUI number",
+        variant: "destructive",
+      });
+      return;
+    }
 
     setIsLoading(true);
     try {
       const response = await fetch(`/api/anaf-lookup?cui=${cui}`);
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to fetch company data");
+        throw new Error(data.error || "Failed to fetch company data");
       }
 
-      const data = await response.json();
-      if (data && data.found) {
+      if (data.found) {
         form.setValue("company", data.denumire || "");
         form.setValue("address", data.adresa || "");
         form.setValue("county", data.judet || "");
@@ -130,14 +138,15 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
       } else {
         toast({
           title: "Company Not Found",
-          description: "Please enter company details manually.",
+          description: data.error || "Please enter company details manually.",
           variant: "destructive",
         });
       }
     } catch (error) {
+      console.error("Company lookup error:", error);
       toast({
         title: "Error",
-        description: "Failed to fetch company data. Please enter details manually.",
+        description: error instanceof Error ? error.message : "Failed to fetch company data. Please try again or enter details manually.",
         variant: "destructive",
       });
     } finally {
@@ -236,8 +245,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                             <Input placeholder="Enter CUI" className="pl-10" {...field} />
                           </div>
                         </FormControl>
-                        <Button 
-                          type="button" 
+                        <Button
+                          type="button"
                           variant="secondary"
                           onClick={() => lookupCompany(field.value)}
                           disabled={isLoading || !field.value}
@@ -396,8 +405,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
               </Button>
 
               {step < 5 ? (
-                <Button 
-                  type="button" 
+                <Button
+                  type="button"
                   onClick={() => {
                     if (validateCurrentStep()) {
                       setStep((s) => Math.min(s + 1, 5));
@@ -415,7 +424,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                       Submitting...
                     </>
                   ) : (
-                    'Submit'
+                    "Submit"
                   )}
                 </Button>
               )}
