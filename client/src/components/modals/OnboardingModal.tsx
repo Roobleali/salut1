@@ -282,7 +282,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                             )}
                           </Button>
                         </div>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -296,7 +295,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                         <FormControl>
                           <Input placeholder="Company Name" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        {form.formState.isSubmitted && <FormMessage />}
                       </FormItem>
                     )}
                   />
@@ -310,7 +309,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                         <FormControl>
                           <Input type="email" placeholder="contact@company.com" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        {form.formState.isSubmitted && <FormMessage />}
                       </FormItem>
                     )}
                   />
@@ -325,7 +324,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                           <FormControl>
                             <Input placeholder="Company Address" {...field} />
                           </FormControl>
-                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -339,7 +337,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                           <FormControl>
                             <Input placeholder="County" {...field} />
                           </FormControl>
-                          <FormMessage />
                         </FormItem>
                       )}
                     />
@@ -354,7 +351,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                         <FormControl>
                           <Input placeholder="Phone Number" {...field} />
                         </FormControl>
-                        <FormMessage />
                       </FormItem>
                     )}
                   />
