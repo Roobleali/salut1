@@ -67,40 +67,244 @@ export function OnboardingDialog({ open, onOpenChange }: OnboardingDialogProps) 
   const selectedIndustry = form.watch("industry");
   const selectedGoal = form.watch("goal");
 
-  const onSubmit = async (data: OnboardingFormData) => {
-    try {
-      // TODO: Replace with your actual email sending endpoint
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...data,
-          to: "info@saluttech.ro",
-          subject: `New Implementation Request - ${data.company}`,
-        }),
-      });
+  const ODOO_CONFIG = {
+    url: process.env.NEXT_PUBLIC_ODOO_URL || '',
+    db: process.env.NEXT_PUBLIC_ODOO_DB || '',
+    username: process.env.NEXT_PUBLIC_ODOO_USERNAME || '',
+    password: process.env.NEXT_PUBLIC_ODOO_PASSWORD || '',
+  };
 
-      if (!response.ok) {
-        throw new Error("Failed to send message");
+  const OdooCompanyForm = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [step, setStep] = useState('FORM');
+    const form = useForm({
+      defaultValues: {
+        company: '',
+        email: '',
+        phone: '',
+        address: '',
+        county: '',
+        adminName: '',
+        adminPassword: '',
+      }
+    });
+
+    const createXmlRpcClient = (endpoint) => {
+      const baseUrl = ODOO_CONFIG.url.replace(/\/$/, '');
+      const clientOptions = {
+        headers: {
+          'User-Agent': 'Web-Client/1.0',
+          'Content-Type': 'text/xml',
+          'Accept': 'text/xml',
+        },
+        cookies: true,
+        timeout: 60000,
+      };
+
+      return xmlrpc.createClient({
+        ...clientOptions,
+        url: `${baseUrl}:8069/xmlrpc/2/${endpoint}`,
+      });
+    };
+
+    const authenticate = async () => {
+      const commonClient = createXmlRpcClient('common');
+
+      return new Promise((resolve, reject) => {
+        commonClient.methodCall('authenticate', [
+          ODOO_CONFIG.db,
+          ODOO_CONFIG.username,
+          ODOO_CONFIG.password,
+          { lang: 'en_US', tz: 'UTC' }
+        ], (err, uid) => {
+          if (err || !uid) {
+            reject(new Error('Authentication failed'));
+            return;
+          }
+          resolve(uid);
+        });
+      });
+    };
+
+    const executeKw = async (uid, model, method, args = [], kwargs = {}) => {
+      const objectClient = createXmlRpcClient('object');
+
+      return new Promise((resolve, reject) => {
+        objectClient.methodCall('execute_kw', [
+          ODOO_CONFIG.db,
+          uid,
+          ODOO_CONFIG.password,
+          model,
+          method,
+          args,
+          kwargs
+        ], (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        });
+      });
+    };
+
+    const createCompany = async (companyData) => {
+      const uid = await authenticate();
+
+      // Check if company exists
+      const companyCount = await executeKw(
+        uid,
+        'res.company',
+        'search_count',
+        [[['name', '=', companyData.name]]]
+      );
+
+      if (companyCount > 0) {
+        throw new Error('A company with this name already exists');
       }
 
-      toast({
-        title: "Request sent successfully!",
-        description: "We'll be in touch with you shortly to discuss your needs.",
+      // Create partner
+      const partnerId = await executeKw(
+        uid,
+        'res.partner',
+        'create',
+        [{
+          name: companyData.name,
+          email: companyData.email,
+          phone: companyData.phone,
+          street: companyData.street,
+          city: companyData.city,
+          is_company: true,
+          company_type: 'company',
+        }]
+      );
+
+      // Create company
+      const companyId = await executeKw(
+        uid,
+        'res.company',
+        'create',
+        [{
+          name: companyData.name,
+          partner_id: partnerId,
+        }]
+      );
+
+      // Create admin user
+      const userId = await createAdminUser(uid, {
+        name: companyData.adminName,
+        login: companyData.email,
+        password: companyData.adminPassword,
+        companyId,
+        partnerId,
       });
 
-      onOpenChange(false);
-      form.reset();
-    } catch (error) {
-      toast({
-        title: "Error sending request",
-        description: "Please try again later or contact us directly.",
-        variant: "destructive",
-      });
-    }
-  };
+      return {
+        companyId,
+        userId,
+        redirectUrl: `${ODOO_CONFIG.url}/web/login?login=${encodeURIComponent(companyData.email)}&redirect=/web`
+      };
+    };
+
+    const createAdminUser = async (uid, userData) => {
+      // Get admin group IDs
+      const groupPromises = [
+        'base.group_user',
+        'base.group_system',
+        'base.group_erp_manager',
+        'account.group_account_manager',
+        'sales_team.group_sale_manager',
+        'stock.group_stock_manager',
+        'hr.group_hr_manager'
+      ].map(xmlId => getGroupId(uid, xmlId));
+
+      const adminGroups = (await Promise.all(groupPromises)).filter(id => id);
+
+      const userCreateData = {
+        name: userData.name,
+        login: userData.login,
+        password: userData.password,
+        company_id: userData.companyId,
+        company_ids: [[6, 0, [userData.companyId]]],
+        groups_id: [[6, 0, adminGroups]],
+        partner_id: userData.partnerId,
+        notification_type: 'email',
+        share: false,
+        active: true,
+      };
+
+      return executeKw(
+        uid,
+        'res.users',
+        'create',
+        [userCreateData],
+        {
+          context: {
+            no_reset_password: true,
+            create_user: true,
+            mail_create_nosubscribe: true,
+            mail_notrack: true,
+          }
+        }
+      );
+    };
+
+    const getGroupId = async (uid, xmlId) => {
+      const [module, name] = xmlId.split('.');
+      const result = await executeKw(
+        uid,
+        'ir.model.data',
+        'search_read',
+        [[['module', '=', module], ['name', '=', name]], ['res_id']]
+      );
+      return result?.[0]?.res_id;
+    };
+
+    const onSubmit = async (data) => {
+      setIsLoading(true);
+      try {
+        if (!data.company?.trim()) {
+          form.setError('company', {
+            type: 'manual',
+            message: 'Company name is required',
+          });
+          throw new Error('Company name is required');
+        }
+
+        const companyData = {
+          name: data.company.trim(),
+          email: data.email,
+          phone: data.phone || undefined,
+          street: data.address || undefined,
+          city: data.county || undefined,
+          adminName: data.adminName,
+          adminPassword: data.adminPassword,
+        };
+
+        const result = await createCompany(companyData);
+
+        toast({
+          title: 'Success',
+          description: 'Your company has been created successfully. Redirecting to your dashboard...',
+        });
+
+        setStep('COMPLETED');
+
+        setTimeout(() => {
+          if (result.redirectUrl) {
+            window.location.href = result.redirectUrl;
+          }
+        }, 2000);
+
+      } catch (error) {
+        console.error('Submission error:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: error.message || 'Failed to process your request',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
