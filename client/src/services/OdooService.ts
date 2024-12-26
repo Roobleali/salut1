@@ -62,6 +62,10 @@ export class OdooService {
       username: import.meta.env.VITE_ODOO_USERNAME || '',
       password: import.meta.env.VITE_ODOO_PASSWORD || '',
     };
+
+    console.log('Initializing Odoo service with URL:', this.odooConfig.url);
+    console.log('Database:', this.odooConfig.db);
+    console.log('Username:', this.odooConfig.username);
   }
 
   async lookupCompany(cui: string): Promise<ANAFLookupResponse> {
@@ -97,34 +101,73 @@ export class OdooService {
     }
   }
 
-  private async authenticateOdoo(): Promise<number> {
-    return new Promise((resolve, reject) => {
-      const commonClient = xmlrpc.createClient({
-        url: `${this.odooConfig.url}/xmlrpc/2/common`,
-        headers: {
-          'User-Agent': 'Salut-Enterprise/1.0',
-          'Content-Type': 'text/xml',
-        }
-      });
+  private validateConfig() {
+    const missingFields = [];
+    if (!this.odooConfig.url) missingFields.push("VITE_ODOO_URL");
+    if (!this.odooConfig.db) missingFields.push("VITE_ODOO_DB");
+    if (!this.odooConfig.username) missingFields.push("VITE_ODOO_USERNAME");
+    if (!this.odooConfig.password) missingFields.push("VITE_ODOO_PASSWORD");
 
-      commonClient.methodCall(
-        'authenticate',
-        [
-          this.odooConfig.db,
-          this.odooConfig.username,
-          this.odooConfig.password,
-          {}
-        ],
-        (error: any, uid: number) => {
-          if (error) {
-            console.error('Authentication error:', error);
-            reject(new Error('Failed to authenticate with Odoo'));
-            return;
-          }
-          resolve(uid);
+    if (missingFields.length > 0) {
+      throw new Error(`Missing required Odoo configuration: ${missingFields.join(", ")}`);
+    }
+  }
+
+  private async authenticateOdoo(retryCount = 3): Promise<number> {
+    this.validateConfig();
+    console.log("Attempting to authenticate with Odoo...");
+    console.log("Using database:", this.odooConfig.db);
+    console.log("Username:", this.odooConfig.username);
+
+    const tryAuthenticate = async (attempt: number): Promise<number> => {
+      try {
+        return await new Promise<number>((resolve, reject) => {
+          const commonClient = xmlrpc.createClient({
+            url: `${this.odooConfig.url}/xmlrpc/2/common`,
+            headers: {
+              'User-Agent': 'Salut-Enterprise/1.0',
+              'Content-Type': 'text/xml',
+              'Accept': 'text/xml',
+            }
+          });
+
+          commonClient.methodCall(
+            'authenticate',
+            [
+              this.odooConfig.db,
+              this.odooConfig.username,
+              this.odooConfig.password,
+              {}
+            ],
+            (error: any, uid: number) => {
+              if (error) {
+                console.error('Authentication error:', error);
+                reject(new Error(`Authentication failed: ${error.message}`));
+                return;
+              }
+
+              if (!uid) {
+                console.error('Authentication failed: Invalid credentials');
+                reject(new Error('Invalid credentials or user not found'));
+                return;
+              }
+
+              console.log('Successfully authenticated with Odoo. UID:', uid);
+              resolve(uid);
+            }
+          );
+        });
+      } catch (error) {
+        if (attempt < retryCount) {
+          console.log(`Authentication attempt ${attempt} failed, retrying...`);
+          await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+          return tryAuthenticate(attempt + 1);
         }
-      );
-    });
+        throw error;
+      }
+    };
+
+    return tryAuthenticate(1);
   }
 
   private async executeOdoo(uid: number, model: string, method: string, args: any[] = []): Promise<any> {
@@ -134,8 +177,11 @@ export class OdooService {
         headers: {
           'User-Agent': 'Salut-Enterprise/1.0',
           'Content-Type': 'text/xml',
+          'Accept': 'text/xml',
         }
       });
+
+      console.log(`Executing Odoo ${model}.${method}`, JSON.stringify(args, null, 2));
 
       objectClient.methodCall(
         'execute_kw',
@@ -153,6 +199,7 @@ export class OdooService {
             reject(error);
             return;
           }
+          console.log(`${model}.${method} result:`, result);
           resolve(result);
         }
       );
@@ -163,6 +210,17 @@ export class OdooService {
     try {
       // Validate input data
       const validatedData = companyDataSchema.parse(data);
+
+      console.log('Creating company with data:', {
+        name: validatedData.name,
+        email: '***',
+        phone: validatedData.phone,
+        street: validatedData.street,
+        city: validatedData.city,
+        adminName: validatedData.adminName,
+        adminLogin: '***',
+        adminPassword: '***'
+      });
 
       const uid = await this.authenticateOdoo();
 
@@ -177,18 +235,18 @@ export class OdooService {
         company_type: 'company',
       }]);
 
+      console.log("Created company partner with ID:", partnerId);
+
       // Create company
       const companyId = await this.executeOdoo(uid, 'res.company', 'create', [{
         name: validatedData.name,
         partner_id: partnerId,
       }]);
 
+      console.log("Company created successfully with ID:", companyId);
+
       // Create admin user with all necessary groups
       const groups = await Promise.all([
-        this.executeOdoo(uid, 'ir.model.data', 'search_read', [
-          [['module', '=', 'base'], ['name', '=', 'group_user']],
-          ['res_id']
-        ]),
         this.executeOdoo(uid, 'ir.model.data', 'search_read', [
           [['module', '=', 'base'], ['name', '=', 'group_system']],
           ['res_id']
@@ -196,12 +254,20 @@ export class OdooService {
         this.executeOdoo(uid, 'ir.model.data', 'search_read', [
           [['module', '=', 'base'], ['name', '=', 'group_erp_manager']],
           ['res_id']
+        ]),
+        this.executeOdoo(uid, 'ir.model.data', 'search_read', [
+          [['module', '=', 'account'], ['name', '=', 'group_account_manager']],
+          ['res_id']
+        ]),
+        this.executeOdoo(uid, 'ir.model.data', 'search_read', [
+          [['module', '=', 'sales_team'], ['name', '=', 'group_sale_manager']],
+          ['res_id']
         ])
       ]);
 
       const groupIds = groups.map(g => g[0]?.res_id).filter(Boolean);
 
-      const userId = await this.executeOdoo(uid, 'res.users', 'create', [{
+      const userCreateData = {
         name: validatedData.adminName,
         login: validatedData.adminLogin,
         password: validatedData.adminPassword,
@@ -209,7 +275,16 @@ export class OdooService {
         company_ids: [[6, 0, [companyId]]],
         groups_id: [[6, 0, groupIds]],
         partner_id: partnerId,
-      }]);
+      };
+
+      console.log("Creating admin user with data:", {
+        ...userCreateData,
+        password: '***'
+      });
+
+      const userId = await this.executeOdoo(uid, 'res.users', 'create', [userCreateData]);
+
+      console.log("User created successfully with ID:", userId);
 
       // Send welcome email using EmailJS
       await this.sendWelcomeEmail(validatedData);
@@ -237,12 +312,16 @@ export class OdooService {
         login_url: `${this.odooConfig.url}/web/login`,
       };
 
+      console.log('Sending welcome email to:', data.adminLogin);
+
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         templateParams,
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
+
+      console.log('Welcome email sent successfully');
     } catch (error) {
       console.error('Failed to send welcome email:', error);
       // Don't throw error as email sending is not critical
