@@ -232,27 +232,44 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         try {
-            const response = await fetch('/api/odoo/create-company', {
+            // Call Odoo API directly
+            const odooUrl = import.meta.env.VITE_ODOO_URL?.replace(/\/+$/, '');
+            if (!odooUrl) {
+                throw new Error("Odoo URL not configured");
+            }
+
+            const response = await fetch(`${odooUrl}/web/dataset/call_kw/res.company/create_company_with_admin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    name: data.company,
-                    email: data.email,
-                    phone: data.phone || undefined,
-                    street: data.address || undefined,
-                    city: data.county || undefined,
-                    adminName: data.adminName,
-                    adminLogin: data.email,
-                    adminPassword: data.adminPassword
+                    jsonrpc: "2.0",
+                    method: "call",
+                    params: {
+                        kwargs: {
+                            company_data: {
+                                name: data.company,
+                                email: data.email,
+                                phone: data.phone || false,
+                                street: data.address || false,
+                                city: data.county || false,
+                            },
+                            admin_data: {
+                                name: data.adminName,
+                                login: data.email,
+                                password: data.adminPassword,
+                            }
+                        }
+                    },
+                    id: Math.floor(Math.random() * 1000000000)
                 }),
             });
 
             const responseData = await response.json();
 
-            if (!response.ok) {
-                throw new Error(responseData.message || 'Failed to create company');
+            if (responseData.error) {
+                throw new Error(responseData.error.data.message || 'Failed to create company');
             }
 
             await sendEmail(data);
@@ -264,32 +281,14 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
             setStep("COMPLETED");
 
-            // Extract the redirect URL from the response
-            if (responseData.data?.redirectUrl) {
-                setTimeout(() => {
-                    window.location.href = responseData.data.redirectUrl;
-                }, 2000);
-            } else if (responseData.redirectUrl) {
-                setTimeout(() => {
-                    window.location.href = responseData.redirectUrl;
-                }, 2000);
-            } else {
-                // Construct fallback URL using environment variable
-                const odooUrl = import.meta.env.VITE_ODOO_URL?.replace(/\/+$/, '');
-                if (odooUrl) {
-                    const fallbackUrl = `${odooUrl}/web/login?login=${encodeURIComponent(data.email)}&redirect=/web`;
-                    setTimeout(() => {
-                        window.location.href = fallbackUrl;
-                    }, 2000);
-                } else {
-                    console.error("No redirect URL available");
-                    toast({
-                        variant: "destructive",
-                        title: "Redirect Error",
-                        description: "Could not redirect to dashboard. Please try logging in manually.",
-                    });
-                }
-            }
+            // Construct login URL with credentials
+            const loginUrl = `${odooUrl}/web/login?login=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.adminPassword)}&redirect=/web#action=mail.action_discuss`;
+
+            // Wait briefly then redirect
+            setTimeout(() => {
+                window.location.href = loginUrl;
+            }, 2000);
+
         } catch (error: any) {
             console.error('Submission error:', error);
             toast({
