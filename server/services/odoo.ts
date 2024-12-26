@@ -189,7 +189,34 @@ export class OdooService {
     adminPassword: string;
   }): Promise<{ companyId: number; userId: number }> {
     try {
-      console.log('Creating company with data:', { ...companyData, email: '***', adminLogin: '***', adminPassword: '***' });
+      // Validate required fields
+      if (!companyData.name) {
+        throw new Error("Company name is required");
+      }
+      if (!companyData.email) {
+        throw new Error("Email is required");
+      }
+      if (!companyData.adminName) {
+        throw new Error("Admin name is required");
+      }
+      if (!companyData.adminLogin) {
+        throw new Error("Admin login is required");
+      }
+      if (!companyData.adminPassword) {
+        throw new Error("Admin password is required");
+      }
+
+      console.log('Creating company with data:', {
+        name: companyData.name,
+        email: '***',
+        phone: companyData.phone,
+        street: companyData.street,
+        city: companyData.city,
+        adminName: companyData.adminName,
+        adminLogin: '***',
+        adminPassword: '***'
+      });
+
       const uid = await this.authenticate();
 
       // Check if company name already exists

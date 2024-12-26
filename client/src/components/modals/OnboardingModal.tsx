@@ -232,6 +232,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         try {
+            console.log("Submitting company data:", {
+                ...data,
+                email: "***",
+                adminPassword: "***"
+            });
+
             // Create company in Odoo
             const odooResponse = await fetch('/api/odoo/create-company', {
                 method: 'POST',
@@ -241,9 +247,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 body: JSON.stringify({
                     name: data.company,
                     email: data.email,
-                    phone: data.phone,
-                    street: data.address,
-                    city: data.county,
+                    phone: data.phone || undefined,
+                    street: data.address || undefined,
+                    city: data.county || undefined,
                     adminName: data.adminName,
                     adminLogin: data.email,
                     adminPassword: data.adminPassword,
