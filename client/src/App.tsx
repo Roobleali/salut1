@@ -22,6 +22,7 @@ import { OnboardingTour } from "@/components/onboarding/OnboardingTour";
 import { Glossary } from "@/pages/Glossary";
 import { GradientCustomizerPage } from "@/pages/GradientCustomizer";
 import { Industries } from "@/pages/Industries";
+import Compliance from "@/pages/Compliance";
 
 function App() {
   return (
@@ -35,14 +36,15 @@ function App() {
           <Route path="/case-studies" component={CaseStudies} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
-          
+          <Route path="/compliance" component={Compliance} />
+
           {/* Enterprise Routes */}
           <Route path="/enterprise" component={EnterpriseApps} />
           <Route path="/enterprise/crm" component={CRM} />
           <Route path="/enterprise/sales" component={Sales} />
           <Route path="/enterprise/purchase" component={Purchase} />
           <Route path="/enterprise/inventory" component={Inventory} />
-          
+
           {/* Industry Routes */}
           <Route path="/industries" component={Industries} />
           <Route path="/industries/manufacturing" component={Manufacturing} />
@@ -51,10 +53,10 @@ function App() {
           <Route path="/industries/education" component={Education} />
           <Route path="/industries/services" component={IndustryServices} />
           <Route path="/industries/hospitality" component={Hospitality} />
-          
+
           {/* Glossary Route */}
           <Route path="/glossary" component={Glossary} />
-          
+
           {/* Gradient Customizer Route */}
           <Route path="/gradients" component={GradientCustomizerPage} />
         </Switch>
