@@ -166,40 +166,46 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
     }
   });
 
-  // New route for Odoo integration
+  // Odoo company creation endpoint
   app.post("/api/odoo/create-company", async (req, res) => {
     try {
+      console.log("Received request body:", JSON.stringify(req.body, null, 2));
+
       const {
-        company,
-        industry,
+        name,
         email,
-        address,
-        county,
         phone,
-        cui
+        street,
+        city,
+        adminName,
+        adminLogin,
+        adminPassword
       } = req.body;
 
-      // Create company in Odoo
-      const { companyId } = await odooService.createCompany({
-        name: company,
-        email: email,
-        phone: phone,
-        street: address,
-        city: county,
-        vat: cui
-      });
+      // Validate required fields
+      if (!name?.trim()) {
+        return res.status(400).json({
+          success: false,
+          message: "Company name is required"
+        });
+      }
 
-      // Create user in Odoo
-      const { userId } = await odooService.createUser({
-        name: `${company} Admin`,
-        login: email,
-        companyId: companyId
+      // Create company in Odoo
+      const result = await odooService.createCompany({
+        name,
+        email,
+        phone,
+        street,
+        city,
+        adminName,
+        adminLogin,
+        adminPassword
       });
 
       res.json({
         success: true,
         message: "Company and user created successfully in Odoo",
-        data: { companyId, userId }
+        data: result
       });
     } catch (error: any) {
       console.error("Odoo integration error:", error);
