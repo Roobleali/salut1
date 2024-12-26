@@ -173,7 +173,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             );
 
             if (result.status === 200) {
-                setStep("COMPLETED");
+                
             }
         } catch (error) {
             console.error("EmailJS error:", error);
@@ -182,8 +182,34 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
-        await sendEmail(data);
-        setIsLoading(false);
+        try {
+            // Create company in Odoo
+            const odooResponse = await fetch('/api/odoo/create-company', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!odooResponse.ok) {
+                throw new Error('Failed to create company in Odoo');
+            }
+
+            // Send email notification
+            await sendEmail(data);
+
+            setStep("COMPLETED");
+        } catch (error) {
+            console.error("Submission error:", error);
+            toast({
+                title: "Error",
+                description: "Failed to process your request. Please try again later.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const validateCurrentStep = () => {
@@ -192,7 +218,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         const currentFields = {
             SELECT_INDUSTRY: ["industry"],
             CURRENT_SOFTWARE: ["currentSoftware"],
-            COMPANY_DETAILS: ["company", "email", "cui"], // Added cui to validation
+            COMPANY_DETAILS: ["company", "email", "cui"], 
         }[step];
 
         return currentFields.every((field) => {
@@ -209,7 +235,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             "COMPLETED",
         ];
         const currentIndex = stepValues.indexOf(step);
-        return (currentIndex / (stepValues.length - 1)) * 100; // Adjusted calculation
+        return (currentIndex / (stepValues.length - 1)) * 100; 
     })();
 
     const goToNextStep = () => {

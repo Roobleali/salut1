@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import sgMail from '@sendgrid/mail';
 import { scoreTranslation, analyzeTranslationQuality } from "../client/src/lib/translationScoring";
+import { odooService } from './services/odoo';
 
 export function registerRoutes(app: Express): Server {
   // Translation scoring endpoints
@@ -160,6 +161,51 @@ Submission Time: ${new Date().toLocaleString('ro-RO', { timeZone: 'Europe/Buchar
       res.status(500).json({
         success: false,
         message: "Failed to process your request. Please try again later.",
+        error: error.message
+      });
+    }
+  });
+
+  // New route for Odoo integration
+  app.post("/api/odoo/create-company", async (req, res) => {
+    try {
+      const {
+        company,
+        industry,
+        email,
+        address,
+        county,
+        phone,
+        cui
+      } = req.body;
+
+      // Create company in Odoo
+      const { companyId } = await odooService.createCompany({
+        name: company,
+        email: email,
+        phone: phone,
+        street: address,
+        city: county,
+        vat: cui
+      });
+
+      // Create user in Odoo
+      const { userId } = await odooService.createUser({
+        name: `${company} Admin`,
+        login: email,
+        companyId: companyId
+      });
+
+      res.json({
+        success: true,
+        message: "Company and user created successfully in Odoo",
+        data: { companyId, userId }
+      });
+    } catch (error: any) {
+      console.error("Odoo integration error:", error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to create company in Odoo",
         error: error.message
       });
     }
