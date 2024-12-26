@@ -35,27 +35,32 @@ import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
-const formSchema = z.object({
-    industry: z.string(),
-    company: z.string(),
-    cui: z.string(),
-    address: z.string().optional(),
-    county: z.string().optional(),
-    phone: z.string().optional(),
-    adminName: z.string().min(1, "Admin name is required"),
-    email: z.string().email("Invalid email address"),
-    confirmEmail: z.string().email("Invalid email address"),
-    adminPassword: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string(),
-}).refine((data) => data.email === data.confirmEmail, {
-    message: "Emails do not match",
-    path: ["confirmEmail"],
-}).refine((data) => data.adminPassword === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-});
+const formSchema = z
+    .object({
+        industry: z.string(),
+        company: z.string(),
+        cui: z.string(),
+        address: z.string().optional(),
+        county: z.string().optional(),
+        phone: z.string().optional(),
+        adminName: z.string().min(1, "Admin name is required"),
+        email: z.string().email("Invalid email address"),
+        confirmEmail: z.string().email("Invalid email address"),
+        adminPassword: z
+            .string()
+            .min(6, "Password must be at least 6 characters"),
+        confirmPassword: z.string(),
+    })
+    .refine((data) => data.email === data.confirmEmail, {
+        message: "Emails do not match",
+        path: ["confirmEmail"],
+    })
+    .refine((data) => data.adminPassword === data.confirmPassword, {
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+    });
 
 type FormData = z.infer<typeof formSchema>;
 
@@ -98,7 +103,11 @@ const INDUSTRIES = [
     },
 ];
 
-type StepType = "SELECT_INDUSTRY" | "COMPANY_DETAILS" | "ADMIN_SETUP" | "COMPLETED";
+type StepType =
+    | "SELECT_INDUSTRY"
+    | "COMPANY_DETAILS"
+    | "ADMIN_SETUP"
+    | "COMPLETED";
 
 const STEPS: Record<StepType, string> = {
     SELECT_INDUSTRY: "Select Your Industry",
@@ -126,7 +135,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             toast({
                 variant: "destructive",
                 title: "Service Error",
-                description: "Failed to initialize email service. Please try again later.",
+                description:
+                    "Failed to initialize email service. Please try again later.",
             });
         }
     }, []);
@@ -147,56 +157,69 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             confirmPassword: "",
         },
     });
-
-    const lookupCompany = async (cui: string) => {
+    const lookupCompany = async (cui: string | undefined) => {
         if (!cui) {
             toast({
-                variant: "destructive",
-                title: "Validation Error",
+                title: "Error",
                 description: "Please enter a CUI number",
+                variant: "destructive",
             });
             return;
         }
 
         setIsLookingUp(true);
         try {
-            const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, "");
-            const response = await fetch(`/api/anaf-lookup?cui=${sanitizedCui}`);
+            const sanitizedCui = cui
+                .toString()
+                .trim()
+                .replace(/[^0-9]/g, "");
+
+            // Use a CORS proxy service or your own proxy
+            const apiUrl = `https://api.openapi.ro/api/companies/${sanitizedCui}`;
+
+            const response = await fetch(apiUrl, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "x-api-key":
+                        "bj8a5zPQ-Z-J4SWxxF2_ezS4Q6Wq3L4F24Qc9r9Yonq6oYfaTQ",
+                    Origin: window.location.origin,
+                },
+            });
 
             if (!response.ok) {
-                throw new Error("Failed to lookup company details");
+                if (response.status === 403) {
+                    throw new Error("Invalid API key or authorization error");
+                }
+                if (response.status === 404) {
+                    throw new Error("Company not found");
+                }
+                throw new Error(
+                    `API error: ${response.status} ${response.statusText}`,
+                );
             }
 
             const data = await response.json();
-
-            if (data?.found) {
-                form.setValue("company", data.denumire);
-                form.setValue("address", data.adresa || "");
-                form.setValue("county", data.judet || "");
-                form.setValue("phone", data.telefon || "");
-                toast({
-                    title: "Success",
-                    description: "Company details found and filled automatically.",
-                });
-            } else {
-                toast({
-                    variant: "destructive",
-                    title: "Company Not Found",
-                    description: "Could not find company details for the provided CUI.",
-                });
+            if (!data || !data.denumire) {
+                throw new Error("Company data not available");
             }
-        } catch (error) {
-            console.error("Company lookup error:", error);
+
+            form.setValue("company", data.denumire);
+            form.setValue("address", data.adresa || "");
+            form.setValue("county", data.judet || "");
+            form.setValue("phone", data.telefon || "");
+
             toast({
-                variant: "destructive",
-                title: "Lookup Error",
-                description: "Failed to lookup company details. Please try again or enter manually.",
+                title: "Success",
+                description:
+                    "Company information has been automatically filled.",
             });
+        } catch (error: any) {
+            handleApiError(error);
         } finally {
             setIsLookingUp(false);
         }
     };
-
     const sendEmail = async (data: FormData) => {
         try {
             const result = await emailjs.send(
@@ -205,13 +228,15 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 {
                     to_name: "Salut Enterprise Team",
                     company: data.company,
-                    industry: INDUSTRIES.find(ind => ind.value === data.industry)?.label || data.industry,
+                    industry:
+                        INDUSTRIES.find((ind) => ind.value === data.industry)
+                            ?.label || data.industry,
                     email: data.email,
                     phone: data.phone || "N/A",
                     address: data.address || "N/A",
                     county: data.county || "N/A",
                     cui: data.cui || "N/A",
-                    admin_name: data.adminName
+                    admin_name: data.adminName,
                 },
             );
 
@@ -224,7 +249,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             toast({
                 variant: "warning",
                 title: "Notification Warning",
-                description: "Could not send email notification, but your company was created successfully.",
+                description:
+                    "Could not send email notification, but your company was created successfully.",
             });
         }
     };
@@ -255,22 +281,24 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             console.log("Submitting company data:", {
                 ...companyData,
                 email: "***",
-                adminPassword: "***"
+                adminPassword: "***",
             });
 
             // Create company in Odoo
-            const odooResponse = await fetch('/api/odoo/create-company', {
-                method: 'POST',
+            const odooResponse = await fetch("/api/odoo/create-company", {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify(companyData)
+                body: JSON.stringify(companyData),
             });
 
             const responseData = await odooResponse.json();
 
             if (!odooResponse.ok) {
-                throw new Error(responseData.message || 'Failed to create company in Odoo');
+                throw new Error(
+                    responseData.message || "Failed to create company in Odoo",
+                );
             }
 
             // Send email notification
@@ -278,7 +306,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
             toast({
                 title: "Success",
-                description: "Your company has been created successfully. Redirecting to your dashboard...",
+                description:
+                    "Your company has been created successfully. Redirecting to your dashboard...",
             });
 
             setStep("COMPLETED");
@@ -292,24 +321,27 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                     toast({
                         variant: "destructive",
                         title: "Configuration Error",
-                        description: "Could not redirect to dashboard. Please contact support.",
+                        description:
+                            "Could not redirect to dashboard. Please contact support.",
                     });
                 }
             }, 2000);
-
         } catch (error: any) {
             console.error("Submission error:", error);
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: error.message || "Failed to process your request. Please try again later.",
+                description:
+                    error.message ||
+                    "Failed to process your request. Please try again later.",
             });
 
             // Reset form state if needed
             if (error.message?.includes("company name already exists")) {
                 form.setError("company", {
                     type: "manual",
-                    message: "This company name is already taken. Please choose a different name.",
+                    message:
+                        "This company name is already taken. Please choose a different name.",
                 });
             }
         } finally {
@@ -323,7 +355,13 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         const currentFields = {
             SELECT_INDUSTRY: ["industry"],
             COMPANY_DETAILS: ["company", "cui"],
-            ADMIN_SETUP: ["adminName", "email", "confirmEmail", "adminPassword", "confirmPassword"],
+            ADMIN_SETUP: [
+                "adminName",
+                "email",
+                "confirmEmail",
+                "adminPassword",
+                "confirmPassword",
+            ],
         }[step];
 
         return currentFields.every((field) => {
@@ -385,10 +423,14 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                     {STEPS[step]}
                                 </DialogDescription>
                                 <div className="space-y-2">
-                                    <Progress value={progress} className="h-2" />
+                                    <Progress
+                                        value={progress}
+                                        className="h-2"
+                                    />
                                     <p className="text-xs md:text-sm text-muted-foreground">
-                                        Step {Object.keys(STEPS).indexOf(step) + 1} of{" "}
-                                        {Object.keys(STEPS).length}
+                                        Step{" "}
+                                        {Object.keys(STEPS).indexOf(step) + 1}{" "}
+                                        of {Object.keys(STEPS).length}
                                     </p>
                                 </div>
                             </>
@@ -405,38 +447,59 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                             Thank You for Choosing Salut Enterprise!
                         </h3>
                         <p className="text-sm md:text-base text-muted-foreground max-w-md mx-auto">
-                            Your company has been created successfully. You will be redirected to your dashboard momentarily...
+                            Your company has been created successfully. You will
+                            be redirected to your dashboard momentarily...
                         </p>
                     </div>
                 ) : (
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-4 md:space-y-6"
+                        >
                             {step === "SELECT_INDUSTRY" && (
                                 <FormField
                                     control={form.control}
                                     name="industry"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Select Your Industry</FormLabel>
+                                            <FormLabel>
+                                                Select Your Industry
+                                            </FormLabel>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                                                 {INDUSTRIES.map(
-                                                    ({ value, label, icon: Icon, description }) => (
+                                                    ({
+                                                        value,
+                                                        label,
+                                                        icon: Icon,
+                                                        description,
+                                                    }) => (
                                                         <div
                                                             key={value}
-                                                            className={`p-3 md:p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${field.value === value
-                                                                ? "border-primary bg-primary/5"
-                                                                : "border-border hover:border-primary/50"
-                                                                }`}
-                                                            onClick={() => field.onChange(value)}
+                                                            className={`p-3 md:p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+                                                                field.value ===
+                                                                value
+                                                                    ? "border-primary bg-primary/5"
+                                                                    : "border-border hover:border-primary/50"
+                                                            }`}
+                                                            onClick={() =>
+                                                                field.onChange(
+                                                                    value,
+                                                                )
+                                                            }
                                                         >
                                                             <div className="flex items-center gap-3">
                                                                 <div className="p-2 rounded-md bg-primary/10">
                                                                     <Icon className="w-4 h-4 md:w-5 md:h-5 text-primary" />
                                                                 </div>
                                                                 <div>
-                                                                    <div className="text-sm md:text-base font-medium">{label}</div>
+                                                                    <div className="text-sm md:text-base font-medium">
+                                                                        {label}
+                                                                    </div>
                                                                     <div className="text-xs md:text-sm text-muted-foreground">
-                                                                        {description}
+                                                                        {
+                                                                            description
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -457,7 +520,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                         name="cui"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>CUI Number</FormLabel>
+                                                <FormLabel>
+                                                    CUI Number
+                                                </FormLabel>
                                                 <div className="flex gap-2">
                                                     <FormControl>
                                                         <div className="relative flex-1">
@@ -473,8 +538,15 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                     <Button
                                                         type="button"
                                                         variant="outline"
-                                                        onClick={() => lookupCompany(field.value)}
-                                                        disabled={isLookingUp || !field.value}
+                                                        onClick={() =>
+                                                            lookupCompany(
+                                                                field.value,
+                                                            )
+                                                        }
+                                                        disabled={
+                                                            isLookingUp ||
+                                                            !field.value
+                                                        }
                                                         className="min-w-[100px] md:min-w-[120px] bg-primary/5 hover:bg-primary/10 border-primary/20 hover:border-primary/30"
                                                     >
                                                         {isLookingUp ? (
@@ -482,7 +554,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                         ) : (
                                                             <>
                                                                 <Search className="mr-2 h-4 w-4" />
-                                                                <span className="hidden sm:inline">Lookup</span> Info
+                                                                <span className="hidden sm:inline">
+                                                                    Lookup
+                                                                </span>{" "}
+                                                                Info
                                                             </>
                                                         )}
                                                     </Button>
@@ -497,7 +572,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                         name="company"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Company Name</FormLabel>
+                                                <FormLabel>
+                                                    Company Name
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="Company Name"
@@ -516,7 +593,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                             name="address"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Address</FormLabel>
+                                                    <FormLabel>
+                                                        Address
+                                                    </FormLabel>
                                                     <FormControl>
                                                         <Input
                                                             placeholder="Company Address"
@@ -534,7 +613,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                             name="county"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>County</FormLabel>
+                                                    <FormLabel>
+                                                        County
+                                                    </FormLabel>
                                                     <FormControl>
                                                         <Input
                                                             placeholder="County"
@@ -553,7 +634,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                         name="phone"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Phone Number</FormLabel>
+                                                <FormLabel>
+                                                    Phone Number
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="Phone Number"
@@ -575,7 +658,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                         name="adminName"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Admin Name</FormLabel>
+                                                <FormLabel>
+                                                    Admin Name
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         placeholder="Full Name"
@@ -593,7 +678,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                         name="email"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Email Address</FormLabel>
+                                                <FormLabel>
+                                                    Email Address
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="email"
@@ -612,7 +699,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                         name="confirmEmail"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Confirm Email</FormLabel>
+                                                <FormLabel>
+                                                    Confirm Email
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="email"
@@ -650,7 +739,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                         name="confirmPassword"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Confirm Password</FormLabel>
+                                                <FormLabel>
+                                                    Confirm Password
+                                                </FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         type="password"
@@ -673,10 +764,14 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                             type="button"
                                             variant="outline"
                                             onClick={goToPreviousStep}
-                                            disabled={step === "SELECT_INDUSTRY" || isLoading}
+                                            disabled={
+                                                step === "SELECT_INDUSTRY" ||
+                                                isLoading
+                                            }
                                             className="text-sm md:text-base"
                                         >
-                                            <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                                            <ArrowLeft className="mr-2 h-4 w-4" />{" "}
+                                            Back
                                         </Button>
 
                                         {step !== "ADMIN_SETUP" ? (
@@ -686,7 +781,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                 disabled={isLoading}
                                                 className="text-sm md:text-base"
                                             >
-                                                Next <ArrowRight className="ml-2 h-4 w-4" />
+                                                Next{" "}
+                                                <ArrowRight className="ml-2 h-4 w-4" />
                                             </Button>
                                         ) : (
                                             <Button
