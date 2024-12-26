@@ -12,6 +12,7 @@ import {
     FormField,
     FormItem,
     FormLabel,
+    FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -40,12 +41,20 @@ const formSchema = z.object({
     industry: z.string(),
     company: z.string(),
     cui: z.string(),
-    email: z.string().email(),
     address: z.string().optional(),
     county: z.string().optional(),
     phone: z.string().optional(),
     adminName: z.string().min(1, "Admin name is required"),
+    email: z.string().email("Invalid email address"),
+    confirmEmail: z.string().email("Invalid email address"),
     adminPassword: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string(),
+}).refine((data) => data.email === data.confirmEmail, {
+    message: "Emails do not match",
+    path: ["confirmEmail"],
+}).refine((data) => data.adminPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -89,11 +98,12 @@ const INDUSTRIES = [
     },
 ];
 
-type StepType = "SELECT_INDUSTRY" | "COMPANY_DETAILS" | "COMPLETED";
+type StepType = "SELECT_INDUSTRY" | "COMPANY_DETAILS" | "ADMIN_SETUP" | "COMPLETED";
 
 const STEPS: Record<StepType, string> = {
     SELECT_INDUSTRY: "Select Your Industry",
-    COMPANY_DETAILS: "Company & Admin Details",
+    COMPANY_DETAILS: "Company Details",
+    ADMIN_SETUP: "Admin Account Setup",
     COMPLETED: "Request Submitted",
 };
 
@@ -122,12 +132,14 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             industry: "",
             company: "",
             cui: "",
-            email: "",
             address: "",
             county: "",
             phone: "",
             adminName: "",
+            email: "",
+            confirmEmail: "",
             adminPassword: "",
+            confirmPassword: "",
         },
     });
 
@@ -189,8 +201,14 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    ...data,
-                    adminLogin: data.email, // Use email as login
+                    name: data.company,
+                    email: data.email,
+                    phone: data.phone,
+                    street: data.address,
+                    city: data.county,
+                    adminName: data.adminName,
+                    adminLogin: data.email,
+                    adminPassword: data.adminPassword,
                 })
             });
 
@@ -213,8 +231,17 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
             // Redirect to Odoo login page after a short delay
             setTimeout(() => {
-                const odooUrl = import.meta.env.VITE_ODOO_URL;
-                window.location.href = `${odooUrl}/web/login?login=${encodeURIComponent(data.email)}&redirect=/web`;
+                const odooUrl = process.env.ODOO_URL || import.meta.env.VITE_ODOO_URL;
+                if (!odooUrl) {
+                    console.error("Odoo URL not configured");
+                    return;
+                }
+                const loginUrl = `${odooUrl}/web/login`;
+                const params = new URLSearchParams({
+                    login: data.email,
+                    redirect: '/web'
+                });
+                window.location.href = `${loginUrl}?${params.toString()}`;
             }, 2000);
 
         } catch (error: any) {
@@ -234,7 +261,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
         const currentFields = {
             SELECT_INDUSTRY: ["industry"],
-            COMPANY_DETAILS: ["company", "email", "cui", "adminName", "adminPassword"],
+            COMPANY_DETAILS: ["company", "cui"],
+            ADMIN_SETUP: ["adminName", "email", "confirmEmail", "adminPassword", "confirmPassword"],
         }[step];
 
         return currentFields.every((field) => {
@@ -247,6 +275,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         const stepValues: StepType[] = [
             "SELECT_INDUSTRY",
             "COMPANY_DETAILS",
+            "ADMIN_SETUP",
             "COMPLETED",
         ];
         const currentIndex = stepValues.indexOf(step);
@@ -258,6 +287,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             const stepOrder: StepType[] = [
                 "SELECT_INDUSTRY",
                 "COMPANY_DETAILS",
+                "ADMIN_SETUP",
                 "COMPLETED",
             ];
             const currentIndex = stepOrder.indexOf(step);
@@ -271,6 +301,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         const stepOrder: StepType[] = [
             "SELECT_INDUSTRY",
             "COMPANY_DETAILS",
+            "ADMIN_SETUP",
             "COMPLETED",
         ];
         const currentIndex = stepOrder.indexOf(step);
@@ -296,7 +327,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                     <Progress value={progress} className="h-2" />
                                     <p className="text-xs md:text-sm text-muted-foreground">
                                         Step {Object.keys(STEPS).indexOf(step) + 1} of{" "}
-                                        {Object.keys(STEPS).length - 1}
+                                        {Object.keys(STEPS).length}
                                     </p>
                                 </div>
                             </>
@@ -352,6 +383,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                     ),
                                                 )}
                                             </div>
+                                            <FormMessage />
                                         </FormItem>
                                     )}
                                 />
@@ -394,6 +426,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                         )}
                                                     </Button>
                                                 </div>
+                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
@@ -411,24 +444,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                         {...field}
                                                     />
                                                 </FormControl>
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="email"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Business Email</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        type="email"
-                                                        placeholder="contact@company.com"
-                                                        className="text-sm md:text-base"
-                                                        {...field}
-                                                    />
-                                                </FormControl>
+                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
@@ -447,6 +463,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                             {...field}
                                                         />
                                                     </FormControl>
+                                                    <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
@@ -464,6 +481,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                             {...field}
                                                         />
                                                     </FormControl>
+                                                    <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
@@ -482,49 +500,108 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                         {...field}
                                                     />
                                                 </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            )}
+
+                            {step === "ADMIN_SETUP" && (
+                                <div className="space-y-4">
+                                    <FormField
+                                        control={form.control}
+                                        name="adminName"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Admin Name</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        placeholder="Full Name"
+                                                        className="text-sm md:text-base"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
                                             </FormItem>
                                         )}
                                     />
 
-                                    <div className="border-t pt-4 mt-4">
-                                        <h4 className="text-sm font-medium mb-3">Admin Account Details</h4>
-                                        <div className="space-y-4">
-                                            <FormField
-                                                control={form.control}
-                                                name="adminName"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Admin Name</FormLabel>
-                                                        <FormControl>
-                                                            <Input
-                                                                placeholder="Full Name"
-                                                                className="text-sm md:text-base"
-                                                                {...field}
-                                                            />
-                                                        </FormControl>
-                                                    </FormItem>
-                                                )}
-                                            />
+                                    <FormField
+                                        control={form.control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Email Address</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="email"
+                                                        placeholder="your.email@company.com"
+                                                        className="text-sm md:text-base"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
 
-                                            <FormField
-                                                control={form.control}
-                                                name="adminPassword"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>Admin Password</FormLabel>
-                                                        <FormControl>
-                                                            <Input
-                                                                type="password"
-                                                                placeholder="Minimum 6 characters"
-                                                                className="text-sm md:text-base"
-                                                                {...field}
-                                                            />
-                                                        </FormControl>
-                                                    </FormItem>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
+                                    <FormField
+                                        control={form.control}
+                                        name="confirmEmail"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Confirm Email</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="email"
+                                                        placeholder="Confirm your email"
+                                                        className="text-sm md:text-base"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="adminPassword"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Password</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="password"
+                                                        placeholder="Minimum 6 characters"
+                                                        className="text-sm md:text-base"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+
+                                    <FormField
+                                        control={form.control}
+                                        name="confirmPassword"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Confirm Password</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="password"
+                                                        placeholder="Confirm your password"
+                                                        className="text-sm md:text-base"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
                                 </div>
                             )}
 
@@ -541,7 +618,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                             <ArrowLeft className="mr-2 h-4 w-4" /> Back
                                         </Button>
 
-                                        {step !== "COMPANY_DETAILS" ? (
+                                        {step !== "ADMIN_SETUP" ? (
                                             <Button
                                                 type="button"
                                                 onClick={goToNextStep}
