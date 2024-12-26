@@ -264,20 +264,32 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
             setStep("COMPLETED");
 
-            // Redirect to Odoo dashboard after a short delay
-            setTimeout(() => {
-                if (responseData.redirectUrl) {
+            // Extract the redirect URL from the response
+            if (responseData.data?.redirectUrl) {
+                setTimeout(() => {
+                    window.location.href = responseData.data.redirectUrl;
+                }, 2000);
+            } else if (responseData.redirectUrl) {
+                setTimeout(() => {
                     window.location.href = responseData.redirectUrl;
+                }, 2000);
+            } else {
+                // Construct fallback URL using environment variable
+                const odooUrl = import.meta.env.VITE_ODOO_URL?.replace(/\/+$/, '');
+                if (odooUrl) {
+                    const fallbackUrl = `${odooUrl}/web/login?login=${encodeURIComponent(data.email)}&redirect=/web`;
+                    setTimeout(() => {
+                        window.location.href = fallbackUrl;
+                    }, 2000);
                 } else {
-                    console.error("Redirect URL not provided");
+                    console.error("No redirect URL available");
                     toast({
                         variant: "destructive",
-                        title: "Configuration Error",
-                        description: "Could not redirect to dashboard. Please contact support.",
+                        title: "Redirect Error",
+                        description: "Could not redirect to dashboard. Please try logging in manually.",
                     });
                 }
-            }, 2000);
-
+            }
         } catch (error: any) {
             console.error('Submission error:', error);
             toast({
