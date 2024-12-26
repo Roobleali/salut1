@@ -31,29 +31,28 @@ export class OdooService {
       password: process.env.ODOO_PASSWORD || ''
     };
 
-    // Initialize XML-RPC clients with proper paths and options
-    const clientOptions = {
+    console.log('Initializing Odoo service with URL:', this.config.url);
+    console.log('Database:', this.config.db);
+    console.log('Username:', this.config.username);
+
+    // Initialize XML-RPC clients with proper paths
+    this.commonClient = xmlrpc.createClient({
+      url: `${this.config.url}/xmlrpc/2/common`,
       headers: {
         'User-Agent': 'Salut-Enterprise/1.0',
-        'Accept': 'text/xml',
         'Content-Type': 'text/xml',
-        'Connection': 'keep-alive'
       },
-      rejectUnauthorized: false, // Only for development/testing
-      timeout: 30000
-    };
-
-    this.commonClient = xmlrpc.createClient({ 
-      ...clientOptions,
-      url: `${this.config.url}/xmlrpc/2/common` 
+      rejectUnauthorized: false
     });
 
-    this.objectClient = xmlrpc.createClient({ 
-      ...clientOptions,
-      url: `${this.config.url}/xmlrpc/2/object` 
+    this.objectClient = xmlrpc.createClient({
+      url: `${this.config.url}/xmlrpc/2/object`,
+      headers: {
+        'User-Agent': 'Salut-Enterprise/1.0',
+        'Content-Type': 'text/xml',
+      },
+      rejectUnauthorized: false
     });
-
-    console.log('Initialized Odoo service with URL:', this.config.url);
   }
 
   private validateConfig() {
@@ -71,37 +70,42 @@ export class OdooService {
   private async authenticate(): Promise<number> {
     this.validateConfig();
     console.log('Attempting to authenticate with Odoo...');
+    console.log('Using database:', this.config.db);
+    console.log('Username:', this.config.username);
 
     return new Promise((resolve, reject) => {
-      this.commonClient.methodCall(
-        'authenticate',
-        [this.config.db, this.config.username, this.config.password, {}],
-        (err: any, uid: number) => {
-          if (err) {
-            console.error('Odoo authentication error:', err);
-
-            // Check for specific error types and provide clear messages
-            if (err.code === 'ECONNREFUSED') {
-              reject(new Error('Could not connect to Odoo server. Please check if the server is running and accessible.'));
-            } else if (err.code === 'ETIMEDOUT') {
-              reject(new Error('Connection to Odoo server timed out. Please check your network connection.'));
-            } else if (err.message.includes('TITLE')) {
-              reject(new Error('Invalid XML-RPC response. Please verify the Odoo server URL and ensure it supports XML-RPC.'));
-            } else {
-              reject(new Error(`Failed to authenticate with Odoo: ${err.message}`));
-            }
-            return;
-          }
-
-          if (!uid) {
-            reject(new Error('Invalid credentials or user not found'));
-            return;
-          }
-
-          console.log('Successfully authenticated with Odoo, UID:', uid);
-          resolve(uid);
+      // First, test the connection
+      this.commonClient.methodCall('version', [], (err: any, version: any) => {
+        if (err) {
+          console.error('Failed to get Odoo version:', err);
+          reject(new Error('Could not connect to Odoo server'));
+          return;
         }
-      );
+
+        console.log('Successfully connected to Odoo. Version:', version);
+
+        // Now attempt authentication
+        this.commonClient.methodCall(
+          'authenticate',
+          [this.config.db, this.config.username, this.config.password, {}],
+          (authErr: any, uid: number) => {
+            if (authErr) {
+              console.error('Authentication error:', authErr);
+              reject(new Error(`Authentication failed: ${authErr.message}`));
+              return;
+            }
+
+            if (!uid) {
+              console.error('Authentication failed: Invalid credentials');
+              reject(new Error('Invalid credentials or user not found'));
+              return;
+            }
+
+            console.log('Successfully authenticated with Odoo. UID:', uid);
+            resolve(uid);
+          }
+        );
+      });
     });
   }
 
@@ -115,13 +119,7 @@ export class OdooService {
         (err: any, result: any) => {
           if (err) {
             console.error(`Odoo execute error for ${model}.${method}:`, err);
-
-            // Handle specific error cases
-            if (err.message.includes('TITLE')) {
-              reject(new Error('Invalid XML-RPC response. Please verify the Odoo server URL and ensure it supports XML-RPC.'));
-            } else {
-              reject(new Error(`Failed to execute Odoo operation ${model}.${method}: ${err.message}`));
-            }
+            reject(new Error(`Failed to execute Odoo operation: ${err.message}`));
             return;
           }
 
@@ -130,6 +128,16 @@ export class OdooService {
         }
       );
     });
+  }
+
+  public async testConnection(): Promise<boolean> {
+    try {
+      await this.authenticate();
+      return true;
+    } catch (error) {
+      console.error('Connection test failed:', error);
+      return false;
+    }
   }
 
   public async createCompany(companyData: {
