@@ -162,6 +162,21 @@ export class OdooService {
     return result[1];
   }
 
+  private async checkCompanyExists(uid: number, name: string): Promise<boolean> {
+    try {
+      const count = await this.executeKw(
+        uid,
+        'res.company',
+        'search_count',
+        [[['name', '=', name]]]
+      );
+      return count > 0;
+    } catch (error) {
+      console.error('Error checking company existence:', error);
+      throw error;
+    }
+  }
+
   public async createCompany(companyData: {
     name: string;
     email: string;
@@ -176,6 +191,12 @@ export class OdooService {
     try {
       console.log('Creating company with data:', { ...companyData, email: '***', adminLogin: '***', adminPassword: '***' });
       const uid = await this.authenticate();
+
+      // Check if company name already exists
+      const companyExists = await this.checkCompanyExists(uid, companyData.name);
+      if (companyExists) {
+        throw new Error(`A company with the name "${companyData.name}" already exists. Please choose a different name.`);
+      }
 
       // First create res.partner record for the company
       const partnerData = {
@@ -246,9 +267,23 @@ export class OdooService {
       console.log('Partner updated with user reference');
 
       return { companyId, userId };
-    } catch (error) {
+    } catch (error: any) {
       console.error('Odoo integration error:', error);
-      throw error;
+
+      // Format error message for UI display
+      let errorMessage = 'Failed to create company. ';
+      if (error.faultString) {
+        // Handle XML-RPC fault errors
+        if (error.faultString.includes('The company name must be unique')) {
+          errorMessage = 'A company with this name already exists. Please choose a different name.';
+        } else {
+          errorMessage += error.faultString;
+        }
+      } else {
+        errorMessage += error.message || 'An unexpected error occurred.';
+      }
+
+      throw new Error(errorMessage);
     }
   }
   public async createUser(userData: {
