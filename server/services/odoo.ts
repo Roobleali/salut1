@@ -158,34 +158,23 @@ export class OdooService {
     street?: string;
     city?: string;
     vat?: string;
-  }): Promise<{ companyId: number }> {
+    adminName: string;
+    adminLogin: string;
+    adminPassword: string;
+  }): Promise<{ companyId: number; userId: number }> {
     try {
-      console.log('Creating company with data:', { ...companyData, email: '***' });
+      console.log('Creating company with data:', { ...companyData, email: '***', adminLogin: '***', adminPassword: '***' });
       const uid = await this.authenticate();
 
-      // First create res.company record
-      const companyId = await this.executeKw(
-        uid,
-        'res.company',
-        'create',
-        [{
-          name: companyData.name,
-        }]
-      );
-
-      console.log('Company created successfully with ID:', companyId);
-
-      // Then create/update res.partner record
+      // First create res.partner record for the company
       const partnerData = {
         name: companyData.name,
         email: companyData.email,
         phone: companyData.phone,
         street: companyData.street,
         city: companyData.city,
-        vat: companyData.vat,
         is_company: true,
         company_type: 'company',
-        company_id: companyId,
       };
 
       const partnerId = await this.executeKw(
@@ -195,25 +184,65 @@ export class OdooService {
         [partnerData]
       );
 
-      console.log('Created res.partner record with ID:', partnerId);
+      console.log('Created company partner with ID:', partnerId);
 
-      // Update the company's partner_id
-      await this.executeKw(
+      // Create the company with the partner reference
+      const companyId = await this.executeKw(
         uid,
         'res.company',
-        'write',
-        [[companyId], { partner_id: partnerId }]
+        'create',
+        [{
+          name: companyData.name,
+          partner_id: partnerId,
+        }]
       );
 
-      console.log('Updated company partner reference');
+      console.log('Company created successfully with ID:', companyId);
 
-      return { companyId };
+      // Get Portal User group ID
+      const [portalGroupId] = await this.executeKw(
+        uid,
+        'ir.model.data',
+        'check_object_reference',
+        ['base', 'group_portal']
+      );
+
+      // Create user with proper access rights
+      const userCreateData = {
+        name: companyData.adminName,
+        login: companyData.adminLogin,
+        password: companyData.adminPassword,
+        company_id: companyId,
+        company_ids: [[6, 0, [companyId]]], // Set allowed companies
+        groups_id: [[6, 0, [portalGroupId]]], // Set as portal user
+        partner_id: partnerId,
+      };
+
+      const userId = await this.executeKw(
+        uid,
+        'res.users',
+        'create',
+        [userCreateData]
+      );
+
+      console.log('User created successfully with ID:', userId);
+
+      // Update partner record with the new user
+      await this.executeKw(
+        uid,
+        'res.partner',
+        'write',
+        [[partnerId], { user_id: userId }]
+      );
+
+      console.log('Partner updated with user reference');
+
+      return { companyId, userId };
     } catch (error) {
-      console.error('Odoo company creation error:', error);
+      console.error('Odoo integration error:', error);
       throw error;
     }
   }
-
   public async createUser(userData: {
     name: string;
     login: string;
