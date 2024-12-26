@@ -1,0 +1,82 @@
+Odoo integration error: Error: XML-RPC fault: Traceback (most recent call last):
+  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 147, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 127, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/odoo/odoo-server/odoo/http.py", line 391, in dispatch_rpc
+    return dispatch(method, params)
+  File "/odoo/odoo-server/odoo/service/model.py", line 37, in dispatch
+    res = execute_kw(db, uid, *params[3:])
+  File "/odoo/odoo-server/odoo/service/model.py", line 59, in execute_kw
+    return execute(db, uid, obj, method, *args, **kw or {})
+  File "/odoo/odoo-server/odoo/service/model.py", line 65, in execute
+    res = execute_cr(cr, uid, obj, method, *args, **kw)
+  File "/odoo/odoo-server/odoo/service/model.py", line 50, in execute_cr
+    result = retrying(partial(odoo.api.call_kw, recs, method, args, kw), env)
+  File "/odoo/odoo-server/odoo/service/model.py", line 133, in retrying
+    result = func()
+  File "/odoo/odoo-server/odoo/api.py", line 461, in call_kw
+    raise AttributeError(f"The method '{name}' does not exist on the model '{model._name}'")
+AttributeError: The method 'get_object_reference' does not exist on the model 'ir.model.data'
+
+    at createFault (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:83:21)
+    at Deserializer.onDone (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:89:21)
+    at SAXStream.emit (node:events:518:28)
+    at SAXStream._parser.onend (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:190:10)
+    at emit (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:624:35)
+    at end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:667:5)
+    at SAXParser.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:154:24)
+    at SAXStream.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:248:18)
+    at IncomingMessage.onend (node:internal/streams/readable:948:10)
+    at Object.onceWrapper (node:events:632:28)
+    at IncomingMessage.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 1,
+  faultCode: 1,
+  faultString: 'Traceback (most recent call last):\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 147, in xmlrpc_2\n' +
+    '    response = self._xmlrpc(service)\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 127, in _xmlrpc\n' +
+    '    result = dispatch_rpc(service, method, params)\n' +
+    '  File "/odoo/odoo-server/odoo/http.py", line 391, in dispatch_rpc\n' +
+    '    return dispatch(method, params)\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 37, in dispatch\n' +
+    '    res = execute_kw(db, uid, *params[3:])\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 59, in execute_kw\n' +
+    '    return execute(db, uid, obj, method, *args, **kw or {})\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 65, in execute\n' +
+    '    res = execute_cr(cr, uid, obj, method, *args, **kw)\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 50, in execute_cr\n' +
+    '    result = retrying(partial(odoo.api.call_kw, recs, method, args, kw), env)\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 133, in retrying\n' +
+    '    result = func()\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 461, in call_kw\n' +
+    `    raise AttributeError(f"The method '{name}' does not exist on the model '{model._name}'")\n` +
+    "AttributeError: The method 'get_object_reference' does not exist on the model 'ir.model.data'\n"
+}
+Odoo integration error: Error: Failed to create company. Traceback (most recent call last):
+  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 147, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 127, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/odoo/odoo-server/odoo/http.py", line 391, in dispatch_rpc
+    return dispatch(method, params)
+  File "/odoo/odoo-server/odoo/service/model.py", line 37, in dispatch
+    res = execute_kw(db, uid, *params[3:])
+  File "/odoo/odoo-server/odoo/service/model.py", line 59, in execute_kw
+    return execute(db, uid, obj, method, *args, **kw or {})
+  File "/odoo/odoo-server/odoo/service/model.py", line 65, in execute
+    res = execute_cr(cr, uid, obj, method, *args, **kw)
+  File "/odoo/odoo-server/odoo/service/model.py", line 50, in execute_cr
+    result = retrying(partial(odoo.api.call_kw, recs, method, args, kw), env)
+  File "/odoo/odoo-server/odoo/service/model.py", line 133, in retrying
+    result = func()
+  File "/odoo/odoo-server/odoo/api.py", line 461, in call_kw
+    raise AttributeError(f"The method '{name}' does not exist on the model '{model._name}'")
+AttributeError: The method 'get_object_reference' does not exist on the model 'ir.model.data'
+
+    at OdooService.createCompany (/home/runner/New-Repl-1/server/services/odoo.ts:336:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/New-Repl-1/server/routes.ts:194:22)
+12:27:56 PM [express] POST /api/odoo/create-company 500 in 3700ms :: {"success":false,"message":"Fail…

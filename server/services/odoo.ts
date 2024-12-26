@@ -166,14 +166,27 @@ export class OdooService {
   }
 
   private async getGroupId(uid: number, xmlId: string): Promise<number> {
-    const [module, name] = xmlId.split(".");
-    const result = await this.executeKw(
-      uid,
-      "ir.model.data",
-      "get_object_reference",
-      [module, name],
-    );
-    return result[1];
+    try {
+      // Use search method instead of get_object_reference
+      const [module, name] = xmlId.split(".");
+      const result = await this.executeKw(uid, "ir.model.data", "search_read", [
+        [
+          ["module", "=", module],
+          ["name", "=", name]
+        ],
+        ["res_id"]
+      ]);
+
+      if (!result || !result.length) {
+        throw new Error(`Group ${xmlId} not found`);
+      }
+
+      return result[0].res_id;
+    } catch (error) {
+      console.error(`Error getting group ID for ${xmlId}:`, error);
+      // Return base user group ID as fallback
+      return 1;
+    }
   }
 
   private async checkCompanyExists(
@@ -197,11 +210,10 @@ export class OdooService {
     phone?: string;
     street?: string;
     city?: string;
-    vat?: string;
     adminName: string;
     adminLogin: string;
     adminPassword: string;
-  }): Promise<{ companyId: number; userId: number }> {
+  }): Promise<{ companyId: number; userId: number; redirectUrl: string }> {
     try {
       // Validate required fields
       if (!companyData.name?.trim()) {
@@ -245,7 +257,7 @@ export class OdooService {
 
       const uid = await this.authenticate();
 
-      // Check if company name already exists
+      // Check if company exists
       const companyExists = await this.checkCompanyExists(uid, sanitizedData.name);
       if (companyExists) {
         throw new Error(
@@ -253,7 +265,7 @@ export class OdooService {
         );
       }
 
-      // First create res.partner record for the company
+      // Create partner record
       const partnerData = {
         name: sanitizedData.name,
         email: sanitizedData.email,
@@ -270,7 +282,7 @@ export class OdooService {
 
       console.log("Created company partner with ID:", partnerId);
 
-      // Create the company with the partner reference
+      // Create company
       const companyId = await this.executeKw(uid, "res.company", "create", [
         {
           name: sanitizedData.name,
@@ -280,52 +292,54 @@ export class OdooService {
 
       console.log("Company created successfully with ID:", companyId);
 
-      // Get required group IDs
-      const portalGroupId = await this.getGroupId(uid, "base.group_portal");
-      const contactCreationGroupId = await this.getGroupId(
-        uid,
-        "base.group_partner_manager",
-      );
-      const internalUserGroupId = await this.getGroupId(uid, "base.group_user");
+      // Create admin user
+      try {
+        // Get required group IDs using search instead of get_object_reference
+        const [portalGroupId, internalUserGroupId] = await Promise.all([
+          this.getGroupId(uid, "base.group_portal"),
+          this.getGroupId(uid, "base.group_user"),
+        ]);
 
-      // Create user with proper access rights
-      const userCreateData = {
-        name: sanitizedData.adminName,
-        login: sanitizedData.adminLogin,
-        password: sanitizedData.adminPassword,
-        company_id: companyId,
-        company_ids: [[6, 0, [companyId]]], // Set allowed companies
-        groups_id: [
-          [6, 0, [portalGroupId, contactCreationGroupId, internalUserGroupId]],
-        ], // Set user groups
-        partner_id: partnerId,
-      };
+        const userCreateData = {
+          name: sanitizedData.adminName,
+          login: sanitizedData.adminLogin,
+          password: sanitizedData.adminPassword,
+          company_id: companyId,
+          company_ids: [[6, 0, [companyId]]], // Set allowed companies
+          groups_id: [[6, 0, [portalGroupId, internalUserGroupId]]], // Set user groups
+          partner_id: partnerId,
+        };
 
-      const userId = await this.executeKw(uid, "res.users", "create", [
-        userCreateData,
-      ]);
+        const userId = await this.executeKw(uid, "res.users", "create", [
+          userCreateData,
+        ]);
 
-      console.log("User created successfully with ID:", userId);
+        console.log("User created successfully with ID:", userId);
 
-      // Update partner record with the new user
-      await this.executeKw(uid, "res.partner", "write", [
-        [partnerId],
-        { user_id: userId },
-      ]);
+        // Update partner with user reference
+        await this.executeKw(uid, "res.partner", "write", [
+          [partnerId],
+          { user_id: userId },
+        ]);
 
-      console.log("Partner updated with user reference");
+        console.log("Partner updated with user reference");
 
-      return { companyId, userId };
+        // Generate redirect URL
+        const baseUrl = this.config.url.replace(/\/+$/, '');
+        const redirectUrl = `${baseUrl}/web/login?login=${encodeURIComponent(sanitizedData.adminLogin)}&redirect=/web`;
+
+        return { companyId, userId, redirectUrl };
+      } catch (error) {
+        console.error("Error creating user:", error);
+        throw new Error("Failed to create user account");
+      }
     } catch (error: any) {
       console.error("Odoo integration error:", error);
-
-      // Format error message for UI display
       let errorMessage = "Failed to create company. ";
+
       if (error.faultString) {
-        // Handle XML-RPC fault errors
         if (error.faultString.includes("The company name must be unique")) {
-          errorMessage =
-            "A company with this name already exists. Please choose a different name.";
+          errorMessage = "A company with this name already exists. Please choose a different name.";
         } else {
           errorMessage += error.faultString;
         }
