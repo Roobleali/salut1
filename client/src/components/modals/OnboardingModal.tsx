@@ -248,7 +248,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 street: data.address || undefined,
                 city: data.county || undefined,
                 adminName: data.adminName,
-                adminLogin: data.email,
+                adminLogin: data.email, // Use email as login
                 adminPassword: data.adminPassword,
             };
 
