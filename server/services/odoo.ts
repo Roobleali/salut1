@@ -1,5 +1,4 @@
 import xmlrpc from "xmlrpc";
-import crypto from "crypto";
 
 interface OdooConfig {
   url: string;
@@ -46,8 +45,8 @@ export class OdooService {
         "X-Forwarded-Port": "8069",
       },
       cookies: true,
-      timeout: 60000,
-      rejectUnauthorized: false,
+      timeout: 60000, 
+      rejectUnauthorized: false, 
     };
 
     const xmlrpcPath = "/xmlrpc/2";
@@ -182,26 +181,6 @@ export class OdooService {
     }
   }
 
-  private async createLoginToken(uid: number, userId: number): Promise<string> {
-    try {
-      const token = crypto.randomBytes(32).toString('hex');
-      const now = new Date();
-      const expiryDate = new Date(now.getTime() + 30 * 60000); // 30 minutes
-
-      await this.executeKw(uid, "res.users.api.key", "create", [{
-        name: "Initial Login Token",
-        user_id: userId,
-        key: token,
-        expiration_date: expiryDate.toISOString(),
-      }]);
-
-      return token;
-    } catch (error) {
-      console.error("Error creating login token:", error);
-      throw error;
-    }
-  }
-
   private async checkCompanyExists(
     uid: number,
     name: string,
@@ -242,12 +221,12 @@ export class OdooService {
         login: userData.login,
         password: userData.password,
         company_id: userData.companyId,
-        company_ids: [[6, 0, [userData.companyId]]],
-        groups_id: [[6, 0, validGroups]],
+        company_ids: [[6, 0, [userData.companyId]]], 
+        groups_id: [[6, 0, validGroups]], 
         partner_id: userData.partnerId,
       };
 
-      const userId = await this.executeKw(uid, "res.users", "create",
+      const userId = await this.executeKw(uid, "res.users", "create", 
         [userCreateData],
         { context: { no_reset_password: true } }
       );
@@ -360,10 +339,8 @@ export class OdooService {
 
         console.log("Partner updated with user reference");
 
-        // Create a secure login token
-        const loginToken = await this.createLoginToken(uid, userId);
         const baseUrl = this.config.url.replace(/\/+$/, '');
-        const redirectUrl = `${baseUrl}/web/login/token?token=${loginToken}&db=${this.config.db}`;
+        const redirectUrl = `${baseUrl}/web/login?login=${encodeURIComponent(sanitizedData.adminLogin)}&redirect=/web`;
 
         return { companyId, userId, redirectUrl };
       } catch (error) {
@@ -411,8 +388,8 @@ export class OdooService {
         name: userData.name,
         login: userData.login,
         company_id: userData.companyId,
-        company_ids: [[6, 0, [userData.companyId]]],
-        groups_id: [[6, 0, []]],
+        company_ids: [[6, 0, [userData.companyId]]], 
+        groups_id: [[6, 0, []]], 
       };
 
       const userId = await this.executeKw(uid, "res.users", "create", [
