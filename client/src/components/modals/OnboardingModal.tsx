@@ -232,48 +232,29 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         try {
-            // Validate required fields before submission
-            if (!data.company?.trim()) {
-                form.setError("company", {
-                    type: "manual",
-                    message: "Company name is required",
-                });
-                throw new Error("Company name is required");
-            }
-
-            const companyData = {
-                name: data.company.trim(),
-                email: data.email,
-                phone: data.phone || undefined,
-                street: data.address || undefined,
-                city: data.county || undefined,
-                adminName: data.adminName,
-                adminLogin: data.email, // Use email as login
-                adminPassword: data.adminPassword,
-            };
-
-            console.log("Submitting company data:", {
-                ...companyData,
-                email: "***",
-                adminPassword: "***"
-            });
-
-            // Create company in Odoo
-            const odooResponse = await fetch('/api/odoo/create-company', {
+            const response = await fetch('/api/odoo/create-company', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(companyData)
+                body: JSON.stringify({
+                    name: data.company,
+                    email: data.email,
+                    phone: data.phone || undefined,
+                    street: data.address || undefined,
+                    city: data.county || undefined,
+                    adminName: data.adminName,
+                    adminLogin: data.email,
+                    adminPassword: data.adminPassword
+                }),
             });
 
-            const responseData = await odooResponse.json();
+            const responseData = await response.json();
 
-            if (!odooResponse.ok) {
-                throw new Error(responseData.message || 'Failed to create company in Odoo');
+            if (!response.ok) {
+                throw new Error(responseData.message || 'Failed to create company');
             }
 
-            // Send email notification
             await sendEmail(data);
 
             toast({
@@ -283,10 +264,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
             setStep("COMPLETED");
 
-            // Use the redirect URL from the API response
+            // Redirect to Odoo dashboard after a short delay
             setTimeout(() => {
-                if (responseData.data?.redirectUrl) {
-                    window.location.href = responseData.data.redirectUrl;
+                if (responseData.redirectUrl) {
+                    window.location.href = responseData.redirectUrl;
                 } else {
                     console.error("Redirect URL not provided");
                     toast({
@@ -298,20 +279,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             }, 2000);
 
         } catch (error: any) {
-            console.error("Submission error:", error);
+            console.error('Submission error:', error);
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: error.message || "Failed to process your request. Please try again later.",
+                description: error.message || "Failed to create company. Please try again.",
             });
-
-            // Reset form state if needed
-            if (error.message?.includes("company name already exists")) {
-                form.setError("company", {
-                    type: "manual",
-                    message: "This company name is already taken. Please choose a different name.",
-                });
-            }
         } finally {
             setIsLoading(false);
         }
