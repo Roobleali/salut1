@@ -224,11 +224,38 @@ export class OdooService {
         company_ids: [[6, 0, [userData.companyId]]], 
         groups_id: [[6, 0, validGroups]], 
         partner_id: userData.partnerId,
+        notification_type: 'email',
+        share: false,
+        active: true
       };
 
-      const userId = await this.executeKw(uid, "res.users", "create", 
+      // Disable automatic welcome email and password reset
+      const context = {
+        no_reset_password: true,
+        create_user: true,
+        mail_create_nosubscribe: true,
+        mail_notrack: true,
+      };
+
+      const userId = await this.executeKw(
+        uid,
+        "res.users",
+        "create",
         [userCreateData],
-        { context: { no_reset_password: true } }
+        { context }
+      );
+
+      // Set initial preferences
+      await this.executeKw(
+        uid,
+        "res.users",
+        "write",
+        [[userId], {
+          lang: 'en_US',
+          tz: 'Europe/Bucharest',
+          email: userData.login,
+        }],
+        { context }
       );
 
       return userId;
