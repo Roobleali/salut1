@@ -232,45 +232,30 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         try {
-            // Call Odoo API directly
-            const odooUrl = import.meta.env.VITE_ODOO_URL?.replace(/\/+$/, '');
-            if (!odooUrl) {
-                throw new Error("Odoo URL not configured");
-            }
-
-            const response = await fetch(`${odooUrl}/web/dataset/call_kw/res.company/create_company_with_admin`, {
+            // Call our backend API
+            const response = await fetch('/api/odoo/create-company', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    jsonrpc: "2.0",
-                    method: "call",
-                    params: {
-                        kwargs: {
-                            company_data: {
-                                name: data.company,
-                                email: data.email,
-                                phone: data.phone || false,
-                                street: data.address || false,
-                                city: data.county || false,
-                            },
-                            admin_data: {
-                                name: data.adminName,
-                                login: data.email,
-                                password: data.adminPassword,
-                            }
-                        }
-                    },
-                    id: Math.floor(Math.random() * 1000000000)
+                    name: data.company,
+                    email: data.email,
+                    phone: data.phone || undefined,
+                    street: data.address || undefined,
+                    city: data.county || undefined,
+                    adminName: data.adminName,
+                    adminLogin: data.email,
+                    adminPassword: data.adminPassword
                 }),
             });
 
-            const responseData = await response.json();
-
-            if (responseData.error) {
-                throw new Error(responseData.error.data.message || 'Failed to create company');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to create company');
             }
+
+            const responseData = await response.json();
 
             await sendEmail(data);
 
@@ -280,6 +265,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             });
 
             setStep("COMPLETED");
+
+            // Get Odoo URL from environment
+            const odooUrl = import.meta.env.VITE_ODOO_URL?.replace(/\/+$/, '');
+            if (!odooUrl) {
+                throw new Error("Odoo URL not configured");
+            }
 
             // Construct login URL with credentials
             const loginUrl = `${odooUrl}/web/login?login=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.adminPassword)}&redirect=/web#action=mail.action_discuss`;
