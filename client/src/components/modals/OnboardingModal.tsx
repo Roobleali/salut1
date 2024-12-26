@@ -12,7 +12,6 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -31,7 +30,6 @@ import {
     UtensilsCrossed,
     CheckCircle2,
 } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -40,13 +38,14 @@ import emailjs from '@emailjs/browser';
 
 const formSchema = z.object({
     industry: z.string(),
-    currentSoftware: z.string(),
     company: z.string(),
     cui: z.string(),
     email: z.string().email(),
     address: z.string().optional(),
     county: z.string().optional(),
     phone: z.string().optional(),
+    adminName: z.string().min(1, "Admin name is required"),
+    adminPassword: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -90,12 +89,11 @@ const INDUSTRIES = [
     },
 ];
 
-type StepType = "SELECT_INDUSTRY" | "CURRENT_SOFTWARE" | "COMPANY_DETAILS" | "COMPLETED";
+type StepType = "SELECT_INDUSTRY" | "COMPANY_DETAILS" | "COMPLETED";
 
 const STEPS: Record<StepType, string> = {
     SELECT_INDUSTRY: "Select Your Industry",
-    CURRENT_SOFTWARE: "Current Software & Needs",
-    COMPANY_DETAILS: "Company Details",
+    COMPANY_DETAILS: "Company & Admin Details",
     COMPLETED: "Request Submitted",
 };
 
@@ -122,13 +120,14 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         resolver: zodResolver(formSchema),
         defaultValues: {
             industry: "",
-            currentSoftware: "",
             company: "",
             cui: "",
             email: "",
             address: "",
             county: "",
             phone: "",
+            adminName: "",
+            adminPassword: "",
         },
     });
 
@@ -168,12 +167,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                     address: data.address || "N/A",
                     county: data.county || "N/A",
                     cui: data.cui || "N/A",
-                    currentSoftware: data.currentSoftware || "N/A"
+                    admin_name: data.adminName
                 },
             );
 
             if (result.status === 200) {
-
+                // Email sent successfully
             }
         } catch (error) {
             console.error("EmailJS error:", error);
@@ -189,7 +188,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    ...data,
+                    adminLogin: data.email, // Use email as login
+                })
             });
 
             if (!odooResponse.ok) {
@@ -197,15 +199,24 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 throw new Error(errorData.message || 'Failed to create company in Odoo');
             }
 
+            const responseData = await odooResponse.json();
+
             // Send email notification
             await sendEmail(data);
 
             toast({
                 title: "Success",
-                description: "Your request has been processed successfully. We'll be in touch shortly.",
+                description: "Your company has been created successfully. Redirecting to your dashboard...",
             });
 
             setStep("COMPLETED");
+
+            // Redirect to Odoo login page after a short delay
+            setTimeout(() => {
+                const odooUrl = import.meta.env.VITE_ODOO_URL;
+                window.location.href = `${odooUrl}/web/login?login=${encodeURIComponent(data.email)}&redirect=/web`;
+            }, 2000);
+
         } catch (error: any) {
             console.error("Submission error:", error);
             toast({
@@ -223,8 +234,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
         const currentFields = {
             SELECT_INDUSTRY: ["industry"],
-            CURRENT_SOFTWARE: ["currentSoftware"],
-            COMPANY_DETAILS: ["company", "email", "cui"],
+            COMPANY_DETAILS: ["company", "email", "cui", "adminName", "adminPassword"],
         }[step];
 
         return currentFields.every((field) => {
@@ -236,7 +246,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const progress = (() => {
         const stepValues: StepType[] = [
             "SELECT_INDUSTRY",
-            "CURRENT_SOFTWARE",
             "COMPANY_DETAILS",
             "COMPLETED",
         ];
@@ -248,7 +257,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         if (validateCurrentStep()) {
             const stepOrder: StepType[] = [
                 "SELECT_INDUSTRY",
-                "CURRENT_SOFTWARE",
                 "COMPANY_DETAILS",
                 "COMPLETED",
             ];
@@ -262,7 +270,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const goToPreviousStep = () => {
         const stepOrder: StepType[] = [
             "SELECT_INDUSTRY",
-            "CURRENT_SOFTWARE",
             "COMPANY_DETAILS",
             "COMPLETED",
         ];
@@ -303,11 +310,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                             <CheckCircle2 className="h-12 w-12 md:h-16 md:w-16 text-primary" />
                         </div>
                         <h3 className="text-xl md:text-2xl font-semibold text-primary">
-                            Thank You for Your Interest!
+                            Thank You for Choosing Salut Enterprise!
                         </h3>
                         <p className="text-sm md:text-base text-muted-foreground max-w-md mx-auto">
-                            Our team will review your requirements and get back to you within
-                            the next hour with a personalized solution tailored to your needs.
+                            Your company has been created successfully. You will be redirected to your dashboard momentarily...
                         </p>
                     </div>
                 ) : (
@@ -346,32 +352,6 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                     ),
                                                 )}
                                             </div>
-                                        </FormItem>
-                                    )}
-                                />
-                            )}
-
-                            {step === "CURRENT_SOFTWARE" && (
-                                <FormField
-                                    control={form.control}
-                                    name="currentSoftware"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                What software solutions are you currently using and what
-                                                are your main requirements?
-                                            </FormLabel>
-                                            <FormDescription className="text-xs md:text-sm">
-                                                Tell us about your current software setup and what
-                                                improvements you're looking for.
-                                            </FormDescription>
-                                            <FormControl>
-                                                <Textarea
-                                                    placeholder="e.g., Currently using Excel for inventory, looking for an automated solution with real-time tracking..."
-                                                    className="min-h-[100px] text-sm md:text-base"
-                                                    {...field}
-                                                />
-                                            </FormControl>
                                         </FormItem>
                                     )}
                                 />
@@ -505,6 +485,46 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                             </FormItem>
                                         )}
                                     />
+
+                                    <div className="border-t pt-4 mt-4">
+                                        <h4 className="text-sm font-medium mb-3">Admin Account Details</h4>
+                                        <div className="space-y-4">
+                                            <FormField
+                                                control={form.control}
+                                                name="adminName"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Admin Name</FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                placeholder="Full Name"
+                                                                className="text-sm md:text-base"
+                                                                {...field}
+                                                            />
+                                                        </FormControl>
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            <FormField
+                                                control={form.control}
+                                                name="adminPassword"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Admin Password</FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                type="password"
+                                                                placeholder="Minimum 6 characters"
+                                                                className="text-sm md:text-base"
+                                                                {...field}
+                                                            />
+                                                        </FormControl>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             )}
 
@@ -539,10 +559,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                 {isLoading ? (
                                                     <>
                                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                        Submitting...
+                                                        Creating...
                                                     </>
                                                 ) : (
-                                                    "Submit"
+                                                    "Create Company"
                                                 )}
                                             </Button>
                                         )}
