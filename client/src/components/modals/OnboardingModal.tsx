@@ -283,24 +283,18 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
 
             setStep("COMPLETED");
 
-            // Redirect to Odoo login page after a short delay
+            // Use the redirect URL from the API response
             setTimeout(() => {
-                const odooUrl = process.env.ODOO_URL || import.meta.env.VITE_ODOO_URL;
-                if (!odooUrl) {
-                    console.error("Odoo URL not configured");
+                if (responseData.data?.redirectUrl) {
+                    window.location.href = responseData.data.redirectUrl;
+                } else {
+                    console.error("Redirect URL not provided");
                     toast({
                         variant: "destructive",
                         title: "Configuration Error",
                         description: "Could not redirect to dashboard. Please contact support.",
                     });
-                    return;
                 }
-                const loginUrl = `${odooUrl}/web/login`;
-                const params = new URLSearchParams({
-                    login: data.email,
-                    redirect: '/web'
-                });
-                window.location.href = `${loginUrl}?${params.toString()}`;
             }, 2000);
 
         } catch (error: any) {
