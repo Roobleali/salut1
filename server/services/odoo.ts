@@ -294,11 +294,19 @@ export class OdooService {
 
       // Create admin user
       try {
-        // Get required group IDs using search instead of get_object_reference
-        const [portalGroupId, internalUserGroupId] = await Promise.all([
-          this.getGroupId(uid, "base.group_portal"),
+        // Get required group IDs for super admin access
+        const adminGroups = await Promise.all([
           this.getGroupId(uid, "base.group_user"),
+          this.getGroupId(uid, "base.group_system"),
+          this.getGroupId(uid, "base.group_erp_manager"),
+          this.getGroupId(uid, "account.group_account_manager"),
+          this.getGroupId(uid, "sales_team.group_sale_manager"),
+          this.getGroupId(uid, "stock.group_stock_manager"),
+          this.getGroupId(uid, "hr.group_hr_manager"),
         ]);
+
+        // Filter out any undefined group IDs
+        const validGroups = adminGroups.filter(id => id !== undefined);
 
         const userCreateData = {
           name: sanitizedData.adminName,
@@ -306,7 +314,7 @@ export class OdooService {
           password: sanitizedData.adminPassword,
           company_id: companyId,
           company_ids: [[6, 0, [companyId]]], // Set allowed companies
-          groups_id: [[6, 0, [portalGroupId, internalUserGroupId]]], // Set user groups
+          groups_id: [[6, 0, validGroups]], // Set admin groups
           partner_id: partnerId,
         };
 

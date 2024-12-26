@@ -1,0 +1,48 @@
+Successfully authenticated with Odoo. UID: 2
+Created company partner with ID: 31
+Company created successfully with ID: 10
+Odoo execute error for res.users.create: Error: XML-RPC fault: The user cannot have more than one user types.
+    at createFault (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:83:21)
+    at Deserializer.onDone (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:89:21)
+    at SAXStream.emit (node:events:518:28)
+    at SAXStream._parser.onend (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:190:10)
+    at emit (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:624:35)
+    at end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:667:5)
+    at SAXParser.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:154:24)
+    at SAXStream.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:248:18)
+    at IncomingMessage.onend (node:internal/streams/readable:948:10)
+    at Object.onceWrapper (node:events:632:28)
+    at IncomingMessage.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 2,
+  faultCode: 2,
+  faultString: 'The user cannot have more than one user types.'
+}
+Error creating user: Error: XML-RPC fault: The user cannot have more than one user types.
+    at createFault (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:83:21)
+    at Deserializer.onDone (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:89:21)
+    at SAXStream.emit (node:events:518:28)
+    at SAXStream._parser.onend (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:190:10)
+    at emit (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:624:35)
+    at end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:667:5)
+    at SAXParser.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:154:24)
+    at SAXStream.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:248:18)
+    at IncomingMessage.onend (node:internal/streams/readable:948:10)
+    at Object.onceWrapper (node:events:632:28)
+    at IncomingMessage.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 2,
+  faultCode: 2,
+  faultString: 'The user cannot have more than one user types.'
+}
+Odoo integration error: Error: Failed to create user account
+    at OdooService.createCompany (/home/runner/New-Repl-1/server/services/odoo.ts:334:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/New-Repl-1/server/routes.ts:194:22)
+Odoo integration error: Error: Failed to create company. Failed to create user account
+    at OdooService.createCompany (/home/runner/New-Repl-1/server/services/odoo.ts:350:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/New-Repl-1/server/routes.ts:194:22)
+12:32:31 PM [express] POST /api/odoo/create-company 500 in 4700ms :: {"success":false,"message":"Fail…
