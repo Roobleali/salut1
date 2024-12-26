@@ -241,22 +241,30 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 throw new Error("Company name is required");
             }
 
+            const companyData = {
+                name: data.company.trim(),
+                email: data.email,
+                phone: data.phone || undefined,
+                street: data.address || undefined,
+                city: data.county || undefined,
+                adminName: data.adminName,
+                adminLogin: data.email,
+                adminPassword: data.adminPassword,
+            };
+
+            console.log("Submitting company data:", {
+                ...companyData,
+                email: "***",
+                adminPassword: "***"
+            });
+
             // Create company in Odoo
             const odooResponse = await fetch('/api/odoo/create-company', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    name: data.company.trim(),
-                    email: data.email,
-                    phone: data.phone || undefined,
-                    street: data.address || undefined,
-                    city: data.county || undefined,
-                    adminName: data.adminName,
-                    adminLogin: data.email,
-                    adminPassword: data.adminPassword,
-                })
+                body: JSON.stringify(companyData)
             });
 
             const responseData = await odooResponse.json();
