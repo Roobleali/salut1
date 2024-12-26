@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import xmlrpc from 'xmlrpc';
 
 // Validation schemas
 export const companyDataSchema = z.object({
@@ -46,71 +47,21 @@ export interface APISuccessResponse<T> extends BaseAPIResponse {
 export type APIResponse<T> = APISuccessResponse<T> | APIErrorResponse;
 
 export class OdooService {
-  private readonly baseUrl: string;
-  private readonly defaultHeaders: HeadersInit;
+  private readonly odooConfig: {
+    url: string;
+    db: string;
+    username: string;
+    password: string;
+  };
 
-  constructor(baseUrl: string = '/api', headers: HeadersInit = {}) {
-    this.baseUrl = baseUrl;
-    this.defaultHeaders = {
-      'Content-Type': 'application/json',
-      ...headers
+  constructor() {
+    // Get configuration from environment variables
+    this.odooConfig = {
+      url: import.meta.env.VITE_ODOO_URL || '',
+      db: import.meta.env.VITE_ODOO_DB || '',
+      username: import.meta.env.VITE_ODOO_USERNAME || '',
+      password: import.meta.env.VITE_ODOO_PASSWORD || '',
     };
-  }
-
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`, {
-        ...options,
-        headers: {
-          ...this.defaultHeaders,
-          ...options.headers
-        },
-        credentials: 'include'
-      });
-
-      const data = await response.json() as APIResponse<T>;
-
-      if (!response.ok) {
-        throw new Error(
-          (data as APIErrorResponse).message || response.statusText
-        );
-      }
-
-      if (!data.success) {
-        throw new Error(
-          (data as APIErrorResponse).message || 'Operation failed'
-        );
-      }
-
-      return (data as APISuccessResponse<T>).data;
-    } catch (error: any) {
-      console.error(`API request failed for ${endpoint}:`, error);
-      throw new Error(error.message || 'An unexpected error occurred');
-    }
-  }
-
-  async createCompany(data: CompanyData): Promise<CompanyResponse> {
-    try {
-      // Validate input data
-      const validatedData = companyDataSchema.parse(data);
-
-      console.log('Creating company with data:', {
-        ...validatedData,
-        email: '***',
-        adminPassword: '***'
-      });
-
-      return this.request<CompanyResponse>('/odoo/create-company', {
-        method: 'POST',
-        body: JSON.stringify(validatedData)
-      });
-    } catch (error: any) {
-      if (error instanceof z.ZodError) {
-        const errorMessage = error.errors.map(err => err.message).join(', ');
-        throw new Error(`Validation failed: ${errorMessage}`);
-      }
-      throw new Error(error.message || 'Failed to create company');
-    }
   }
 
   async lookupCompany(cui: string): Promise<ANAFLookupResponse> {
@@ -120,14 +71,185 @@ export class OdooService {
         throw new Error('Invalid CUI format');
       }
 
-      return this.request<ANAFLookupResponse>(`/anaf-lookup?cui=${sanitizedCui}`);
-    } catch (error: any) {
+      const apiKey = import.meta.env.VITE_OPENAPI_RO_KEY;
+      const response = await fetch(`https://api.openapi.ro/api/companies/${sanitizedCui}`, {
+        headers: {
+          'x-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to lookup company');
+      }
+
+      const data = await response.json();
+      return {
+        found: true,
+        denumire: data.denumire,
+        adresa: data.adresa,
+        judet: data.judet,
+        telefon: data.telefon
+      };
+    } catch (error) {
       console.error('Error looking up company:', error);
-      throw new Error(error.message || 'Failed to lookup company details');
+      return { found: false };
     }
   }
 
-  // Additional helper methods for common operations
+  private async authenticateOdoo(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      const commonClient = xmlrpc.createClient({
+        url: `${this.odooConfig.url}/xmlrpc/2/common`,
+        headers: {
+          'User-Agent': 'Salut-Enterprise/1.0',
+          'Content-Type': 'text/xml',
+        }
+      });
+
+      commonClient.methodCall(
+        'authenticate',
+        [
+          this.odooConfig.db,
+          this.odooConfig.username,
+          this.odooConfig.password,
+          {}
+        ],
+        (error: any, uid: number) => {
+          if (error) {
+            console.error('Authentication error:', error);
+            reject(new Error('Failed to authenticate with Odoo'));
+            return;
+          }
+          resolve(uid);
+        }
+      );
+    });
+  }
+
+  private async executeOdoo(uid: number, model: string, method: string, args: any[] = []): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const objectClient = xmlrpc.createClient({
+        url: `${this.odooConfig.url}/xmlrpc/2/object`,
+        headers: {
+          'User-Agent': 'Salut-Enterprise/1.0',
+          'Content-Type': 'text/xml',
+        }
+      });
+
+      objectClient.methodCall(
+        'execute_kw',
+        [
+          this.odooConfig.db,
+          uid,
+          this.odooConfig.password,
+          model,
+          method,
+          args
+        ],
+        (error: any, result: any) => {
+          if (error) {
+            console.error(`Odoo execute error for ${model}.${method}:`, error);
+            reject(error);
+            return;
+          }
+          resolve(result);
+        }
+      );
+    });
+  }
+
+  async createCompany(data: CompanyData): Promise<CompanyResponse> {
+    try {
+      // Validate input data
+      const validatedData = companyDataSchema.parse(data);
+
+      const uid = await this.authenticateOdoo();
+
+      // Create partner record
+      const partnerId = await this.executeOdoo(uid, 'res.partner', 'create', [{
+        name: validatedData.name,
+        email: validatedData.email,
+        phone: validatedData.phone,
+        street: validatedData.street,
+        city: validatedData.city,
+        is_company: true,
+        company_type: 'company',
+      }]);
+
+      // Create company
+      const companyId = await this.executeOdoo(uid, 'res.company', 'create', [{
+        name: validatedData.name,
+        partner_id: partnerId,
+      }]);
+
+      // Create admin user with all necessary groups
+      const groups = await Promise.all([
+        this.executeOdoo(uid, 'ir.model.data', 'search_read', [
+          [['module', '=', 'base'], ['name', '=', 'group_user']],
+          ['res_id']
+        ]),
+        this.executeOdoo(uid, 'ir.model.data', 'search_read', [
+          [['module', '=', 'base'], ['name', '=', 'group_system']],
+          ['res_id']
+        ]),
+        this.executeOdoo(uid, 'ir.model.data', 'search_read', [
+          [['module', '=', 'base'], ['name', '=', 'group_erp_manager']],
+          ['res_id']
+        ])
+      ]);
+
+      const groupIds = groups.map(g => g[0]?.res_id).filter(Boolean);
+
+      const userId = await this.executeOdoo(uid, 'res.users', 'create', [{
+        name: validatedData.adminName,
+        login: validatedData.adminLogin,
+        password: validatedData.adminPassword,
+        company_id: companyId,
+        company_ids: [[6, 0, [companyId]]],
+        groups_id: [[6, 0, groupIds]],
+        partner_id: partnerId,
+      }]);
+
+      // Send welcome email using EmailJS
+      await this.sendWelcomeEmail(validatedData);
+
+      const redirectUrl = `${this.odooConfig.url}/web/login?login=${encodeURIComponent(validatedData.adminLogin)}&redirect=/web`;
+
+      return { companyId, userId, redirectUrl };
+    } catch (error: any) {
+      console.error('Error creating company:', error);
+      if (error instanceof z.ZodError) {
+        throw new Error(`Validation failed: ${error.errors.map(e => e.message).join(', ')}`);
+      }
+      throw new Error(error.message || 'Failed to create company');
+    }
+  }
+
+  private async sendWelcomeEmail(data: CompanyData): Promise<void> {
+    try {
+      const emailjs = (await import('@emailjs/browser')).default;
+
+      const templateParams = {
+        to_email: data.adminLogin,
+        to_name: data.adminName,
+        company_name: data.name,
+        login_url: `${this.odooConfig.url}/web/login`,
+      };
+
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+    } catch (error) {
+      console.error('Failed to send welcome email:', error);
+      // Don't throw error as email sending is not critical
+    }
+  }
+
+  // Helper methods
   static validateCompanyData(data: Partial<CompanyData>): Array<string> {
     try {
       companyDataSchema.parse(data);
@@ -155,8 +277,5 @@ export class OdooService {
   }
 }
 
-// Export a singleton instance with default configuration
+// Export a singleton instance
 export const odooService = new OdooService();
-
-// Also export the class for custom configuration
-export default OdooService;
