@@ -35,34 +35,34 @@ export class OdooService {
     console.log('Database:', this.config.db);
     console.log('Username:', this.config.username);
 
-    // Initialize XML-RPC clients for Odoo 17
-    const commonEndpoint = `${this.config.url}/xmlrpc/2/common`;
-    const objectEndpoint = `${this.config.url}/xmlrpc/2/object`;
-
-    console.log('Common endpoint:', commonEndpoint);
-    console.log('Object endpoint:', objectEndpoint);
-
-    this.commonClient = xmlrpc.createClient({
-      url: commonEndpoint,
-      cookies: true,
+    // Configure XML-RPC clients with proxy-aware settings
+    const clientOptions = {
       headers: {
         'User-Agent': 'Salut-Enterprise/1.0',
         'Content-Type': 'text/xml',
         'Accept': 'text/xml',
-        'Connection': 'close'
-      }
+        'X-Forwarded-Proto': 'https',
+        'X-Forwarded-Port': '443'
+      },
+      cookies: true,
+      timeout: 60000, // 60 second timeout
+      rejectUnauthorized: true // Enable SSL verification
+    };
+
+    // Create clients with explicit endpoints
+    this.commonClient = xmlrpc.createClient({
+      ...clientOptions,
+      url: `${this.config.url}/xmlrpc/2/common`
     });
 
     this.objectClient = xmlrpc.createClient({
-      url: objectEndpoint,
-      cookies: true,
-      headers: {
-        'User-Agent': 'Salut-Enterprise/1.0',
-        'Content-Type': 'text/xml',
-        'Accept': 'text/xml',
-        'Connection': 'close'
-      }
+      ...clientOptions,
+      url: `${this.config.url}/xmlrpc/2/object`
     });
+
+    console.log('XML-RPC endpoints configured:');
+    console.log('- Common:', `${this.config.url}/xmlrpc/2/common`);
+    console.log('- Object:', `${this.config.url}/xmlrpc/2/object`);
   }
 
   private validateConfig() {
@@ -84,17 +84,17 @@ export class OdooService {
     console.log('Username:', this.config.username);
 
     return new Promise((resolve, reject) => {
-      // First, verify server availability
+      // First, test the server connection
       this.commonClient.methodCall('version', [], (err: any, version: any) => {
         if (err) {
           console.error('Failed to get Odoo version:', err);
-          reject(new Error('Could not connect to Odoo server. Please verify the URL and port.'));
+          reject(new Error('Could not connect to Odoo server. Please verify the server is accessible.'));
           return;
         }
 
         console.log('Connected to Odoo server. Version info:', version);
 
-        // Now attempt authentication with explicit context
+        // Then attempt authentication with explicit context
         this.commonClient.methodCall(
           'authenticate',
           [
@@ -146,7 +146,7 @@ export class OdooService {
       console.log('Creating company with data:', { ...companyData, email: '***' });
       const uid = await this.authenticate();
 
-      // Create company (res.partner)
+      // Prepare company data
       const companyValues = {
         name: companyData.name,
         email: companyData.email,
