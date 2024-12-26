@@ -1,0 +1,69 @@
+11:11:38 AM [express] POST /api/odoo/create-company 500 in 3486ms :: {"success":false,"message":"Fail…
+Creating company with data: {
+  name: 'SALUT TECH SRL',
+  email: '***',
+  phone: '0729917823',
+  street: 'Sat Dobroesti',
+  city: 'Ilfov',
+  vat: ''
+}
+Attempting to authenticate with Odoo...
+Using database: hub.saluttech.ro
+Username: shakuur
+Connected to Odoo server. Version info: {
+  server_version: '17.0',
+  server_version_info: [ 17, 0, 0, 'final', 0, '' ],
+  server_serie: '17.0',
+  protocol_version: 1
+}
+Successfully authenticated with Odoo. UID: 2
+Company created successfully with ID: 21
+Creating user with data: { name: 'SALUT TECH SRL Admin', login: '***', companyId: 21 }
+Attempting to authenticate with Odoo...
+Using database: hub.saluttech.ro
+Username: shakuur
+Connected to Odoo server. Version info: {
+  server_version: '17.0',
+  server_version_info: [ 17, 0, 0, 'final', 0, '' ],
+  server_serie: '17.0',
+  protocol_version: 1
+}
+Successfully authenticated with Odoo. UID: 2
+User creation error: Error: XML-RPC fault: Record does not exist or has been deleted.
+(Record: res.company(21,), User: 2)
+    at createFault (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:83:21)
+    at Deserializer.onDone (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:89:21)
+    at SAXStream.emit (node:events:518:28)
+    at SAXStream._parser.onend (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:190:10)
+    at emit (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:624:35)
+    at end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:667:5)
+    at SAXParser.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:154:24)
+    at SAXStream.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:248:18)
+    at IncomingMessage.onend (node:internal/streams/readable:948:10)
+    at Object.onceWrapper (node:events:632:28)
+    at IncomingMessage.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 2,
+  faultCode: 2,
+  faultString: 'Record does not exist or has been deleted.\n' +
+    '(Record: res.company(21,), User: 2)'
+}
+Odoo integration error: Error: Failed to create user: XML-RPC fault: Record does not exist or has been deleted.
+(Record: res.company(21,), User: 2)
+    at <anonymous> (/home/runner/New-Repl-1/server/services/odoo.ts:219:22)
+    at /home/runner/New-Repl-1/node_modules/xmlrpc/lib/client.js:130:9
+    at Deserializer.callback (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:30:7)
+    at Deserializer.onDone (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:89:12)
+    at SAXStream.emit (node:events:518:28)
+    at SAXStream._parser.onend (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:190:10)
+    at emit (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:624:35)
+    at end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:667:5)
+    at SAXParser.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:154:24)
+    at SAXStream.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:248:18)
+    at IncomingMessage.onend (node:internal/streams/readable:948:10)
+    at Object.onceWrapper (node:events:632:28)
+    at IncomingMessage.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+11:12:49 AM [express] POST /api/odoo/create-company 500 in 2741ms :: {"success":false,"message":"Fail…

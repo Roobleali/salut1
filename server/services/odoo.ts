@@ -124,14 +124,29 @@ export class OdooService {
     });
   }
 
-  public async testConnection(): Promise<boolean> {
-    try {
-      await this.authenticate();
-      return true;
-    } catch (error) {
-      console.error('Connection test failed:', error);
-      return false;
-    }
+  private async executeKw(uid: number, model: string, method: string, args: any[] = [], kwargs: any = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.objectClient.methodCall(
+        'execute_kw',
+        [
+          this.config.db,
+          uid,
+          this.config.password,
+          model,
+          method,
+          args,
+          kwargs
+        ],
+        (err: any, result: any) => {
+          if (err) {
+            console.error(`Odoo execute error for ${model}.${method}:`, err);
+            reject(err);
+            return;
+          }
+          resolve(result);
+        }
+      );
+    });
   }
 
   public async createCompany(companyData: {
@@ -146,8 +161,20 @@ export class OdooService {
       console.log('Creating company with data:', { ...companyData, email: '***' });
       const uid = await this.authenticate();
 
-      // Prepare company data
-      const companyValues = {
+      // First create res.company record
+      const companyId = await this.executeKw(
+        uid,
+        'res.company',
+        'create',
+        [{
+          name: companyData.name,
+        }]
+      );
+
+      console.log('Created res.company record with ID:', companyId);
+
+      // Then create/update res.partner record
+      const partnerData = {
         name: companyData.name,
         email: companyData.email,
         phone: companyData.phone,
@@ -155,32 +182,30 @@ export class OdooService {
         city: companyData.city,
         vat: companyData.vat,
         is_company: true,
-        company_type: 'company'
+        company_type: 'company',
+        company_id: companyId,
       };
 
-      return new Promise((resolve, reject) => {
-        this.objectClient.methodCall(
-          'execute_kw',
-          [
-            this.config.db,
-            uid,
-            this.config.password,
-            'res.partner',
-            'create',
-            [companyValues]
-          ],
-          (err: any, companyId: number) => {
-            if (err) {
-              console.error('Company creation error:', err);
-              reject(new Error(`Failed to create company: ${err.message}`));
-              return;
-            }
+      const partnerId = await this.executeKw(
+        uid,
+        'res.partner',
+        'create',
+        [partnerData]
+      );
 
-            console.log('Company created successfully with ID:', companyId);
-            resolve({ companyId });
-          }
-        );
-      });
+      console.log('Created res.partner record with ID:', partnerId);
+
+      // Update the company's partner_id
+      await this.executeKw(
+        uid,
+        'res.company',
+        'write',
+        [[companyId], { partner_id: partnerId }]
+      );
+
+      console.log('Updated company partner reference');
+
+      return { companyId };
     } catch (error) {
       console.error('Odoo company creation error:', error);
       throw error;
@@ -196,35 +221,36 @@ export class OdooService {
       console.log('Creating user with data:', { ...userData, login: '***' });
       const uid = await this.authenticate();
 
-      return new Promise((resolve, reject) => {
-        this.objectClient.methodCall(
-          'execute_kw',
-          [
-            this.config.db,
-            uid,
-            this.config.password,
-            'res.users',
-            'create',
-            [{
-              name: userData.name,
-              login: userData.login,
-              company_id: userData.companyId,
-              company_ids: [[6, 0, [userData.companyId]]],
-              groups_id: [[6, 0, []]]  // Basic user access rights
-            }]
-          ],
-          (err: any, userId: number) => {
-            if (err) {
-              console.error('User creation error:', err);
-              reject(new Error(`Failed to create user: ${err.message}`));
-              return;
-            }
+      // First verify the company exists
+      const companyExists = await this.executeKw(
+        uid,
+        'res.company',
+        'search_count',
+        [[['id', '=', userData.companyId]]]
+      );
 
-            console.log('User created successfully with ID:', userId);
-            resolve({ userId });
-          }
-        );
-      });
+      if (!companyExists) {
+        throw new Error(`Company with ID ${userData.companyId} not found`);
+      }
+
+      // Create the user with proper company references
+      const userCreateData = {
+        name: userData.name,
+        login: userData.login,
+        company_id: userData.companyId,
+        company_ids: [[6, 0, [userData.companyId]]], // Set allowed companies
+        groups_id: [[6, 0, []]], // Basic user access rights
+      };
+
+      const userId = await this.executeKw(
+        uid,
+        'res.users',
+        'create',
+        [userCreateData]
+      );
+
+      console.log('User created successfully with ID:', userId);
+      return { userId };
     } catch (error) {
       console.error('Odoo user creation error:', error);
       throw error;
