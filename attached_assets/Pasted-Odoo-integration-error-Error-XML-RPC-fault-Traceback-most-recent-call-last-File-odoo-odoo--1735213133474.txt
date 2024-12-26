@@ -1,0 +1,190 @@
+Odoo integration error: Error: XML-RPC fault: Traceback (most recent call last):
+  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 147, in xmlrpc_2
+    response = self._xmlrpc(service)
+  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 127, in _xmlrpc
+    result = dispatch_rpc(service, method, params)
+  File "/odoo/odoo-server/odoo/http.py", line 391, in dispatch_rpc
+    return dispatch(method, params)
+  File "/odoo/odoo-server/odoo/service/model.py", line 37, in dispatch
+    res = execute_kw(db, uid, *params[3:])
+  File "/odoo/odoo-server/odoo/service/model.py", line 59, in execute_kw
+    return execute(db, uid, obj, method, *args, **kw or {})
+  File "/odoo/odoo-server/odoo/service/model.py", line 65, in execute
+    res = execute_cr(cr, uid, obj, method, *args, **kw)
+  File "/odoo/odoo-server/odoo/service/model.py", line 50, in execute_cr
+    result = retrying(partial(odoo.api.call_kw, recs, method, args, kw), env)
+  File "/odoo/odoo-server/odoo/service/model.py", line 133, in retrying
+    result = func()
+  File "/odoo/odoo-server/odoo/api.py", line 466, in call_kw
+    result = _call_kw_model_create(method, model, args, kwargs)
+  File "/odoo/odoo-server/odoo/api.py", line 444, in _call_kw_model_create
+    result = method(recs, *args, **kwargs)
+  File "<decorator-gen-206>", line 2, in create
+  File "/odoo/odoo-server/odoo/api.py", line 414, in _model_create_multi
+    return create(self, [arg])
+  File "/odoo/odoo-server/addons/digest/models/res_users.py", line 12, in create
+    users = super(ResUsers, self).create(vals_list)
+  File "<decorator-gen-272>", line 2, in create
+  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi
+    return create(self, arg)
+  File "/odoo/odoo-server/addons/gamification/models/res_users.py", line 71, in create
+    res = super(Users, self).create(values_list)
+  File "<decorator-gen-162>", line 2, in create
+  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi
+    return create(self, arg)
+  File "/odoo/odoo-server/addons/auth_signup/models/res_users.py", line 337, in create
+    users = super(ResUsers, self).create(vals_list)
+  File "<decorator-gen-159>", line 2, in create
+  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi
+    return create(self, arg)
+  File "/odoo/odoo-server/addons/mail/models/discuss/res_users.py", line 12, in create
+    users = super().create(vals_list)
+  File "<decorator-gen-155>", line 2, in create
+  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi
+    return create(self, arg)
+  File "/odoo/odoo-server/addons/mail/models/res_users.py", line 75, in create
+    users = super(Users, self).create(vals_list)
+  File "<decorator-gen-118>", line 2, in create
+  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi
+    return create(self, arg)
+  File "/odoo/odoo-server/odoo/addons/base/models/res_users.py", line 1715, in create
+    users = super(UsersView, self).create(new_vals_list)
+  File "<decorator-gen-116>", line 2, in create
+  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi
+    return create(self, arg)
+  File "/odoo/odoo-server/odoo/addons/base/models/res_users.py", line 1421, in create
+    gs = gs | gs.trans_implied_ids
+  File "/odoo/odoo-server/odoo/fields.py", line 2907, in __get__
+    return super().__get__(records, owner)
+  File "/odoo/odoo-server/odoo/fields.py", line 1207, in __get__
+    self.compute_value(recs)
+  File "/odoo/odoo-server/odoo/fields.py", line 1389, in compute_value
+    records._compute_field_value(self)
+  File "/odoo/odoo-server/odoo/models.py", line 4893, in _compute_field_value
+    fields.determine(field.compute, self)
+  File "/odoo/odoo-server/odoo/fields.py", line 102, in determine
+    return needle(*args)
+  File "/odoo/odoo-server/odoo/addons/base/models/res_users.py", line 1345, in _compute_trans_implied
+    g.trans_implied_ids = g.implied_ids | g.implied_ids.trans_implied_ids
+  File "/odoo/odoo-server/odoo/fields.py", line 2907, in __get__
+    return super().__get__(records, owner)
+  File "/odoo/odoo-server/odoo/fields.py", line 1182, in __get__
+    recs._fetch_field(self)
+  File "/odoo/odoo-server/odoo/models.py", line 3795, in _fetch_field
+    self.fetch(fnames)
+  File "/odoo/odoo-server/odoo/models.py", line 3845, in fetch
+    fetched = self._fetch_query(query, fields_to_fetch)
+  File "/odoo/odoo-server/odoo/models.py", line 3963, in _fetch_query
+    field.read(fetched)
+  File "/odoo/odoo-server/odoo/fields.py", line 4845, in read
+    records.env.cr.execute(query.select(sql_id1, sql_id2))
+  File "/odoo/odoo-server/odoo/sql_db.py", line 332, in execute
+    res = self._obj.execute(query, params)
+psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type integer: "res.groups"
+LINE 1: ...s"."id") WHERE "res_groups_implied_rel"."gid" IN ('res.group...
+                                                             ^
+
+
+    at createFault (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:83:21)
+    at Deserializer.onDone (/home/runner/New-Repl-1/node_modules/xmlrpc/lib/deserializer.js:89:21)
+    at SAXStream.emit (node:events:518:28)
+    at SAXStream._parser.onend (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:190:10)
+    at emit (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:624:35)
+    at end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:667:5)
+    at SAXParser.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:154:24)
+    at SAXStream.end (/home/runner/New-Repl-1/node_modules/sax/lib/sax.js:248:18)
+    at IncomingMessage.onend (node:internal/streams/readable:948:10)
+    at Object.onceWrapper (node:events:632:28)
+    at IncomingMessage.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 1,
+  faultCode: 1,
+  faultString: 'Traceback (most recent call last):\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 147, in xmlrpc_2\n' +
+    '    response = self._xmlrpc(service)\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 127, in _xmlrpc\n' +
+    '    result = dispatch_rpc(service, method, params)\n' +
+    '  File "/odoo/odoo-server/odoo/http.py", line 391, in dispatch_rpc\n' +
+    '    return dispatch(method, params)\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 37, in dispatch\n' +
+    '    res = execute_kw(db, uid, *params[3:])\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 59, in execute_kw\n' +
+    '    return execute(db, uid, obj, method, *args, **kw or {})\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 65, in execute\n' +
+    '    res = execute_cr(cr, uid, obj, method, *args, **kw)\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 50, in execute_cr\n' +
+    '    result = retrying(partial(odoo.api.call_kw, recs, method, args, kw), env)\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 133, in retrying\n' +
+    '    result = func()\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 466, in call_kw\n' +
+    '    result = _call_kw_model_create(method, model, args, kwargs)\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 444, in _call_kw_model_create\n' +
+    '    result = method(recs, *args, **kwargs)\n' +
+    '  File "<decorator-gen-206>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 414, in _model_create_multi\n' +
+    '    return create(self, [arg])\n' +
+    '  File "/odoo/odoo-server/addons/digest/models/res_users.py", line 12, in create\n' +
+    '    users = super(ResUsers, self).create(vals_list)\n' +
+    '  File "<decorator-gen-272>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi\n' +
+    '    return create(self, arg)\n' +
+    '  File "/odoo/odoo-server/addons/gamification/models/res_users.py", line 71, in create\n' +
+    '    res = super(Users, self).create(values_list)\n' +
+    '  File "<decorator-gen-162>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi\n' +
+    '    return create(self, arg)\n' +
+    '  File "/odoo/odoo-server/addons/auth_signup/models/res_users.py", line 337, in create\n' +
+    '    users = super(ResUsers, self).create(vals_list)\n' +
+    '  File "<decorator-gen-159>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi\n' +
+    '    return create(self, arg)\n' +
+    '  File "/odoo/odoo-server/addons/mail/models/discuss/res_users.py", line 12, in create\n' +
+    '    users = super().create(vals_list)\n' +
+    '  File "<decorator-gen-155>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi\n' +
+    '    return create(self, arg)\n' +
+    '  File "/odoo/odoo-server/addons/mail/models/res_users.py", line 75, in create\n' +
+    '    users = super(Users, self).create(vals_list)\n' +
+    '  File "<decorator-gen-118>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi\n' +
+    '    return create(self, arg)\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/models/res_users.py", line 1715, in create\n' +
+    '    users = super(UsersView, self).create(new_vals_list)\n' +
+    '  File "<decorator-gen-116>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi\n' +
+    '    return create(self, arg)\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/models/res_users.py", line 1421, in create\n' +
+    '    gs = gs | gs.trans_implied_ids\n' +
+    '  File "/odoo/odoo-server/odoo/fields.py", line 2907, in __get__\n' +
+    '    return super().__get__(records, owner)\n' +
+    '  File "/odoo/odoo-server/odoo/fields.py", line 1207, in __get__\n' +
+    '    self.compute_value(recs)\n' +
+    '  File "/odoo/odoo-server/odoo/fields.py", line 1389, in compute_value\n' +
+    '    records._compute_field_value(self)\n' +
+    '  File "/odoo/odoo-server/odoo/models.py", line 4893, in _compute_field_value\n' +
+    '    fields.determine(field.compute, self)\n' +
+    '  File "/odoo/odoo-server/odoo/fields.py", line 102, in determine\n' +
+    '    return needle(*args)\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/models/res_users.py", line 1345, in _compute_trans_implied\n' +
+    '    g.trans_implied_ids = g.implied_ids | g.implied_ids.trans_implied_ids\n' +
+    '  File "/odoo/odoo-server/odoo/fields.py", line 2907, in __get__\n' +
+    '    return super().__get__(records, owner)\n' +
+    '  File "/odoo/odoo-server/odoo/fields.py", line 1182, in __get__\n' +
+    '    recs._fetch_field(self)\n' +
+    '  File "/odoo/odoo-server/odoo/models.py", line 3795, in _fetch_field\n' +
+    '    self.fetch(fnames)\n' +
+    '  File "/odoo/odoo-server/odoo/models.py", line 3845, in fetch\n' +
+    '    fetched = self._fetch_query(query, fields_to_fetch)\n' +
+    '  File "/odoo/odoo-server/odoo/models.py", line 3963, in _fetch_query\n' +
+    '    field.read(fetched)\n' +
+    '  File "/odoo/odoo-server/odoo/fields.py", line 4845, in read\n' +
+    '    records.env.cr.execute(query.select(sql_id1, sql_id2))\n' +
+    '  File "/odoo/odoo-server/odoo/sql_db.py", line 332, in execute\n' +
+    '    res = self._obj.execute(query, params)\n' +
+    'psycopg2.errors.InvalidTextRepresentation: invalid input syntax for type integer: "res.groups"\n' +
+    `LINE 1: ...s"."id") WHERE "res_groups_implied_rel"."gid" IN ('res.group...\n` +
+    '                                                             ^\n' +
+    '\n'
+}
+11:38:19 AM [express] POST /api/odoo/create-company 500 in 4570ms :: {"success":false,"message":"Fail…

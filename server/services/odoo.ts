@@ -151,6 +151,17 @@ export class OdooService {
     });
   }
 
+  private async getGroupId(uid: number, xmlId: string): Promise<number> {
+    const [module, name] = xmlId.split('.');
+    const result = await this.executeKw(
+      uid,
+      'ir.model.data',
+      'get_object_reference',
+      [module, name]
+    );
+    return result[1];
+  }
+
   public async createCompany(companyData: {
     name: string;
     email: string;
@@ -199,13 +210,10 @@ export class OdooService {
 
       console.log('Company created successfully with ID:', companyId);
 
-      // Get Portal User group ID
-      const [portalGroupId] = await this.executeKw(
-        uid,
-        'ir.model.data',
-        'check_object_reference',
-        ['base', 'group_portal']
-      );
+      // Get required group IDs
+      const portalGroupId = await this.getGroupId(uid, 'base.group_portal');
+      const contactCreationGroupId = await this.getGroupId(uid, 'base.group_partner_manager');
+      const internalUserGroupId = await this.getGroupId(uid, 'base.group_user');
 
       // Create user with proper access rights
       const userCreateData = {
@@ -214,7 +222,7 @@ export class OdooService {
         password: companyData.adminPassword,
         company_id: companyId,
         company_ids: [[6, 0, [companyId]]], // Set allowed companies
-        groups_id: [[6, 0, [portalGroupId]]], // Set as portal user
+        groups_id: [[6, 0, [portalGroupId, contactCreationGroupId, internalUserGroupId]]], // Set user groups
         partner_id: partnerId,
       };
 
