@@ -1,0 +1,85 @@
+faultString: 'Traceback (most recent call last):\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/models/ir_mail_server.py", line 715, in send_email\n' +
+    '    smtp.send_message(message, smtp_from, smtp_to_list)\n' +
+    '  File "/usr/lib/python3.10/smtplib.py", line 986, in send_message\n' +
+    '    return self.sendmail(from_addr, to_addrs, flatmsg, mail_options,\n' +
+    '  File "/usr/lib/python3.10/smtplib.py", line 908, in sendmail\n' +
+    '    raise SMTPDataError(code, resp)\n' +
+    "smtplib.SMTPDataError: (553, b'Relaying disallowed as notifications@saluttech.ro')\n" +
+    '\n' +
+    'During handling of the above exception, another exception occurred:\n' +
+    '\n' +
+    'Traceback (most recent call last):\n' +
+    '  File "/odoo/odoo-server/addons/mail/models/mail_mail.py", line 567, in send\n' +
+    '    self.browse(batch_ids)._send(\n' +
+    '  File "/odoo/odoo-server/addons/mail/models/mail_mail.py", line 665, in _send\n' +
+    '    res = SendIrMailServer.send_email(\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/models/ir_mail_server.py", line 726, in send_email\n' +
+    '    raise MailDeliveryException(_("Mail Delivery Failed"), msg)\n' +
+    `odoo.addons.base.models.ir_mail_server.MailDeliveryException: ('Mail Delivery Failed', "Mail delivery failed via SMTP server 'None'.\\nSMTPDataError: 553\\nRelaying disallowed as notifications@saluttech.ro")\n` +
+    '\n' +
+    'During handling of the above exception, another exception occurred:\n' +
+    '\n' +
+    'Traceback (most recent call last):\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 147, in xmlrpc_2\n' +
+    '    response = self._xmlrpc(service)\n' +
+    '  File "/odoo/odoo-server/odoo/addons/base/controllers/rpc.py", line 127, in _xmlrpc\n' +
+    '    result = dispatch_rpc(service, method, params)\n' +
+    '  File "/odoo/odoo-server/odoo/http.py", line 391, in dispatch_rpc\n' +
+    '    return dispatch(method, params)\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 37, in dispatch\n' +
+    '    res = execute_kw(db, uid, *params[3:])\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 59, in execute_kw\n' +
+    '    return execute(db, uid, obj, method, *args, **kw or {})\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 65, in execute\n' +
+    '    res = execute_cr(cr, uid, obj, method, *args, **kw)\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 50, in execute_cr\n' +
+    '    result = retrying(partial(odoo.api.call_kw, recs, method, args, kw), env)\n' +
+    '  File "/odoo/odoo-server/odoo/service/model.py", line 133, in retrying\n' +
+    '    result = func()\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 466, in call_kw\n' +
+    '    result = _call_kw_model_create(method, model, args, kwargs)\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 444, in _call_kw_model_create\n' +
+    '    result = method(recs, *args, **kwargs)\n' +
+    '  File "<decorator-gen-206>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 414, in _model_create_multi\n' +
+    '    return create(self, [arg])\n' +
+    '  File "/odoo/odoo-server/addons/digest/models/res_users.py", line 12, in create\n' +
+    '    users = super(ResUsers, self).create(vals_list)\n' +
+    '  File "<decorator-gen-272>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi\n' +
+    '    return create(self, arg)\n' +
+    '  File "/odoo/odoo-server/addons/gamification/models/res_users.py", line 71, in create\n' +
+    '    res = super(Users, self).create(values_list)\n' +
+    '  File "<decorator-gen-162>", line 2, in create\n' +
+    '  File "/odoo/odoo-server/odoo/api.py", line 415, in _model_create_multi\n' +
+    '    return create(self, arg)\n' +
+    '  File "/odoo/odoo-server/addons/auth_signup/models/res_users.py", line 342, in create\n' +
+    '    users_with_email.with_context(create_user=True)._action_reset_password()\n' +
+    '  File "/odoo/odoo-server/addons/auth_signup/models/res_users.py", line 224, in _action_reset_password\n' +
+    '    account_created_template.send_mail(\n' +
+    '  File "/odoo/odoo-server/addons/mail/models/mail_template.py", line 595, in send_mail\n' +
+    '    return self.send_mail_batch(\n' +
+    '  File "/odoo/odoo-server/addons/mail/models/mail_template.py", line 727, in send_mail_batch\n' +
+    '    mails_sudo.send(raise_exception=raise_exception)\n' +
+    '  File "/odoo/odoo-server/addons/mail/models/mail_mail.py", line 578, in send\n' +
+    '    smtp_session.quit()\n' +
+    '  File "/usr/lib/python3.10/smtplib.py", line 1004, in quit\n' +
+    '    res = self.docmd("quit")\n' +
+    '  File "/usr/lib/python3.10/smtplib.py", line 431, in docmd\n' +
+    '    self.putcmd(cmd, args)\n' +
+    '  File "/usr/lib/python3.10/smtplib.py", line 378, in putcmd\n' +
+    "    self.send(f'{s}{CRLF}')\n" +
+    '  File "/usr/lib/python3.10/smtplib.py", line 365, in send\n' +
+    "    raise SMTPServerDisconnected('please run connect() first')\n" +
+    'smtplib.SMTPServerDisconnected: please run connect() first\n'
+}
+Odoo integration error: Error: Failed to create user account
+    at OdooService.createCompany (/home/runner/New-Repl-1/server/services/odoo.ts:342:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/New-Repl-1/server/routes.ts:194:22)
+Odoo integration error: Error: Failed to create company. Failed to create user account
+    at OdooService.createCompany (/home/runner/New-Repl-1/server/services/odoo.ts:358:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/New-Repl-1/server/routes.ts:194:22)
+12:36:04 PM [express] POST /api/odoo/create-company 500 in 12321ms :: {"success":false,"message":"Fai…

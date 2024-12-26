@@ -13,10 +13,8 @@ export class OdooService {
   private objectClient: any;
 
   constructor() {
-    // Remove trailing slashes and ensure proper URL format
     const baseUrl = (process.env.ODOO_URL || "").replace(/\/$/, "");
 
-    // Validate URL format
     try {
       new URL(baseUrl);
     } catch (e) {
@@ -37,7 +35,6 @@ export class OdooService {
     console.log("Database:", this.config.db);
     console.log("Username:", this.config.username);
 
-    // Configure XML-RPC clients with proxy-aware settings
     const clientOptions = {
       headers: {
         "User-Agent": "Salut-Enterprise/1.0",
@@ -48,11 +45,10 @@ export class OdooService {
         "X-Forwarded-Port": "8069",
       },
       cookies: true,
-      timeout: 60000, // 60 second timeout
-      rejectUnauthorized: false, // Required for self-signed certs
+      timeout: 60000, 
+      rejectUnauthorized: false, 
     };
 
-    // Create clients with explicit endpoints
     const xmlrpcPath = "/xmlrpc/2";
     this.commonClient = xmlrpc.createClient({
       ...clientOptions,
@@ -90,7 +86,6 @@ export class OdooService {
     console.log("Username:", this.config.username);
 
     return new Promise((resolve, reject) => {
-      // First, test the server connection
       this.commonClient.methodCall("version", [], (err: any, version: any) => {
         if (err) {
           console.error("Failed to get Odoo version:", err);
@@ -104,7 +99,6 @@ export class OdooService {
 
         console.log("Connected to Odoo server. Version info:", version);
 
-        // Then attempt authentication with explicit context
         this.commonClient.methodCall(
           "authenticate",
           [
@@ -167,7 +161,6 @@ export class OdooService {
 
   private async getGroupId(uid: number, xmlId: string): Promise<number> {
     try {
-      // Use search method instead of get_object_reference
       const [module, name] = xmlId.split(".");
       const result = await this.executeKw(uid, "ir.model.data", "search_read", [
         [
@@ -184,7 +177,6 @@ export class OdooService {
       return result[0].res_id;
     } catch (error) {
       console.error(`Error getting group ID for ${xmlId}:`, error);
-      // Return base user group ID as fallback
       return 1;
     }
   }
@@ -204,6 +196,48 @@ export class OdooService {
     }
   }
 
+  private async createAdminUser(uid: number, userData: {
+    name: string;
+    login: string;
+    password: string;
+    companyId: number;
+    partnerId: number;
+  }): Promise<number> {
+    try {
+      const adminGroups = await Promise.all([
+        this.getGroupId(uid, "base.group_user"),
+        this.getGroupId(uid, "base.group_system"),
+        this.getGroupId(uid, "base.group_erp_manager"),
+        this.getGroupId(uid, "account.group_account_manager"),
+        this.getGroupId(uid, "sales_team.group_sale_manager"),
+        this.getGroupId(uid, "stock.group_stock_manager"),
+        this.getGroupId(uid, "hr.group_hr_manager"),
+      ]);
+
+      const validGroups = adminGroups.filter(id => id !== undefined);
+
+      const userCreateData = {
+        name: userData.name,
+        login: userData.login,
+        password: userData.password,
+        company_id: userData.companyId,
+        company_ids: [[6, 0, [userData.companyId]]], 
+        groups_id: [[6, 0, validGroups]], 
+        partner_id: userData.partnerId,
+      };
+
+      const userId = await this.executeKw(uid, "res.users", "create", 
+        [userCreateData],
+        { context: { no_reset_password: true } }
+      );
+
+      return userId;
+    } catch (error) {
+      console.error("Error creating admin user:", error);
+      throw error;
+    }
+  }
+
   public async createCompany(companyData: {
     name: string;
     email: string;
@@ -215,7 +249,6 @@ export class OdooService {
     adminPassword: string;
   }): Promise<{ companyId: number; userId: number; redirectUrl: string }> {
     try {
-      // Validate required fields
       if (!companyData.name?.trim()) {
         throw new Error("Company name is required");
       }
@@ -232,7 +265,6 @@ export class OdooService {
         throw new Error("Admin password is required");
       }
 
-      // Trim all string inputs
       const sanitizedData = {
         ...companyData,
         name: companyData.name.trim(),
@@ -257,7 +289,6 @@ export class OdooService {
 
       const uid = await this.authenticate();
 
-      // Check if company exists
       const companyExists = await this.checkCompanyExists(uid, sanitizedData.name);
       if (companyExists) {
         throw new Error(
@@ -265,7 +296,6 @@ export class OdooService {
         );
       }
 
-      // Create partner record
       const partnerData = {
         name: sanitizedData.name,
         email: sanitizedData.email,
@@ -282,7 +312,6 @@ export class OdooService {
 
       console.log("Created company partner with ID:", partnerId);
 
-      // Create company
       const companyId = await this.executeKw(uid, "res.company", "create", [
         {
           name: sanitizedData.name,
@@ -292,39 +321,17 @@ export class OdooService {
 
       console.log("Company created successfully with ID:", companyId);
 
-      // Create admin user
       try {
-        // Get required group IDs for super admin access
-        const adminGroups = await Promise.all([
-          this.getGroupId(uid, "base.group_user"),
-          this.getGroupId(uid, "base.group_system"),
-          this.getGroupId(uid, "base.group_erp_manager"),
-          this.getGroupId(uid, "account.group_account_manager"),
-          this.getGroupId(uid, "sales_team.group_sale_manager"),
-          this.getGroupId(uid, "stock.group_stock_manager"),
-          this.getGroupId(uid, "hr.group_hr_manager"),
-        ]);
-
-        // Filter out any undefined group IDs
-        const validGroups = adminGroups.filter(id => id !== undefined);
-
-        const userCreateData = {
+        const userId = await this.createAdminUser(uid, {
           name: sanitizedData.adminName,
           login: sanitizedData.adminLogin,
           password: sanitizedData.adminPassword,
-          company_id: companyId,
-          company_ids: [[6, 0, [companyId]]], // Set allowed companies
-          groups_id: [[6, 0, validGroups]], // Set admin groups
-          partner_id: partnerId,
-        };
-
-        const userId = await this.executeKw(uid, "res.users", "create", [
-          userCreateData,
-        ]);
+          companyId,
+          partnerId,
+        });
 
         console.log("User created successfully with ID:", userId);
 
-        // Update partner with user reference
         await this.executeKw(uid, "res.partner", "write", [
           [partnerId],
           { user_id: userId },
@@ -332,7 +339,6 @@ export class OdooService {
 
         console.log("Partner updated with user reference");
 
-        // Generate redirect URL
         const baseUrl = this.config.url.replace(/\/+$/, '');
         const redirectUrl = `${baseUrl}/web/login?login=${encodeURIComponent(sanitizedData.adminLogin)}&redirect=/web`;
 
@@ -367,7 +373,6 @@ export class OdooService {
       console.log("Creating user with data:", { ...userData, login: "***" });
       const uid = await this.authenticate();
 
-      // First verify the company exists
       const companyExists = await this.executeKw(
         uid,
         "res.company",
@@ -379,13 +384,12 @@ export class OdooService {
         throw new Error(`Company with ID ${userData.companyId} not found`);
       }
 
-      // Create the user with proper company references
       const userCreateData = {
         name: userData.name,
         login: userData.login,
         company_id: userData.companyId,
-        company_ids: [[6, 0, [userData.companyId]]], // Set allowed companies
-        groups_id: [[6, 0, []]], // Basic user access rights
+        company_ids: [[6, 0, [userData.companyId]]], 
+        groups_id: [[6, 0, []]], 
       };
 
       const userId = await this.executeKw(uid, "res.users", "create", [
@@ -401,5 +405,4 @@ export class OdooService {
   }
 }
 
-// Export a singleton instance
 export const odooService = new OdooService();
