@@ -173,7 +173,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             );
 
             if (result.status === 200) {
-                
+
             }
         } catch (error) {
             console.error("EmailJS error:", error);
@@ -193,18 +193,24 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             });
 
             if (!odooResponse.ok) {
-                throw new Error('Failed to create company in Odoo');
+                const errorData = await odooResponse.json();
+                throw new Error(errorData.message || 'Failed to create company in Odoo');
             }
 
             // Send email notification
             await sendEmail(data);
 
+            toast({
+                title: "Success",
+                description: "Your request has been processed successfully. We'll be in touch shortly.",
+            });
+
             setStep("COMPLETED");
-        } catch (error) {
+        } catch (error: any) {
             console.error("Submission error:", error);
             toast({
                 title: "Error",
-                description: "Failed to process your request. Please try again later.",
+                description: error.message || "Failed to process your request. Please try again later.",
                 variant: "destructive",
             });
         } finally {
@@ -218,7 +224,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         const currentFields = {
             SELECT_INDUSTRY: ["industry"],
             CURRENT_SOFTWARE: ["currentSoftware"],
-            COMPANY_DETAILS: ["company", "email", "cui"], 
+            COMPANY_DETAILS: ["company", "email", "cui"],
         }[step];
 
         return currentFields.every((field) => {
@@ -235,7 +241,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             "COMPLETED",
         ];
         const currentIndex = stepValues.indexOf(step);
-        return (currentIndex / (stepValues.length - 1)) * 100; 
+        return (currentIndex / (stepValues.length - 1)) * 100;
     })();
 
     const goToNextStep = () => {
@@ -419,10 +425,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                             <FormItem>
                                                 <FormLabel>Company Name</FormLabel>
                                                 <FormControl>
-                                                    <Input 
-                                                        placeholder="Company Name" 
+                                                    <Input
+                                                        placeholder="Company Name"
                                                         className="text-sm md:text-base"
-                                                        {...field} 
+                                                        {...field}
                                                     />
                                                 </FormControl>
                                             </FormItem>
@@ -455,10 +461,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                 <FormItem>
                                                     <FormLabel>Address</FormLabel>
                                                     <FormControl>
-                                                        <Input 
-                                                            placeholder="Company Address" 
+                                                        <Input
+                                                            placeholder="Company Address"
                                                             className="text-sm md:text-base"
-                                                            {...field} 
+                                                            {...field}
                                                         />
                                                     </FormControl>
                                                 </FormItem>
@@ -472,10 +478,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                 <FormItem>
                                                     <FormLabel>County</FormLabel>
                                                     <FormControl>
-                                                        <Input 
-                                                            placeholder="County" 
+                                                        <Input
+                                                            placeholder="County"
                                                             className="text-sm md:text-base"
-                                                            {...field} 
+                                                            {...field}
                                                         />
                                                     </FormControl>
                                                 </FormItem>
@@ -490,10 +496,10 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                             <FormItem>
                                                 <FormLabel>Phone Number</FormLabel>
                                                 <FormControl>
-                                                    <Input 
-                                                        placeholder="Phone Number" 
+                                                    <Input
+                                                        placeholder="Phone Number"
                                                         className="text-sm md:text-base"
-                                                        {...field} 
+                                                        {...field}
                                                     />
                                                 </FormControl>
                                             </FormItem>
@@ -525,8 +531,8 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                                                 Next <ArrowRight className="ml-2 h-4 w-4" />
                                             </Button>
                                         ) : (
-                                            <Button 
-                                                type="submit" 
+                                            <Button
+                                                type="submit"
                                                 disabled={isLoading}
                                                 className="text-sm md:text-base"
                                             >
