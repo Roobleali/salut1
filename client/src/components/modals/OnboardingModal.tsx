@@ -232,11 +232,14 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
         try {
-            console.log("Submitting company data:", {
-                ...data,
-                email: "***",
-                adminPassword: "***"
-            });
+            // Validate required fields before submission
+            if (!data.company?.trim()) {
+                form.setError("company", {
+                    type: "manual",
+                    message: "Company name is required",
+                });
+                throw new Error("Company name is required");
+            }
 
             // Create company in Odoo
             const odooResponse = await fetch('/api/odoo/create-company', {
@@ -245,7 +248,7 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: data.company,
+                    name: data.company.trim(),
                     email: data.email,
                     phone: data.phone || undefined,
                     street: data.address || undefined,
