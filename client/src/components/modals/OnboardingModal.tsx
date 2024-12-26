@@ -250,12 +250,15 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 }),
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to create company');
-            }
-
             const responseData = await response.json();
+
+            if (!response.ok) {
+                // Handle specific error cases
+                if (responseData.message?.includes("already exists")) {
+                    throw new Error(`Company name "${data.company}" is already taken. Please choose a different name.`);
+                }
+                throw new Error(responseData.message || 'Failed to create company');
+            }
 
             await sendEmail(data);
 
@@ -285,9 +288,9 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: error.message || "Failed to create company. Please try again.",
+                description: error.message || "An unexpected error occurred. Please try again.",
             });
-        } finally {
+            // Reset loading state but don't change step on error
             setIsLoading(false);
         }
     };
