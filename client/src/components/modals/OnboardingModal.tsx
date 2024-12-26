@@ -123,6 +123,11 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
         } catch (error) {
             console.error("Failed to initialize EmailJS:", error);
+            toast({
+                variant: "destructive",
+                title: "Service Error",
+                description: "Failed to initialize email service. Please try again later.",
+            });
         }
     }, []);
 
@@ -144,12 +149,24 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
     });
 
     const lookupCompany = async (cui: string) => {
-        if (!cui) return;
+        if (!cui) {
+            toast({
+                variant: "destructive",
+                title: "Validation Error",
+                description: "Please enter a CUI number",
+            });
+            return;
+        }
 
         setIsLookingUp(true);
         try {
             const sanitizedCui = cui.toString().trim().replace(/[^0-9]/g, "");
             const response = await fetch(`/api/anaf-lookup?cui=${sanitizedCui}`);
+
+            if (!response.ok) {
+                throw new Error("Failed to lookup company details");
+            }
+
             const data = await response.json();
 
             if (data?.found) {
@@ -157,9 +174,24 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 form.setValue("address", data.adresa || "");
                 form.setValue("county", data.judet || "");
                 form.setValue("phone", data.telefon || "");
+                toast({
+                    title: "Success",
+                    description: "Company details found and filled automatically.",
+                });
+            } else {
+                toast({
+                    variant: "destructive",
+                    title: "Company Not Found",
+                    description: "Could not find company details for the provided CUI.",
+                });
             }
         } catch (error) {
             console.error("Company lookup error:", error);
+            toast({
+                variant: "destructive",
+                title: "Lookup Error",
+                description: "Failed to lookup company details. Please try again or enter manually.",
+            });
         } finally {
             setIsLookingUp(false);
         }
@@ -188,6 +220,12 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
             }
         } catch (error) {
             console.error("EmailJS error:", error);
+            // Don't throw here as this is a non-critical error
+            toast({
+                variant: "warning",
+                title: "Notification Warning",
+                description: "Could not send email notification, but your company was created successfully.",
+            });
         }
     };
 
@@ -212,12 +250,11 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 })
             });
 
-            if (!odooResponse.ok) {
-                const errorData = await odooResponse.json();
-                throw new Error(errorData.message || 'Failed to create company in Odoo');
-            }
-
             const responseData = await odooResponse.json();
+
+            if (!odooResponse.ok) {
+                throw new Error(responseData.message || 'Failed to create company in Odoo');
+            }
 
             // Send email notification
             await sendEmail(data);
@@ -234,6 +271,11 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
                 const odooUrl = process.env.ODOO_URL || import.meta.env.VITE_ODOO_URL;
                 if (!odooUrl) {
                     console.error("Odoo URL not configured");
+                    toast({
+                        variant: "destructive",
+                        title: "Configuration Error",
+                        description: "Could not redirect to dashboard. Please contact support.",
+                    });
                     return;
                 }
                 const loginUrl = `${odooUrl}/web/login`;
@@ -247,10 +289,18 @@ export function OnboardingModal({ open, onOpenChange }: OnboardingModalProps) {
         } catch (error: any) {
             console.error("Submission error:", error);
             toast({
+                variant: "destructive",
                 title: "Error",
                 description: error.message || "Failed to process your request. Please try again later.",
-                variant: "destructive",
             });
+
+            // Reset form state if needed
+            if (error.message?.includes("company name already exists")) {
+                form.setError("company", {
+                    type: "manual",
+                    message: "This company name is already taken. Please choose a different name.",
+                });
+            }
         } finally {
             setIsLoading(false);
         }
