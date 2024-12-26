@@ -42,27 +42,29 @@ export class OdooService {
         'Content-Type': 'text/xml',
         'Accept': 'text/xml',
         'X-Forwarded-Proto': 'https',
-        'X-Forwarded-Port': '443'
+        'X-Forwarded-Host': new URL(this.config.url).hostname,
+        'X-Forwarded-Port': '8069'
       },
       cookies: true,
       timeout: 60000, // 60 second timeout
-      rejectUnauthorized: true // Enable SSL verification
+      rejectUnauthorized: false // Required for self-signed certs
     };
 
     // Create clients with explicit endpoints
+    const xmlrpcPath = '/xmlrpc/2';
     this.commonClient = xmlrpc.createClient({
       ...clientOptions,
-      url: `${this.config.url}/xmlrpc/2/common`
+      url: `${this.config.url}:8069${xmlrpcPath}/common`
     });
 
     this.objectClient = xmlrpc.createClient({
       ...clientOptions,
-      url: `${this.config.url}/xmlrpc/2/object`
+      url: `${this.config.url}:8069${xmlrpcPath}/object`
     });
 
     console.log('XML-RPC endpoints configured:');
-    console.log('- Common:', `${this.config.url}/xmlrpc/2/common`);
-    console.log('- Object:', `${this.config.url}/xmlrpc/2/object`);
+    console.log('- Common:', `${this.config.url}:8069${xmlrpcPath}/common`);
+    console.log('- Object:', `${this.config.url}:8069${xmlrpcPath}/object`);
   }
 
   private validateConfig() {
@@ -171,7 +173,7 @@ export class OdooService {
         }]
       );
 
-      console.log('Created res.company record with ID:', companyId);
+      console.log('Company created successfully with ID:', companyId);
 
       // Then create/update res.partner record
       const partnerData = {
