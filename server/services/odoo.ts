@@ -35,8 +35,12 @@ export class OdooService {
     const clientOptions = {
       headers: {
         'User-Agent': 'Salut-Enterprise/1.0',
-        'Accept': 'text/xml'
-      }
+        'Accept': 'text/xml',
+        'Content-Type': 'text/xml',
+        'Connection': 'keep-alive'
+      },
+      rejectUnauthorized: false, // Only for development/testing
+      timeout: 30000
     };
 
     this.commonClient = xmlrpc.createClient({ 
@@ -75,19 +79,25 @@ export class OdooService {
         (err: any, uid: number) => {
           if (err) {
             console.error('Odoo authentication error:', err);
+
+            // Check for specific error types and provide clear messages
             if (err.code === 'ECONNREFUSED') {
               reject(new Error('Could not connect to Odoo server. Please check if the server is running and accessible.'));
             } else if (err.code === 'ETIMEDOUT') {
               reject(new Error('Connection to Odoo server timed out. Please check your network connection.'));
+            } else if (err.message.includes('TITLE')) {
+              reject(new Error('Invalid XML-RPC response. Please verify the Odoo server URL and ensure it supports XML-RPC.'));
             } else {
-              reject(new Error('Failed to authenticate with Odoo: ' + err.message));
+              reject(new Error(`Failed to authenticate with Odoo: ${err.message}`));
             }
             return;
           }
+
           if (!uid) {
             reject(new Error('Invalid credentials or user not found'));
             return;
           }
+
           console.log('Successfully authenticated with Odoo, UID:', uid);
           resolve(uid);
         }
@@ -97,6 +107,7 @@ export class OdooService {
 
   private async executeKw(uid: number, model: string, method: string, params: any[]): Promise<any> {
     console.log(`Executing Odoo method: ${model}.${method}`, { params });
+
     return new Promise((resolve, reject) => {
       this.objectClient.methodCall(
         'execute_kw',
@@ -104,9 +115,16 @@ export class OdooService {
         (err: any, result: any) => {
           if (err) {
             console.error(`Odoo execute error for ${model}.${method}:`, err);
-            reject(new Error(`Failed to execute Odoo operation ${model}.${method}: ${err.message}`));
+
+            // Handle specific error cases
+            if (err.message.includes('TITLE')) {
+              reject(new Error('Invalid XML-RPC response. Please verify the Odoo server URL and ensure it supports XML-RPC.'));
+            } else {
+              reject(new Error(`Failed to execute Odoo operation ${model}.${method}: ${err.message}`));
+            }
             return;
           }
+
           console.log(`Successfully executed ${model}.${method}`, { result });
           resolve(result);
         }
